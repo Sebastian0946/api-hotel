@@ -27,7 +27,7 @@ const createUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.createUsuario = createUsuario;
 const getUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield Usuarios_1.Usuarios.find({ relations: ['PersonaId'] }); // Agrega "relations: ['persona']" para incluir la relación
+        const result = yield Usuarios_1.Usuarios.find({ relations: ['PersonaId'] });
         return res.json(result);
     }
     catch (error) {
@@ -40,7 +40,7 @@ exports.getUsuario = getUsuario;
 const getUsuarioId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const result = yield Usuarios_1.Usuarios.findOneBy({ id: parseInt(id) });
+        const result = yield Usuarios_1.Usuarios.find({ relations: ['PersonaId'] });
         if (!result)
             return res.status(404).json({ message: "User not found" });
         return res.json(result);

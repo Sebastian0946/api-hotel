@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { Usuarios } from "../../entities/seguridad/Usuarios";
+import { getRepository } from 'typeorm';
 
 export const createUsuario = async (req: Request, res: Response)  => { 
 
@@ -20,7 +21,7 @@ export const createUsuario = async (req: Request, res: Response)  => {
 
 export const getUsuario = async (req: Request, res: Response)  => {
     try {
-        const result = await Usuarios.find({ relations: ['PersonaId'] }); // Agrega "relations: ['persona']" para incluir la relación
+        const result = await Usuarios.find({ relations: ['PersonaId'] }); 
         return res.json(result);
     } catch (error) {
         if (error instanceof Error) {
@@ -33,7 +34,7 @@ export const getUsuarioId = async (req: Request, res: Response)  => {
     try {
         const {id}  = req.params
 
-        const result = await Usuarios.findOneBy({id: parseInt(id)})
+        const result = await Usuarios.find({ relations: ['PersonaId'] });
     
         if (!result) return res.status(404).json({ message: "User not found" });
 
@@ -86,4 +87,3 @@ export const deleteUsuario = async (req: Request, res: Response)  => {
         }
     }
 };
-
