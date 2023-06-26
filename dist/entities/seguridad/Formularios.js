@@ -37,5 +37,5 @@ __decorate([
     __metadata("design:type", String)
 ], Formularios.prototype, "Etiqueta", void 0);
 exports.Formularios = Formularios = __decorate([
-    (0, typeorm_1.Entity)({ schema: 'seguridad' })
+    (0, typeorm_1.Entity)()
 ], Formularios);

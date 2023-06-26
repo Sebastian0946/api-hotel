@@ -61,5 +61,5 @@ __decorate([
     __metadata("design:type", String)
 ], Personas.prototype, "Genero", void 0);
 exports.Personas = Personas = __decorate([
-    (0, typeorm_1.Entity)({ schema: 'seguridad' })
+    (0, typeorm_1.Entity)()
 ], Personas);

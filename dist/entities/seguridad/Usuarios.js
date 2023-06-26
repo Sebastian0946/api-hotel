@@ -29,5 +29,5 @@ __decorate([
     __metadata("design:type", String)
 ], Usuarios.prototype, "Contrase\u00F1a", void 0);
 exports.Usuarios = Usuarios = __decorate([
-    (0, typeorm_1.Entity)({ schema: 'seguridad' })
+    (0, typeorm_1.Entity)()
 ], Usuarios);

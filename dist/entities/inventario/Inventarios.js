@@ -25,5 +25,5 @@ __decorate([
     __metadata("design:type", Productos_1.Productos)
 ], Inventarios.prototype, "ProductoId", void 0);
 exports.Inventarios = Inventarios = __decorate([
-    (0, typeorm_1.Entity)({ schema: 'inventario' })
+    (0, typeorm_1.Entity)()
 ], Inventarios);

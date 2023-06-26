@@ -27,5 +27,5 @@ __decorate([
     __metadata("design:type", String)
 ], Modulos.prototype, "Etiqueta", void 0);
 exports.Modulos = Modulos = __decorate([
-    (0, typeorm_1.Entity)({ schema: 'seguridad' })
+    (0, typeorm_1.Entity)()
 ], Modulos);
