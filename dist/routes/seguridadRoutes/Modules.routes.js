@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ModuloController_1 = require("../../controller/seguridadController/ModuloController");
+const router = (0, express_1.Router)();
+router.post('/seguridad/modulo', ModuloController_1.createModulo);
+router.get('/seguridad/modulo', ModuloController_1.getModulo);
+router.put('/seguridad/modulo/:id', ModuloController_1.updateModulo);
+router.delete('/seguridad/modulo/:id', ModuloController_1.deleteModulo);
+router.get('/seguridad/modulo/:id', ModuloController_1.getModuloId);
+exports.default = router;

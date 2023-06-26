@@ -12,15 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("reflect-metadata");
 const app_1 = __importDefault(require("./app"));
+const config_1 = require("./config");
 const db_1 = require("./db");
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield db_1.AppDataSource.initialize();
-            app_1.default.listen(3000);
-            console.log('Sever is listening on port', 3000);
+            app_1.default.listen(config_1.PORT);
         }
         catch (error) {
             console.log(error);

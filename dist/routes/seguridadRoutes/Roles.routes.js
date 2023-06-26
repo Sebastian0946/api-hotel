@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const RolesController_1 = require("../../controller/seguridadController/RolesController");
+const router = (0, express_1.Router)();
+router.post('/seguridad/rol', RolesController_1.createRoles);
+router.get('/seguridad/rol', RolesController_1.getRoles);
+router.put('/seguridad/rol/:id', RolesController_1.updateRoles);
+router.delete('/seguridad/rol/:id', RolesController_1.deleteRoles);
+router.get('/seguridad/rol/:id', RolesController_1.getRolesId);
+exports.default = router;

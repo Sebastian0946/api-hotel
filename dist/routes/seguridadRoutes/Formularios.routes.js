@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const FormularioController_1 = require("../../controller/seguridadController/FormularioController");
+const router = (0, express_1.Router)();
+router.post('/seguridad/formulario', FormularioController_1.createFormulario);
+router.get('/seguridad/formulario', FormularioController_1.getFormulario);
+router.put('/seguridad/formulario/:id', FormularioController_1.updateFormulario);
+router.delete('/seguridad/formulario/:id', FormularioController_1.deleteFormulario);
+router.get('/seguridad/formulario/:id', FormularioController_1.getFormularioId);
+exports.default = router;

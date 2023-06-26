@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const FormularioRolController_1 = require("../../controller/seguridadController/FormularioRolController");
+const router = (0, express_1.Router)();
+router.post('/seguridad/formularioRol', FormularioRolController_1.createFormularioRol);
+router.get('/seguridad/formularioRol', FormularioRolController_1.getFormularioRol);
+router.put('/seguridad/formularioRol/:id', FormularioRolController_1.updateFormularioRol);
+router.delete('/seguridad/formularioRol/:id', FormularioRolController_1.deleteFormularioRol);
+router.get('/seguridad/formularioRol/:id', FormularioRolController_1.getFormularioRolId);
+exports.default = router;
