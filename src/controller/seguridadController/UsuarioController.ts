@@ -1,89 +1,79 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
+
+import { DatabaseRepository } from "../../declaraciones";
 import { Usuarios } from "../../entities/seguridad/Usuarios";
-import { getRepository } from 'typeorm';
 
-export const createUsuario = async (req: Request, res: Response)  => { 
+export class UsuarioController {
+    
+    constructor(private repository: DatabaseRepository<Usuarios>) {}
 
-   try {
-        const usuarioData = { ...req.body };
+    async create(req: Request, res: Response, next: NextFunction){
 
-        const result = await Usuarios.create(usuarioData);
-        await result.save(); 
+       try {
+            const body = req.body;
+
+            const result = await this.repository.create(body);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async list(req: Request, res: Response, next: NextFunction){
         
-        return res.sendStatus(204);
-
-   } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message});
+        try {
+            const result = await this.repository.list();
+            
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
-   }
-};
 
-export const getUsuario = async (req: Request, res: Response)  => {
-    try {
-        const result = await Usuarios.find({ relations: ['PersonaId'] }); 
-        return res.json(result);
-    } catch (error) {
-        if (error instanceof Error) {
-          return res.status(500).json({ message: error.message });
-        }
-    }      
-};
-
-export const getUsuarioId = async (req: Request, res: Response)  => {
-    try {
-        const {id}  = req.params
-
-        const result = await Usuarios.find({ relations: ['PersonaId'] });
-    
-        if (!result) return res.status(404).json({ message: "User not found" });
-
-        return res.json(result)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
     }
-};
 
-export const updateUsuario = async (req: Request, res: Response)  => {
-    
-    const {id} = req.params;
-
-    try {
+    async get(req: Request, res: Response, next: NextFunction){
         
-        const usuarios = await Usuarios.findOneBy({ id: parseInt(id) });
+        try {
+            const {id} = req.params;
 
-        if (!usuarios) return res.status(404).json({ message: "Not user found" });
-           
-        await Usuarios.update({id: parseInt(id)}, req.body)
-           
-        return res.sendStatus(204)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
+            const result = await this.repository.get(id)
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
+
     }
 
-};
+    async update(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+            const body = req.body;
 
-export const deleteUsuario = async (req: Request, res: Response)  => {
-   
-    const {id}  = req.params;
+            const result = await this.repository.update(id, body);
 
-    try {
-
-        const result = await Usuarios.delete({id: parseInt(id)})
-    
-        if (result.affected === 0){
-            return res.status(404).json({message: 'User not found'})
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
-    
-        return res.sendStatus(204)
 
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
     }
-};
+
+    async remove(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+
+            const result = await this.repository.remove(id);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+
+    }
+
+
+}

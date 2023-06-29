@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Personas = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
+const Usuarios_1 = require("./Usuarios");
 var TipoDocumento;
 (function (TipoDocumento) {
     TipoDocumento["CC"] = "CC";
@@ -60,6 +61,10 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'genero', type: 'enum', enum: Genero }),
     __metadata("design:type", String)
 ], Personas.prototype, "Genero", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => Usuarios_1.Usuarios, (usuario) => usuario.PersonaId),
+    __metadata("design:type", Usuarios_1.Usuarios)
+], Personas.prototype, "UsuarioId", void 0);
 exports.Personas = Personas = __decorate([
     (0, typeorm_1.Entity)()
 ], Personas);

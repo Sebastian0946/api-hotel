@@ -9,78 +9,70 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePersona = exports.updatePersona = exports.getPersonaId = exports.getPersona = exports.createPersona = void 0;
-const Personas_1 = require("../../entities/seguridad/Personas");
-const createPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const personaData = Object.assign({}, req.body);
-        const result = yield Personas_1.Personas.create(personaData);
-        yield result.save();
-        return res.sendStatus(204);
+exports.PersonaController = void 0;
+class PersonaController {
+    constructor(repository) {
+        this.repository = repository;
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    create(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const body = req.body;
+                const result = yield this.repository.create(body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.createPersona = createPersona;
-const getPersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield Personas_1.Personas.find();
-        return res.json(result);
+    list(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.repository.list();
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    get(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.get(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getPersona = getPersona;
-const getPersonaId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const result = yield Personas_1.Personas.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Persona not found" });
-        return res.json(result);
+    update(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const body = req.body;
+                const result = yield this.repository.update(id, body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    remove(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.remove(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getPersonaId = getPersonaId;
-const updatePersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield Personas_1.Personas.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Persona not found" });
-        yield Personas_1.Personas.update({ id: parseInt(id) }, req.body);
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.updatePersona = updatePersona;
-const deletePersona = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield Personas_1.Personas.delete({ id: parseInt(id) });
-        if (result.affected === 0) {
-            return res.status(404).json({ message: 'Persona not found' });
-        }
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.deletePersona = deletePersona;
+}
+exports.PersonaController = PersonaController;

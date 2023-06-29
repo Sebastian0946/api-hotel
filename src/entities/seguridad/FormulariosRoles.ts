@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, JoinColumn} from 'typeorm';
+import { Entity, ManyToOne, JoinColumn} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Formularios} from './Formularios';
 import {Roles} from './Roles';

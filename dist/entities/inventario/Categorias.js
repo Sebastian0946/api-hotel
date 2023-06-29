@@ -19,9 +19,9 @@ __decorate([
     __metadata("design:type", String)
 ], Categorias.prototype, "Codigo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'nombre', length: 25, nullable: false }),
+    (0, typeorm_1.Column)({ name: 'descripcion', length: 25, nullable: false }),
     __metadata("design:type", String)
-], Categorias.prototype, "Nombre", void 0);
+], Categorias.prototype, "Descripcion", void 0);
 exports.Categorias = Categorias = __decorate([
     (0, typeorm_1.Entity)()
 ], Categorias);

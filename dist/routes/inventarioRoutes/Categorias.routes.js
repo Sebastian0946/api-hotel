@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const CategoriaController_1 = require("../../controller/invetarioController/CategoriaController");
+const CategoriaRepository_1 = require("../../repository/invetarioRepository/CategoriaRepository");
 const router = (0, express_1.Router)();
-router.post('/inventario/categoria', CategoriaController_1.createCategoria);
-router.get('/inventario/categoria', CategoriaController_1.getCategoria);
-router.put('/inventario/categoria/:id', CategoriaController_1.updateCategoria);
-router.delete('/inventario/categoria/:id', CategoriaController_1.deleteCategoria);
-router.get('/inventario/categoria/:id', CategoriaController_1.getCategoriaId);
+const controller = new CategoriaController_1.CategoriaController(new CategoriaRepository_1.CategoriaRepository());
+router.post('/inventario/categoria', controller.create.bind(controller));
+router.get('/inventario/categoria', controller.list.bind(controller));
+router.get('/inventario/categoria/:id', controller.get.bind(controller));
+router.put('/inventario/categoria/:id', controller.update.bind(controller));
+router.delete('/inventario/categoria/:id', controller.remove.bind(controller));
 exports.default = router;

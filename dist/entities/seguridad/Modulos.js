@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Modulos = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
+const Formularios_1 = require("./Formularios");
 let Modulos = exports.Modulos = class Modulos extends ModelEntity_1.ModelEntity {
 };
 __decorate([
@@ -26,6 +27,10 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'etiquieta', length: 25, nullable: false, unique: true }),
     __metadata("design:type", String)
 ], Modulos.prototype, "Etiqueta", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Formularios_1.Formularios, (formulario) => formulario.ModuloId),
+    __metadata("design:type", Array)
+], Modulos.prototype, "FormularioId", void 0);
 exports.Modulos = Modulos = __decorate([
     (0, typeorm_1.Entity)()
 ], Modulos);

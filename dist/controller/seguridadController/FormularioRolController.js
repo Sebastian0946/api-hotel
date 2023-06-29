@@ -9,78 +9,70 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteFormularioRol = exports.updateFormularioRol = exports.getFormularioRolId = exports.getFormularioRol = exports.createFormularioRol = void 0;
-const FormulariosRoles_1 = require("../../entities/seguridad/FormulariosRoles");
-const createFormularioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const formularioRolData = Object.assign({}, req.body);
-        const result = yield FormulariosRoles_1.FormulariosRoles.create(formularioRolData);
-        yield result.save();
-        return res.sendStatus(204);
+exports.FormularioRolController = void 0;
+class FormularioRolController {
+    constructor(repository) {
+        this.repository = repository;
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    create(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const body = req.body;
+                const result = yield this.repository.create(body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.createFormularioRol = createFormularioRol;
-const getFormularioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield FormulariosRoles_1.FormulariosRoles.find();
-        return res.json(result);
+    list(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.repository.list();
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    get(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.get(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getFormularioRol = getFormularioRol;
-const getFormularioRolId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const result = yield FormulariosRoles_1.FormulariosRoles.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Modulo not found" });
-        return res.json(result);
+    update(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const body = req.body;
+                const result = yield this.repository.update(id, body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    remove(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.remove(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getFormularioRolId = getFormularioRolId;
-const updateFormularioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield FormulariosRoles_1.FormulariosRoles.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Modulo not found" });
-        yield FormulariosRoles_1.FormulariosRoles.update({ id: parseInt(id) }, req.body);
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.updateFormularioRol = updateFormularioRol;
-const deleteFormularioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield FormulariosRoles_1.FormulariosRoles.delete({ id: parseInt(id) });
-        if (result.affected === 0) {
-            return res.status(404).json({ message: 'Modulo not found' });
-        }
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.deleteFormularioRol = deleteFormularioRol;
+}
+exports.FormularioRolController = FormularioRolController;

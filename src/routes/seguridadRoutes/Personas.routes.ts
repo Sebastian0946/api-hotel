@@ -1,16 +1,24 @@
 import {Router} from 'express'
-import { createPersona, deletePersona, getPersona, getPersonaId, updatePersona } from '../../controller/seguridadController/PersonaController'
+import { PersonaController } from '../../controller/seguridadController/PersonaController'
+import { PersonaRepository } from '../../repository/seguridadRepository/PersonaRepository';
 
 const router = Router()
 
-router.post('/seguridad/persona', createPersona);
+const controller = new PersonaController(
+    
+    new PersonaRepository()
 
-router.get('/seguridad/persona', getPersona);
+);
 
-router.put('/seguridad/persona/:id', updatePersona);
+router.post('/seguridad/persona', controller.create.bind(controller));
 
-router.delete('/seguridad/persona/:id', deletePersona);
+router.get('/seguridad/persona', controller.list.bind(controller));
 
-router.get('/seguridad/persona/:id', getPersonaId);
+router.get('/seguridad/persona/:id', controller.get.bind(controller));
+
+router.put('/seguridad/persona/:id', controller.update.bind(controller));
+
+router.delete('/seguridad/persona/:id', controller.remove.bind(controller));
+
 
 export default router;

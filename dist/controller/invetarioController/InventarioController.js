@@ -9,78 +9,70 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteInventario = exports.updateInventario = exports.getInventarioId = exports.getInventario = exports.createInventario = void 0;
-const Inventarios_1 = require("../../entities/inventario/Inventarios");
-const createInventario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const inventarioData = Object.assign({}, req.body);
-        const result = yield Inventarios_1.Inventarios.create(inventarioData);
-        yield result.save();
-        return res.sendStatus(204);
+exports.InventarioController = void 0;
+class InventarioController {
+    constructor(repository) {
+        this.repository = repository;
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    create(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const body = req.body;
+                const result = yield this.repository.create(body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.createInventario = createInventario;
-const getInventario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield Inventarios_1.Inventarios.find();
-        return res.json(result);
+    list(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.repository.list();
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    get(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.get(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getInventario = getInventario;
-const getInventarioId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const result = yield Inventarios_1.Inventarios.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Modulo not found" });
-        return res.json(result);
+    update(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const body = req.body;
+                const result = yield this.repository.update(id, body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    remove(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.remove(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getInventarioId = getInventarioId;
-const updateInventario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield Inventarios_1.Inventarios.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Modulo not found" });
-        yield Inventarios_1.Inventarios.update({ id: parseInt(id) }, req.body);
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.updateInventario = updateInventario;
-const deleteInventario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield Inventarios_1.Inventarios.delete({ id: parseInt(id) });
-        if (result.affected === 0) {
-            return res.status(404).json({ message: 'Modulo not found' });
-        }
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.deleteInventario = deleteInventario;
+}
+exports.InventarioController = InventarioController;

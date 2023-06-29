@@ -16,14 +16,22 @@ const Productos_1 = require("./Productos");
 let Inventarios = exports.Inventarios = class Inventarios extends ModelEntity_1.ModelEntity {
 };
 __decorate([
-    (0, typeorm_1.Column)({ name: 'habitacionId', unique: true, nullable: false }),
-    __metadata("design:type", String)
-], Inventarios.prototype, "HabitacionId", void 0);
-__decorate([
     (0, typeorm_1.ManyToOne)(() => Productos_1.Productos),
     (0, typeorm_1.JoinColumn)({ name: 'productoId' }),
     __metadata("design:type", Productos_1.Productos)
 ], Inventarios.prototype, "ProductoId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
+    __metadata("design:type", String)
+], Inventarios.prototype, "Cantidad", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ name: 'precio_proveedor', type: 'double precision', nullable: false }),
+    __metadata("design:type", Number)
+], Inventarios.prototype, "PrecioProveedor", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ name: 'precio_venta', type: 'double precision', nullable: false }),
+    __metadata("design:type", Number)
+], Inventarios.prototype, "PrecioVenta", void 0);
 exports.Inventarios = Inventarios = __decorate([
     (0, typeorm_1.Entity)()
 ], Inventarios);

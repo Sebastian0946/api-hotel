@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ModuloController_1 = require("../../controller/seguridadController/ModuloController");
+const ModuloRepository_1 = require("../../repository/seguridadRepository/ModuloRepository");
+const router = (0, express_1.Router)();
+const controller = new ModuloController_1.ModuloController(new ModuloRepository_1.ModuloRepository());
+router.post('/seguridad/modulo', controller.create.bind(controller));
+router.get('/seguridad/modulo', controller.list.bind(controller));
+router.get('/seguridad/modulo/:id', controller.get.bind(controller));
+router.put('/seguridad/modulo/:id', controller.update.bind(controller));
+router.delete('/seguridad/modulo/:id', controller.remove.bind(controller));
+exports.default = router;

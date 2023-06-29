@@ -16,10 +16,10 @@ const Modulos_1 = require("./Modulos");
 let Formularios = exports.Formularios = class Formularios extends ModelEntity_1.ModelEntity {
 };
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Modulos_1.Modulos),
+    (0, typeorm_1.ManyToOne)(() => Modulos_1.Modulos, (modulo) => modulo.FormularioId),
     (0, typeorm_1.JoinColumn)({ name: 'moduloId' }),
     __metadata("design:type", Modulos_1.Modulos)
-], Formularios.prototype, "Modulo", void 0);
+], Formularios.prototype, "ModuloId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
     __metadata("design:type", String)

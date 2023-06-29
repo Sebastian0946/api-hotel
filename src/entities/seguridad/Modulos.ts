@@ -1,5 +1,6 @@
-import { Entity, Column} from 'typeorm';
+import { Entity, Column, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
+import { Formularios } from './Formularios';
 
 
 @Entity({schema: 'seguridad'})
@@ -13,4 +14,7 @@ export class Modulos extends ModelEntity {
 
     @Column({name: 'etiquieta', length: 25, nullable: false, unique: true})
     Etiqueta: String
+
+    @OneToMany(() => Formularios, (formulario) => formulario.ModuloId)
+    FormularioId: Formularios[];
 }

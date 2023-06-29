@@ -1,87 +1,77 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
+
+import { DatabaseRepository } from "../../declaraciones";
 import { Categorias } from "../../entities/inventario/Categorias";
 
-export const createCategoria = async (req: Request, res: Response) => {
-    try {
-        const categoriaData = { ...req.body };
-  
-        const result = await Categorias.create(categoriaData);
-        await result.save();
-  
-        return res.sendStatus(204);
-      
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
-    }
-};
-  
-export const getCategoria = async (req: Request, res: Response)  => {
-    try {
-        const result = await Categorias.find()
-        return res.json(result)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
-    }
-};
-
-export const getCategoriaId = async (req: Request, res: Response)  => {
-    try {
-        const {id}  = req.params
-
-        const result = await Categorias.findOneBy({id: parseInt(id)})
+export class CategoriaController {
     
-        if (!result) return res.status(404).json({ message: "Modulo not found" });
+    constructor(private repository: DatabaseRepository<Categorias>) {}
 
-        return res.json(result)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
+    async create(req: Request, res: Response, next: NextFunction){
+
+       try {
+            const body = req.body;
+
+            const result = await this.repository.create(body);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
     }
-};
 
-export const updateCategoria = async (req: Request, res: Response)  => {
-    
-    const {id} = req.params;
-
-    try {
+    async list(req: Request, res: Response, next: NextFunction){
         
-        const result = await Categorias.findOneBy({ id: parseInt(id) });
-
-        if (!result) return res.status(404).json({ message: "Modulo not found" });
-           
-        await Categorias.update({id: parseInt(id)}, req.body)
-           
-        return res.sendStatus(204)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
+        try {
+            const result = await this.repository.list();
+            
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
+
     }
 
-};
+    async get(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
 
-export const deleteCategoria = async (req: Request, res: Response)  => {
-   
-    const {id}  = req.params;
+            const result = await this.repository.get(id)
 
-    try {
-
-        const result = await Categorias.delete({id: parseInt(id)})
-    
-        if (result.affected === 0){
-            return res.status(404).json({message: 'Modulo not found'})
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
-    
-        return res.sendStatus(204)
 
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
     }
-};
+
+    async update(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+            const body = req.body;
+
+            const result = await this.repository.update(id, body);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+
+    }
+
+    async remove(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+
+            const result = await this.repository.remove(id);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+
+    }
+}

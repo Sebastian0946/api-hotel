@@ -9,78 +9,70 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuarioRol = exports.updateUsuarioRol = exports.getUsuarioRolId = exports.getUsuarioRol = exports.createUsuarioRol = void 0;
-const UsuariosRoles_1 = require("../../entities/seguridad/UsuariosRoles");
-const createUsuarioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const usuarioRolData = Object.assign({}, req.body);
-        const result = yield UsuariosRoles_1.UsuariosRoles.create(usuarioRolData);
-        yield result.save();
-        return res.sendStatus(204);
+exports.UsuarioRolController = void 0;
+class UsuarioRolController {
+    constructor(repository) {
+        this.repository = repository;
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    create(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const body = req.body;
+                const result = yield this.repository.create(body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.createUsuarioRol = createUsuarioRol;
-const getUsuarioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield UsuariosRoles_1.UsuariosRoles.find();
-        return res.json(result);
+    list(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.repository.list();
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    get(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.get(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getUsuarioRol = getUsuarioRol;
-const getUsuarioRolId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const result = yield UsuariosRoles_1.UsuariosRoles.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "User not found" });
-        return res.json(result);
+    update(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const body = req.body;
+                const result = yield this.repository.update(id, body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    remove(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.remove(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getUsuarioRolId = getUsuarioRolId;
-const updateUsuarioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield UsuariosRoles_1.UsuariosRoles.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Not user found" });
-        yield UsuariosRoles_1.UsuariosRoles.update({ id: parseInt(id) }, req.body);
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.updateUsuarioRol = updateUsuarioRol;
-const deleteUsuarioRol = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield UsuariosRoles_1.UsuariosRoles.delete({ id: parseInt(id) });
-        if (result.affected === 0) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.deleteUsuarioRol = deleteUsuarioRol;
+}
+exports.UsuarioRolController = UsuarioRolController;

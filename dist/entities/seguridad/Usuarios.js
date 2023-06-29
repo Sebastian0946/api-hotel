@@ -16,7 +16,7 @@ const Personas_1 = require("./Personas");
 let Usuarios = exports.Usuarios = class Usuarios extends ModelEntity_1.ModelEntity {
 };
 __decorate([
-    (0, typeorm_1.OneToOne)(() => Personas_1.Personas),
+    (0, typeorm_1.OneToOne)(() => Personas_1.Personas, (persona) => persona.UsuarioId),
     (0, typeorm_1.JoinColumn)({ name: 'personaId' }),
     __metadata("design:type", Personas_1.Personas)
 ], Usuarios.prototype, "PersonaId", void 0);

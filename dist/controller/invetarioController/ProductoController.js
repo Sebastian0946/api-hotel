@@ -9,78 +9,70 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProducto = exports.updateProducto = exports.getProductoId = exports.getProducto = exports.createProducto = void 0;
-const Productos_1 = require("../../entities/inventario/Productos");
-const createProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const productoData = Object.assign({}, req.body);
-        const result = yield Productos_1.Productos.create(productoData);
-        yield result.save();
-        return res.sendStatus(204);
+exports.ProductoController = void 0;
+class ProductoController {
+    constructor(repository) {
+        this.repository = repository;
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    create(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const body = req.body;
+                const result = yield this.repository.create(body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.createProducto = createProducto;
-const getProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield Productos_1.Productos.find();
-        return res.json(result);
+    list(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const result = yield this.repository.list();
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    get(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.get(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getProducto = getProducto;
-const getProductoId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = req.params;
-        const result = yield Productos_1.Productos.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Modulo not found" });
-        return res.json(result);
+    update(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const body = req.body;
+                const result = yield this.repository.update(id, body);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
+    remove(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const result = yield this.repository.remove(id);
+                res.status(200).json(result);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
     }
-});
-exports.getProductoId = getProductoId;
-const updateProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield Productos_1.Productos.findOneBy({ id: parseInt(id) });
-        if (!result)
-            return res.status(404).json({ message: "Modulo not found" });
-        yield Productos_1.Productos.update({ id: parseInt(id) }, req.body);
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.updateProducto = updateProducto;
-const deleteProducto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    try {
-        const result = yield Productos_1.Productos.delete({ id: parseInt(id) });
-        if (result.affected === 0) {
-            return res.status(404).json({ message: 'Modulo not found' });
-        }
-        return res.sendStatus(204);
-    }
-    catch (error) {
-        if (error instanceof Error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-});
-exports.deleteProducto = deleteProducto;
+}
+exports.ProductoController = ProductoController;

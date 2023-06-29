@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const InventarioController_1 = require("../../controller/invetarioController/InventarioController");
+const InventarioRepository_1 = require("../../repository/invetarioRepository/InventarioRepository");
 const router = (0, express_1.Router)();
-router.post('/inventario/inventario', InventarioController_1.createInventario);
-router.get('/inventario/inventario', InventarioController_1.getInventario);
-router.put('/inventario/inventario/:id', InventarioController_1.updateInventario);
-router.delete('/inventario/inventario/:id', InventarioController_1.deleteInventario);
-router.get('/inventario/inventario/:id', InventarioController_1.getInventarioId);
+const controller = new InventarioController_1.InventarioController(new InventarioRepository_1.inventarioRepository());
+router.post('/inventario/inventario', controller.create.bind(controller));
+router.get('/inventario/inventario', controller.list.bind(controller));
+router.get('/inventario/inventario/:id', controller.get.bind(controller));
+router.put('/inventario/inventario/:id', controller.update.bind(controller));
+router.delete('/inventario/inventario/:id', controller.remove.bind(controller));
 exports.default = router;

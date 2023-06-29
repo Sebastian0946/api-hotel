@@ -1,16 +1,23 @@
 import {Router} from 'express'
-import { createCategoria, deleteCategoria, getCategoria, getCategoriaId, updateCategoria } from '../../controller/invetarioController/CategoriaController'
+import { CategoriaController } from '../../controller/invetarioController/CategoriaController'
+import { CategoriaRepository } from '../../repository/invetarioRepository/CategoriaRepository';
 
 const router = Router()
 
-router.post('/inventario/categoria', createCategoria);
+const controller = new CategoriaController(
+    
+    new CategoriaRepository()
 
-router.get('/inventario/categoria', getCategoria);
+);
 
-router.put('/inventario/categoria/:id', updateCategoria);
+router.post('/inventario/categoria', controller.create.bind(controller));
 
-router.delete('/inventario/categoria/:id', deleteCategoria);
+router.get('/inventario/categoria', controller.list.bind(controller));
 
-router.get('/inventario/categoria/:id', getCategoriaId);
+router.get('/inventario/categoria/:id', controller.get.bind(controller));
+
+router.put('/inventario/categoria/:id', controller.update.bind(controller));
+
+router.delete('/inventario/categoria/:id', controller.remove.bind(controller));
 
 export default router;

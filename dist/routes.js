@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Usuarios_routes_1 = __importDefault(require("./routes/seguridadRoutes/Usuarios.routes"));
 const Personas_routes_1 = __importDefault(require("./routes/seguridadRoutes/Personas.routes"));
 const Formularios_routes_1 = __importDefault(require("./routes/seguridadRoutes/Formularios.routes"));
-const Modules_routes_1 = __importDefault(require("./routes/seguridadRoutes/Modules.routes"));
+const Modulos_routes_1 = __importDefault(require("./routes/seguridadRoutes/Modulos.routes"));
 const Roles_routes_1 = __importDefault(require("./routes/seguridadRoutes/Roles.routes"));
 const UsuariosRoles_routes_1 = __importDefault(require("./routes/seguridadRoutes/UsuariosRoles.routes"));
 const FormulariosRoles_routes_1 = __importDefault(require("./routes/seguridadRoutes/FormulariosRoles.routes"));
@@ -19,7 +19,7 @@ const routes = [
     Usuarios_routes_1.default,
     Personas_routes_1.default,
     Formularios_routes_1.default,
-    Modules_routes_1.default,
+    Modulos_routes_1.default,
     Roles_routes_1.default,
     UsuariosRoles_routes_1.default,
     FormulariosRoles_routes_1.default,

@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const RolesController_1 = require("../../controller/seguridadController/RolesController");
+const RolesRepository_1 = require("../../repository/seguridadRepository/RolesRepository");
 const router = (0, express_1.Router)();
-router.post('/seguridad/rol', RolesController_1.createRoles);
-router.get('/seguridad/rol', RolesController_1.getRoles);
-router.put('/seguridad/rol/:id', RolesController_1.updateRoles);
-router.delete('/seguridad/rol/:id', RolesController_1.deleteRoles);
-router.get('/seguridad/rol/:id', RolesController_1.getRolesId);
+const controller = new RolesController_1.RolController(new RolesRepository_1.RolRepository());
+router.post('/seguridad/rol', controller.create.bind(controller));
+router.get('/seguridad/rol', controller.list.bind(controller));
+router.get('/seguridad/rol/:id', controller.get.bind(controller));
+router.put('/seguridad/rol/:id', controller.update.bind(controller));
+router.delete('/seguridad/rol/:id', controller.remove.bind(controller));
 exports.default = router;

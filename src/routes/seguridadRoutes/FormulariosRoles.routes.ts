@@ -1,16 +1,23 @@
 import {Router} from 'express'
-import { createFormularioRol, deleteFormularioRol, getFormularioRol, getFormularioRolId, updateFormularioRol } from '../../controller/seguridadController/FormularioRolController'
+import { FormularioRolController } from '../../controller/seguridadController/FormularioRolController'
+import { FormularioRolRepository } from '../../repository/seguridadRepository/FormularioRolRepository';
 
 const router = Router()
 
-router.post('/seguridad/formularioRol', createFormularioRol);
+const controller = new FormularioRolController(
+    
+    new FormularioRolRepository()
 
-router.get('/seguridad/formularioRol', getFormularioRol);
+);
 
-router.put('/seguridad/formularioRol/:id', updateFormularioRol);
+router.post('/seguridad/formularioRol', controller.create.bind(controller));
 
-router.delete('/seguridad/formularioRol/:id', deleteFormularioRol);
+router.get('/seguridad/formularioRol', controller.list.bind(controller));
 
-router.get('/seguridad/formularioRol/:id', getFormularioRolId);
+router.get('/seguridad/formularioRol/:id', controller.get.bind(controller));
+
+router.put('/seguridad/formularioRol/:id', controller.update.bind(controller));
+
+router.delete('/seguridad/formularioRol/:id', controller.remove.bind(controller));
 
 export default router;

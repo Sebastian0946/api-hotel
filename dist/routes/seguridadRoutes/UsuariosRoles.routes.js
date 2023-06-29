@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const UsuarioRolController_1 = require("../../controller/seguridadController/UsuarioRolController");
+const UsuarioRolRepository_1 = require("../../repository/seguridadRepository/UsuarioRolRepository");
 const router = (0, express_1.Router)();
-router.post('/seguridad/usuarioRol', UsuarioRolController_1.createUsuarioRol);
-router.get('/seguridad/usuarioRol', UsuarioRolController_1.getUsuarioRol);
-router.put('/seguridad/usuarioRol/:id', UsuarioRolController_1.updateUsuarioRol);
-router.delete('/seguridad/usuarioRol/:id', UsuarioRolController_1.deleteUsuarioRol);
-router.get('/seguridad/usuarioRol/:id', UsuarioRolController_1.getUsuarioRolId);
+const controller = new UsuarioRolController_1.UsuarioRolController(new UsuarioRolRepository_1.UsuarioRolRepository());
+router.post('/seguridad/usuarioRol', controller.create.bind(controller));
+router.get('/seguridad/usuarioRol', controller.list.bind(controller));
+router.get('/seguridad/usuarioRol/:id', controller.get.bind(controller));
+router.put('/seguridad/usuarioRol/:id', controller.update.bind(controller));
+router.delete('/seguridad/usuarioRol/:id', controller.remove.bind(controller));
 exports.default = router;

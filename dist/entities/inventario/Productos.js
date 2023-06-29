@@ -21,6 +21,10 @@ __decorate([
     __metadata("design:type", Categorias_1.Categorias)
 ], Productos.prototype, "CategoriaId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', length: 45 }),
+    __metadata("design:type", String)
+], Productos.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'nombre', length: 45 }),
     __metadata("design:type", String)
 ], Productos.prototype, "Nombre", void 0);

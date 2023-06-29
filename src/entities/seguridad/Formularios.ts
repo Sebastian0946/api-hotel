@@ -1,14 +1,14 @@
 import { Entity, Column, ManyToOne, JoinColumn} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Modulos} from './Modulos'
-
+import { Roles } from './Roles';
 
 @Entity({schema: 'seguridad'})
 export class Formularios extends ModelEntity {
 
-    @ManyToOne(() => Modulos)
+    @ManyToOne(() => Modulos, (modulo) => modulo.FormularioId)
     @JoinColumn({name: 'moduloId'})
-    Modulo: Modulos;
+    ModuloId: Modulos;
 
     @Column({name: 'codigo',unique: true, length: 25, nullable: false})
     Codigo: String;

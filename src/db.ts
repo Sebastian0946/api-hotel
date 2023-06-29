@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 import Entities from './entities';
 import { DB_DATABASE,DB_HOST,DB_PASSWORD,DB_PORT,DB_USER } from './config';
 
-export const AppDataSource = new DataSource({
+export default new DataSource({
   type: 'postgres',
   host: DB_HOST,
   username: DB_USER,

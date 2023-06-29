@@ -1,6 +1,6 @@
-import { Entity, Column} from 'typeorm';
+import { Entity, Column, ManyToOne} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
-
+import { Formularios } from './Formularios';
 
 @Entity({schema: 'seguridad'})
 export class Roles extends ModelEntity {
@@ -10,5 +10,4 @@ export class Roles extends ModelEntity {
 
     @Column({name: 'descripcion',length: 25, nullable: false})
     Descripcion: String;
-    
 }

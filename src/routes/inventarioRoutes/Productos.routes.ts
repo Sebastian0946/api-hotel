@@ -1,16 +1,23 @@
 import {Router} from 'express'
-import { createProducto, deleteProducto, getProducto, getProductoId, updateProducto } from '../../controller/invetarioController/ProductoController'
+import { ProductoController } from '../../controller/invetarioController/ProductoController'
+import { ProductoRepository } from '../../repository/invetarioRepository/ProductoRepository';
 
 const router = Router()
 
-router.post('/inventario/producto', createProducto);
+const controller = new ProductoController(
+    
+    new ProductoRepository()
 
-router.get('/inventario/producto', getProducto);
+);
 
-router.put('/inventario/producto/:id', updateProducto);
+router.post('/inventario/producto', controller.create.bind(controller));
 
-router.delete('/inventario/producto/:id', deleteProducto);
+router.get('/inventario/producto', controller.list.bind(controller));
 
-router.get('/inventario/producto/:id', getProductoId);
+router.get('/inventario/producto/:id', controller.get.bind(controller));
+
+router.put('/inventario/producto/:id', controller.update.bind(controller));
+
+router.delete('/inventario/producto/:id', controller.remove.bind(controller));
 
 export default router;

@@ -4,11 +4,17 @@ import {Productos} from './Productos';
 
 @Entity({schema: 'inventario'})
 export class Inventarios extends ModelEntity {
-
-    @Column({name: 'habitacionId', unique: true, nullable: false})
-    HabitacionId: String;
     
     @ManyToOne(() => Productos)
     @JoinColumn({name: 'productoId'})
     ProductoId: Productos;
+
+    @Column({name: 'cantidad', nullable: false})
+    Cantidad: String;
+
+    @Column({ name: 'precio_proveedor', type: 'double precision', nullable: false })
+    PrecioProveedor: number;
+    
+    @Column({ name: 'precio_venta', type: 'double precision', nullable: false })
+    PrecioVenta: number;
 }

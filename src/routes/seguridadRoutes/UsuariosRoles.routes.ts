@@ -1,16 +1,23 @@
 import {Router} from 'express'
-import { createUsuarioRol, deleteUsuarioRol, getUsuarioRol, getUsuarioRolId, updateUsuarioRol } from '../../controller/seguridadController/UsuarioRolController'
+import { UsuarioRolController } from '../../controller/seguridadController/UsuarioRolController'
+import { UsuarioRolRepository } from '../../repository/seguridadRepository/UsuarioRolRepository';
 
 const router = Router()
 
-router.post('/seguridad/usuarioRol', createUsuarioRol);
+const controller = new UsuarioRolController(
+    
+    new UsuarioRolRepository()
 
-router.get('/seguridad/usuarioRol', getUsuarioRol);
+);
 
-router.put('/seguridad/usuarioRol/:id', updateUsuarioRol);
+router.post('/seguridad/usuarioRol', controller.create.bind(controller));
 
-router.delete('/seguridad/usuarioRol/:id', deleteUsuarioRol);
+router.get('/seguridad/usuarioRol', controller.list.bind(controller));
 
-router.get('/seguridad/usuarioRol/:id', getUsuarioRolId);
+router.get('/seguridad/usuarioRol/:id', controller.get.bind(controller));
+
+router.put('/seguridad/usuarioRol/:id', controller.update.bind(controller));
+
+router.delete('/seguridad/usuarioRol/:id', controller.remove.bind(controller));
 
 export default router;

@@ -1,87 +1,77 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
+
+import { DatabaseRepository } from "../../declaraciones";
 import { FormulariosRoles } from "../../entities/seguridad/FormulariosRoles";
 
-export const createFormularioRol = async (req: Request, res: Response) => {
-    try {
-        const formularioRolData = { ...req.body };
-  
-        const result = await FormulariosRoles.create(formularioRolData);
-        await result.save();
-  
-        return res.sendStatus(204);
-      
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
-    }
-};
-  
-export const getFormularioRol = async (req: Request, res: Response)  => {
-    try {
-        const result = await FormulariosRoles.find()
-        return res.json(result)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
-    }
-};
-
-export const getFormularioRolId = async (req: Request, res: Response)  => {
-    try {
-        const {id}  = req.params
-
-        const result = await FormulariosRoles.findOneBy({id: parseInt(id)})
+export class FormularioRolController {
     
-        if (!result) return res.status(404).json({ message: "Modulo not found" });
+    constructor(private repository: DatabaseRepository<FormulariosRoles>) {}
 
-        return res.json(result)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
+    async create(req: Request, res: Response, next: NextFunction){
+
+       try {
+            const body = req.body;
+
+            const result = await this.repository.create(body);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
     }
-};
 
-export const updateFormularioRol = async (req: Request, res: Response)  => {
-    
-    const {id} = req.params;
-
-    try {
+    async list(req: Request, res: Response, next: NextFunction){
         
-        const result = await FormulariosRoles.findOneBy({ id: parseInt(id) });
-
-        if (!result) return res.status(404).json({ message: "Modulo not found" });
-           
-        await FormulariosRoles.update({id: parseInt(id)}, req.body)
-           
-        return res.sendStatus(204)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
+        try {
+            const result = await this.repository.list();
+            
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
+
     }
 
-};
+    async get(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
 
-export const deleteFormularioRol = async (req: Request, res: Response)  => {
-   
-    const {id}  = req.params;
+            const result = await this.repository.get(id)
 
-    try {
-
-        const result = await FormulariosRoles.delete({id: parseInt(id)})
-    
-        if (result.affected === 0){
-            return res.status(404).json({message: 'Modulo not found'})
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
-    
-        return res.sendStatus(204)
 
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
     }
-};
+
+    async update(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+            const body = req.body;
+
+            const result = await this.repository.update(id, body);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+
+    }
+
+    async remove(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+
+            const result = await this.repository.remove(id);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+
+    }
+}

@@ -1,87 +1,79 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
+
+import { DatabaseRepository } from "../../declaraciones";
 import { Personas } from "../../entities/seguridad/Personas";
 
-export const createPersona = async (req: Request, res: Response) => {
-    try {
-        const personaData = { ...req.body };
-  
-        const result = await Personas.create(personaData);
-        await result.save();
-  
-        return res.sendStatus(204);
-      
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
-    }
-};
-  
-export const getPersona = async (req: Request, res: Response)  => {
-    try {
-        const result = await Personas.find()
-        return res.json(result)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
-    }
-};
-
-export const getPersonaId = async (req: Request, res: Response)  => {
-    try {
-        const {id}  = req.params
-
-        const result = await Personas.findOneBy({id: parseInt(id)})
+export class PersonaController {
     
-        if (!result) return res.status(404).json({ message: "Persona not found" });
+    constructor(private repository: DatabaseRepository<Personas>) {}
 
-        return res.json(result)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
+    async create(req: Request, res: Response, next: NextFunction){
+
+       try {
+            const body = req.body;
+
+            const result = await this.repository.create(body);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
     }
-};
 
-export const updatePersona = async (req: Request, res: Response)  => {
-    
-    const {id} = req.params;
-
-    try {
+    async list(req: Request, res: Response, next: NextFunction){
         
-        const result = await Personas.findOneBy({ id: parseInt(id) });
-
-        if (!result) return res.status(404).json({ message: "Persona not found" });
-           
-        await Personas.update({id: parseInt(id)}, req.body)
-           
-        return res.sendStatus(204)
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
+        try {
+            const result = await this.repository.list();
+            
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
+
     }
 
-};
+    async get(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
 
-export const deletePersona = async (req: Request, res: Response)  => {
-   
-    const {id}  = req.params;
+            const result = await this.repository.get(id)
 
-    try {
-
-        const result = await Personas.delete({id: parseInt(id)})
-    
-        if (result.affected === 0){
-            return res.status(404).json({message: 'Persona not found'})
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
         }
-    
-        return res.sendStatus(204)
 
-    } catch (error) {
-        if(error instanceof Error){
-            return res.status(500).json({message: error.message})
-        }
     }
-};
+
+    async update(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+            const body = req.body;
+
+            const result = await this.repository.update(id, body);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+
+    }
+
+    async remove(req: Request, res: Response, next: NextFunction){
+        
+        try {
+            const {id} = req.params;
+
+            const result = await this.repository.remove(id);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+
+    }
+
+
+}

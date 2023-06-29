@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const FormularioRolController_1 = require("../../controller/seguridadController/FormularioRolController");
+const FormularioRolRepository_1 = require("../../repository/seguridadRepository/FormularioRolRepository");
 const router = (0, express_1.Router)();
-router.post('/seguridad/formularioRol', FormularioRolController_1.createFormularioRol);
-router.get('/seguridad/formularioRol', FormularioRolController_1.getFormularioRol);
-router.put('/seguridad/formularioRol/:id', FormularioRolController_1.updateFormularioRol);
-router.delete('/seguridad/formularioRol/:id', FormularioRolController_1.deleteFormularioRol);
-router.get('/seguridad/formularioRol/:id', FormularioRolController_1.getFormularioRolId);
+const controller = new FormularioRolController_1.FormularioRolController(new FormularioRolRepository_1.FormularioRolRepository());
+router.post('/seguridad/formularioRol', controller.create.bind(controller));
+router.get('/seguridad/formularioRol', controller.list.bind(controller));
+router.get('/seguridad/formularioRol/:id', controller.get.bind(controller));
+router.put('/seguridad/formularioRol/:id', controller.update.bind(controller));
+router.delete('/seguridad/formularioRol/:id', controller.remove.bind(controller));
 exports.default = router;

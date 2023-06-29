@@ -5,7 +5,7 @@ import {Personas} from './Personas'
 @Entity({schema: 'seguridad'})
 export class Usuarios extends ModelEntity {
 
-    @OneToOne(() => Personas)
+    @OneToOne(() => Personas, (persona) => persona.UsuarioId)
     @JoinColumn({ name: 'personaId' })
     PersonaId: Personas;
 

@@ -1,16 +1,24 @@
 import {Router} from 'express'
-import { createUsuario, deleteUsuario, getUsuario, getUsuarioId, updateUsuario } from '../../controller/seguridadController/UsuarioController'
+import { UsuarioController } from '../../controller/seguridadController/UsuarioController'
+import { UsuarioRepository } from '../../repository/seguridadRepository/UsuarioRepository';
 
 const router = Router()
 
-router.post('/seguridad/usuario', createUsuario);
+const controller = new UsuarioController(
+    
+    new UsuarioRepository()
 
-router.get('/seguridad/usuario', getUsuario);
+);
 
-router.put('/seguridad/usuario/:id', updateUsuario);
+router.post('/seguridad/usuario', controller.create.bind(controller));
 
-router.delete('/seguridad/usuario/:id', deleteUsuario);
+router.get('/seguridad/usuario', controller.list.bind(controller));
 
-router.get('/seguridad/usuario/:id', getUsuarioId);
+router.get('/seguridad/usuario/:id', controller.get.bind(controller));
+
+router.put('/seguridad/usuario/:id', controller.update.bind(controller));
+
+router.delete('/seguridad/usuario/:id', controller.remove.bind(controller));
+
 
 export default router;

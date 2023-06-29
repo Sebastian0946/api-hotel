@@ -1,16 +1,23 @@
 import {Router} from 'express'
-import { createInventario, deleteInventario, getInventario, getInventarioId, updateInventario } from '../../controller/invetarioController/InventarioController'
+import { InventarioController} from '../../controller/invetarioController/InventarioController'
+import { inventarioRepository } from '../../repository/invetarioRepository/InventarioRepository';
 
 const router = Router()
 
-router.post('/inventario/inventario', createInventario);
+const controller = new InventarioController(
+    
+    new inventarioRepository()
 
-router.get('/inventario/inventario', getInventario);
+);
 
-router.put('/inventario/inventario/:id', updateInventario);
+router.post('/inventario/inventario', controller.create.bind(controller));
 
-router.delete('/inventario/inventario/:id', deleteInventario);
+router.get('/inventario/inventario', controller.list.bind(controller));
 
-router.get('/inventario/inventario/:id', getInventarioId);
+router.get('/inventario/inventario/:id', controller.get.bind(controller));
+
+router.put('/inventario/inventario/:id', controller.update.bind(controller));
+
+router.delete('/inventario/inventario/:id', controller.remove.bind(controller));
 
 export default router;
