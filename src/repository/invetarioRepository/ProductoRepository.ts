@@ -1,69 +1,86 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { ProductoService, Query, id } from "../../service/inventarioService/ProductoService";
 import { Productos } from "../../entities/inventario/Productos";
 
+export class ProductoRepository implements ProductoService<Productos> {
 
-export class ProductoRepository implements DatabaseRepository<Productos> {
+    private repository = dataBase.getRepository(Productos);
 
-    async create(data: Partial<Productos>, query?: Query ): Promise<Productos> {
+    async create(data: Partial<Productos>, query?: Query): Promise<Productos> {
+        try {
+            const result = this.repository.create(data);
 
-       const repository =  dataBase.getRepository(Productos);
+            await this.repository.save(result);
 
-       const result = repository.create(data);
+            return result;
 
-       await repository.save(result);
-
-       return result;
+        } catch (error) {
+            throw new Error('Failed to create producto');
+        }
     }
 
     async list(query?: Query): Promise<Productos[]> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Productos")
+                .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
 
-        const repository =  dataBase.getRepository(Productos);
-
-        const queryBuilder = repository.createQueryBuilder('Productos')
-        .leftJoinAndSelect('Productos.CategoriaId', 'Categorias');
-    
-        const result = await queryBuilder.getMany();
-    
-        return result;
-    }
-    
-    async get(id: id, query?: Query ): Promise<Productos> {
-
-        const repository =  dataBase.getRepository(Productos);
-
-        const queryBuilder = repository.createQueryBuilder('Productos')
-        .leftJoinAndSelect('Productos.CategoriaId', 'Categorias')
-        .where('Productos.id = :id', { id });
-    
-        const result = await queryBuilder.getOne();
-    
-        if (!result) {
-            throw new NotFound('Producto not found');
+            return queryBuilder.getMany();
+            
+        } catch (error) {
+            throw new Error('Failed to retrieve productos');
         }
-        return result;
     }
 
-    async update(id: id, data: Productos, query?: Query ): Promise<Productos> {
-        
-        const repository =  dataBase.getRepository(Productos);
+    async get(id: id, query?: Query): Promise<Productos> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Productos")
+                .leftJoinAndSelect("Productos.CategoriaId", "Categorias")
+                .where("Productos.id = :id", { id });
 
-        await repository.update(id, data);
+            const result = await queryBuilder.getOne();
 
-        return this.get(id, query);
+            if (!result) {
+                throw new NotFound("Producto not found");
+            }
+
+            return result;
+        } catch (error) {
+            throw new Error('Failed to retrieve producto');
+        }
     }
 
-    async remove(id: id, query?: Query | undefined): Promise<Productos> {
+    async update(id: id, data: Productos, query?: Query): Promise<Productos> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Productos")
+                .where("Productos.id = :id", { id });
 
-        const repository =  dataBase.getRepository(Productos);
+            if (query && query.someCondition) {
+                queryBuilder.andWhere("Productos.someColumn = :value", { value: query.someValue });
+            }
 
-        const result = await this.get(id, query);
+            const result = await queryBuilder.update().set(data).returning("*").execute();
 
-        await repository.delete(id);
+            if (result.affected === 0) {
+                throw new NotFound("Producto not found");
+            }
 
-        return result;
+            return result.raw[0];
+        } catch (error) {
+            throw new Error('Failed to update producto');
+        }
+    }
+
+    async remove(id: id, query?: Query): Promise<Productos> {
+        try {
+            const result = await this.get(id, query);
+
+            await this.repository.remove(result);
+            
+            return result;
+
+        } catch (error) {
+            throw new Error('Failed to remove producto');
+        }
     }
 }

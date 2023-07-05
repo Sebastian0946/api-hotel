@@ -17,7 +17,7 @@ let Formularios = exports.Formularios = class Formularios extends ModelEntity_1.
 };
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Modulos_1.Modulos, (modulo) => modulo.FormularioId),
-    (0, typeorm_1.JoinColumn)({ name: 'moduloId' }),
+    (0, typeorm_1.JoinColumn)({ name: 'modulo_id' }),
     __metadata("design:type", Modulos_1.Modulos)
 ], Formularios.prototype, "ModuloId", void 0);
 __decorate([
@@ -33,7 +33,7 @@ __decorate([
     __metadata("design:type", String)
 ], Formularios.prototype, "Ruta", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'etiquieta', length: 25, nullable: false, unique: true }),
+    (0, typeorm_1.Column)({ name: 'etiqueta', length: 25, nullable: false, unique: true }),
     __metadata("design:type", String)
 ], Formularios.prototype, "Etiqueta", void 0);
 exports.Formularios = Formularios = __decorate([

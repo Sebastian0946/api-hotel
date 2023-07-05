@@ -12,7 +12,7 @@ export class Modulos extends ModelEntity {
     @Column({name: 'ruta',length: 25, nullable: false, unique: true})
     Ruta: String;
 
-    @Column({name: 'etiquieta', length: 25, nullable: false, unique: true})
+    @Column({name: 'etiqueta', length: 25, nullable: false, unique: true})
     Etiqueta: String
 
     @OneToMany(() => Formularios, (formulario) => formulario.ModuloId)

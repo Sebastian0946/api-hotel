@@ -1,16 +1,18 @@
-import { Entity, Column, ManyToOne, JoinColumn, Double} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Inventarios} from './Inventarios';
+import { Habitaciones } from '../sistema/Habitaciones';
 
 @Entity({schema: 'inventario'})
 export class InventariosHabitaciones extends ModelEntity {
     
-    @ManyToOne(() => Inventarios)
-    @JoinColumn({name: 'inventarioId'})
+    @ManyToOne(() => Inventarios, (inventario) => inventario.InventarioHabitacionesId)
+    @JoinColumn({name: 'inventario_id'})
     InventarioId: Inventarios;
 
-    @Column({name: 'administracionHabitacionId'})
-    AdministracionHabitacionId: String;
+    @ManyToOne(() => Habitaciones, (habitaciones) => habitaciones.InventarioHabitacionesId)
+    @JoinColumn({name: 'administracionHabitacion_id'})
+    AdministracionHabitacionId: Habitaciones;
 
     @Column({name: 'cantidad', nullable: false})
     Cantidad: String;

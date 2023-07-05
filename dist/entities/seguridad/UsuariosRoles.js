@@ -18,12 +18,12 @@ let UsuariosRoles = exports.UsuariosRoles = class UsuariosRoles extends ModelEnt
 };
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Roles_1.Roles),
-    (0, typeorm_1.JoinColumn)({ name: 'rolId' }),
+    (0, typeorm_1.JoinColumn)({ name: 'rol_id' }),
     __metadata("design:type", Roles_1.Roles)
 ], UsuariosRoles.prototype, "RolesId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Usuarios_1.Usuarios),
-    (0, typeorm_1.JoinColumn)({ name: 'usuarioId' }),
+    (0, typeorm_1.JoinColumn)({ name: 'usuario_id' }),
     __metadata("design:type", Usuarios_1.Usuarios)
 ], UsuariosRoles.prototype, "UsuariosId", void 0);
 exports.UsuariosRoles = UsuariosRoles = __decorate([

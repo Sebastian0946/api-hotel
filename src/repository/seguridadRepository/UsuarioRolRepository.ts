@@ -1,71 +1,84 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { UsuarioRolService, Query, id } from "../../service/seguridadService/UsuarioRolService";
 import { UsuariosRoles } from "../../entities/seguridad/UsuariosRoles";
 
+export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
-export class UsuarioRolRepository implements DatabaseRepository<UsuariosRoles> {
+    private repository = dataBase.getRepository(UsuariosRoles);
 
-    async create(data: Partial<UsuariosRoles>, query?: Query ): Promise<UsuariosRoles> {
-
-       const repository =  dataBase.getRepository(UsuariosRoles);
-
-       const result = repository.create(data);
-
-       await repository.save(result);
-
-       return result;
+    async create(data: Partial<UsuariosRoles>, query?: Query): Promise<UsuariosRoles> {
+        try {
+            const result = this.repository.create(data);
+            await this.repository.save(result);
+            return result;
+        } catch (error) {
+            throw new Error('Failed to create usuarioRol');
+        }
     }
 
     async list(query?: Query): Promise<UsuariosRoles[]> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
+                .leftJoinAndSelect("UsuariosRoles.RolesId", "Roles")
+                .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios");
 
-        const repository =  dataBase.getRepository(UsuariosRoles);
-
-        const queryBuilder = repository.createQueryBuilder('UsuariosRoles')
-        .leftJoinAndSelect('UsuariosRoles.RolesId', 'Roles')
-        .leftJoinAndSelect('UsuariosRoles.UsuariosId', 'Usuarios');
-    
-        const result = await queryBuilder.getMany();
-    
-        return result;
-    }
-    
-    async get(id: id, query?: Query ): Promise<UsuariosRoles> {
-
-        const repository =  dataBase.getRepository(UsuariosRoles);
-
-        const queryBuilder = repository.createQueryBuilder('UsuariosRoles')
-        .leftJoinAndSelect('UsuariosRoles.RolesId', 'Roles')
-        .leftJoinAndSelect('UsuariosRoles.UsuariosId', 'Usuarios')
-        .where('UsuariosRoles.id = :id', { id });
-      
-        const result = await queryBuilder.getOne();
-      
-        if (!result) {
-          throw new NotFound('UsuarioRol not found');
+            return queryBuilder.getMany();
+        } catch (error) {
+            throw new Error('Failed to retrieve usuarioRoles');
         }
-        return result;
     }
 
-    async update(id: id, data: UsuariosRoles, query?: Query ): Promise<UsuariosRoles> {
-        
-        const repository =  dataBase.getRepository(UsuariosRoles);
+    async get(id: id, query?: Query): Promise<UsuariosRoles> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
+                .leftJoinAndSelect("UsuariosRoles.RolesId", "Roles")
+                .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios")
+                .where("UsuariosRoles.id = :id", { id });
 
-        await repository.update(id, data);
+            const result = await queryBuilder.getOne();
 
-        return this.get(id, query);
+            if (!result) {
+                throw new NotFound("UsuarioRol not found");
+            }
+
+            return result;
+        } catch (error) {
+            throw new Error('Failed to retrieve usuarioRol');
+        }
     }
 
-    async remove(id: id, query?: Query | undefined): Promise<UsuariosRoles> {
+    async update(id: id, data: UsuariosRoles, query?: Query): Promise<UsuariosRoles> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
+                .where("UsuariosRoles.id = :id", { id });
 
-        const repository =  dataBase.getRepository(UsuariosRoles);
+            if (query && query.someCondition) {
+                queryBuilder.andWhere("UsuariosRoles.someColumn = :value", { value: query.someValue });
+            }
 
-        const result = await this.get(id, query);
+            const result = await queryBuilder.update().set(data).returning("*").execute();
 
-        await repository.delete(id);
+            if (result.affected === 0) {
+                throw new NotFound("UsuarioRol not found");
+            }
 
-        return result;
+            return result.raw[0];
+        } catch (error) {
+            throw new Error('Failed to update usuarioRol');
+        }
+    }
+
+    async remove(id: id, query?: Query): Promise<UsuariosRoles> {
+        try {
+            const result = await this.get(id, query);
+
+            await this.repository.delete(id);
+
+            return result;
+
+        } catch (error) {
+            throw new Error('Failed to remove usuarioRol');
+        }
     }
 }

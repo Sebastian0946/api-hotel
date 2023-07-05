@@ -17,44 +17,74 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Roles_1 = require("../../entities/seguridad/Roles");
 class RolRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(Roles_1.Roles);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Roles_1.Roles);
-            const result = repository.create(data);
-            yield repository.save(result);
-            return result;
+            try {
+                const result = this.repository.create(data);
+                yield this.repository.save(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to create role');
+            }
         });
     }
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Roles_1.Roles);
-            return repository.find();
+            try {
+                return yield this.repository.find();
+            }
+            catch (error) {
+                throw new Error('Failed to retrieve roles');
+            }
         });
     }
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Roles_1.Roles);
-            const result = yield repository.findOneBy({ id: id });
-            if (!result) {
-                throw new http_errors_1.NotFound("Rol not Found");
+            try {
+                const result = yield this.repository.findOneBy({ id: id });
+                if (!result) {
+                    throw new http_errors_1.NotFound('Role not found');
+                }
+                return result;
             }
-            ;
-            return result;
+            catch (error) {
+                throw new Error('Failed to retrieve role');
+            }
         });
     }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Roles_1.Roles);
-            yield repository.update(id, data);
-            return this.get(id, query);
+            try {
+                const queryBuilder = this.repository.createQueryBuilder('Roles')
+                    .where('Roles.id = :id', { id });
+                if (query && query.someCondition) {
+                    queryBuilder.andWhere('Roles.someColumn = :value', { value: query.someValue });
+                }
+                const result = yield queryBuilder.update().set(data).returning('*').execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound('Role not found');
+                }
+                return result.raw[0];
+            }
+            catch (error) {
+                throw new Error('Failed to update role');
+            }
         });
     }
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Roles_1.Roles);
-            const result = yield this.get(id, query);
-            yield repository.delete(id);
-            return result;
+            try {
+                const result = yield this.get(id, query);
+                yield this.repository.delete(id);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to remove role');
+            }
         });
     }
 }

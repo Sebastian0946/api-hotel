@@ -1,15 +1,16 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response, NextFunction } from "express";
+import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
 
-import { DatabaseRepository } from "../../declaraciones";
-import { Categorias } from "../../entities/inventario/Categorias";
+import { CategoriaRepository } from "../../repository/invetarioRepository/CategoriaRepository";
 
+@JsonController('/categoria')
 export class CategoriaController {
-    
-    constructor(private repository: DatabaseRepository<Categorias>) {}
 
-    async create(req: Request, res: Response, next: NextFunction){
+    constructor(private repository: CategoriaRepository) { }
 
-       try {
+    @Post()
+    async create(req: Request, res: Response, next: NextFunction) {
+        try {
             const body = req.body;
 
             const result = await this.repository.create(body);
@@ -20,22 +21,21 @@ export class CategoriaController {
         }
     }
 
-    async list(req: Request, res: Response, next: NextFunction){
-        
+    @Get()
+    async list(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.repository.list();
-            
+
             res.status(200).json(result);
         } catch (error) {
             next(error);
         }
-
     }
 
-    async get(req: Request, res: Response, next: NextFunction){
-        
+    @Get('/:id')
+    async get(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.get(id)
 
@@ -43,13 +43,12 @@ export class CategoriaController {
         } catch (error) {
             next(error);
         }
-
     }
 
-    async update(req: Request, res: Response, next: NextFunction){
-        
+    @Put('/:id')
+    async update(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
             const body = req.body;
 
             const result = await this.repository.update(id, body);
@@ -58,13 +57,12 @@ export class CategoriaController {
         } catch (error) {
             next(error);
         }
-
     }
 
-    async remove(req: Request, res: Response, next: NextFunction){
-        
+    @Delete('/:id')
+    async remove(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.remove(id);
 
@@ -72,6 +70,5 @@ export class CategoriaController {
         } catch (error) {
             next(error);
         }
-
     }
 }

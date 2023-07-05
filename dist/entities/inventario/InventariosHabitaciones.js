@@ -13,16 +13,18 @@ exports.InventariosHabitaciones = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const Inventarios_1 = require("./Inventarios");
+const Habitaciones_1 = require("../sistema/Habitaciones");
 let InventariosHabitaciones = exports.InventariosHabitaciones = class InventariosHabitaciones extends ModelEntity_1.ModelEntity {
 };
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Inventarios_1.Inventarios),
-    (0, typeorm_1.JoinColumn)({ name: 'inventarioId' }),
+    (0, typeorm_1.ManyToOne)(() => Inventarios_1.Inventarios, (inventario) => inventario.InventarioHabitacionesId),
+    (0, typeorm_1.JoinColumn)({ name: 'inventario_id' }),
     __metadata("design:type", Inventarios_1.Inventarios)
 ], InventariosHabitaciones.prototype, "InventarioId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'administracionHabitacionId' }),
-    __metadata("design:type", String)
+    (0, typeorm_1.ManyToOne)(() => Habitaciones_1.Habitaciones, (habitaciones) => habitaciones.InventarioHabitacionesId),
+    (0, typeorm_1.JoinColumn)({ name: 'administracionHabitacion_id' }),
+    __metadata("design:type", Habitaciones_1.Habitaciones)
 ], InventariosHabitaciones.prototype, "AdministracionHabitacionId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),

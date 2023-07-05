@@ -1,71 +1,97 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { FormularioRolService, Query, id } from "../../service/seguridadService/FormularioRolService";
 import { FormulariosRoles } from "../../entities/seguridad/FormulariosRoles";
 
+export class FormularioRolRepository implements FormularioRolService<FormulariosRoles> {
 
-export class FormularioRolRepository implements DatabaseRepository<FormulariosRoles> {
+    private repository = dataBase.getRepository(FormulariosRoles);
 
-    async create(data: Partial<FormulariosRoles>, query?: Query ): Promise<FormulariosRoles> {
+    async create(data: Partial<FormulariosRoles>, query?: Query): Promise<FormulariosRoles> {
+        try {
+            const result = this.repository.create(data);
 
-       const repository =  dataBase.getRepository(FormulariosRoles);
+            await this.repository.save(result);
 
-       const result = repository.create(data);
+            return result;
 
-       await repository.save(result);
-
-       return result;
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 
     async list(query?: Query): Promise<FormulariosRoles[]> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("FormulariosRoles")
+                .leftJoinAndSelect("FormulariosRoles.RolesId", "Roles")
+                .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios");
 
-        const repository =  dataBase.getRepository(FormulariosRoles);
+            const result = await queryBuilder.getMany();
 
-        const queryBuilder = repository.createQueryBuilder('FormulariosRoles')
-        .leftJoinAndSelect('FormulariosRoles.RolesId', 'Roles')
-        .leftJoinAndSelect('FormulariosRoles.FormulariosId', 'Formularios');
-    
-        const result = await queryBuilder.getMany();
-    
-        return result;
-    }
-    
-    async get(id: id, query?: Query ): Promise<FormulariosRoles> {
+            return result;
 
-        const repository =  dataBase.getRepository(FormulariosRoles);
-
-        const queryBuilder = repository.createQueryBuilder('FormulariosRoles')
-        .leftJoinAndSelect('FormulariosRoles.RolesId', 'Roles')
-        .leftJoinAndSelect('FormulariosRoles.FormulariosId', 'Formularios')
-        .where('FormulariosRoles.id = :id', { id });
-      
-        const result = await queryBuilder.getOne();
-      
-        if (!result) {
-          throw new NotFound('FormularioRol not found');
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
         }
-        return result;
     }
 
-    async update(id: id, data: FormulariosRoles, query?: Query ): Promise<FormulariosRoles> {
-        
-        const repository =  dataBase.getRepository(FormulariosRoles);
+    async get(id: id, query?: Query): Promise<FormulariosRoles> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("FormulariosRoles")
+                .leftJoinAndSelect("FormulariosRoles.RolesId", "Roles")
+                .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios")
+                .where("FormulariosRoles.id = :id", { id });
 
-        await repository.update(id, data);
+            const result = await queryBuilder.getOne();
 
-        return this.get(id, query);
+            if (!result) {
+                throw new NotFound("FormularioRol not found");
+            }
+
+            return result;
+
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 
-    async remove(id: id, query?: Query | undefined): Promise<FormulariosRoles> {
+    async update(id: id, data: FormulariosRoles, query?: Query): Promise<FormulariosRoles> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Formularios_Roles")
+                .where("Formularios_Roles.id = :id", { id });
 
-        const repository =  dataBase.getRepository(FormulariosRoles);
+            if (query && query.someCondition) {
+                queryBuilder.andWhere("FormulariosRoles.someColumn = :value", { value: query.someValue });
+            }
 
-        const result = await this.get(id, query);
+            const result = await queryBuilder.update().set(data).returning("*").execute();
+            
+            if (result.affected === 0) {
+                throw new NotFound("FormularioRol not found");
+            }
 
-        await repository.delete(id);
+            return result.raw[0];
 
-        return result;
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
+    }
+
+    async remove(id: id, query?: Query): Promise<FormulariosRoles> {
+        try {
+            const result = await this.get(id, query);
+
+            await this.repository.delete(id);
+
+            return result;
+            
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 }

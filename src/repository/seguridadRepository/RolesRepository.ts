@@ -1,61 +1,79 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { RolService, Query, id } from "../../service/seguridadService/RolService";
 import { Roles } from "../../entities/seguridad/Roles";
+export class RolRepository implements RolService<Roles> {
 
+    private repository = dataBase.getRepository(Roles);
 
-export class RolRepository implements DatabaseRepository<Roles> {
+    async create(data: Partial<Roles>, query?: Query): Promise<Roles> {
+        try {
+            const result = this.repository.create(data);
 
-    async create(data: Partial<Roles>, query?: Query ): Promise<Roles> {
+            await this.repository.save(result);
 
-       const repository =  dataBase.getRepository(Roles);
+            return result;
 
-       const result = repository.create(data);
-
-       await repository.save(result);
-
-       return result;
+        } catch (error) {
+            throw new Error('Failed to create role');
+        }
     }
 
     async list(query?: Query): Promise<Roles[]> {
-
-        const repository =  dataBase.getRepository(Roles);
-
-        return repository.find();
-    }
-    
-    async get(id: id, query?: Query ): Promise<Roles> {
-
-        const repository =  dataBase.getRepository(Roles);
-
-        const result = await repository.findOneBy({id: id as any});
-
-        if(!result) {
-            throw new NotFound("Rol not Found")
-        };
-
-        return result;
+        try {
+            return await this.repository.find();
+        } catch (error) {
+            throw new Error('Failed to retrieve roles');
+        }
     }
 
-    async update(id: id, data: Roles, query?: Query ): Promise<Roles> {
-        
-        const repository =  dataBase.getRepository(Roles);
+    async get(id: id, query?: Query): Promise<Roles> {
+        try {
+            const result = await this.repository.findOneBy({id: id as any});
 
-        await repository.update(id, data);
+            if (!result) {
+                throw new NotFound('Role not found');
+            }
 
-        return this.get(id, query);
+            return result;
+            
+        } catch (error) {
+            throw new Error('Failed to retrieve role');
+        }
     }
 
-    async remove(id: id, query?: Query | undefined): Promise<Roles> {
+    async update(id: id, data: Roles, query?: Query): Promise<Roles> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder('Roles')
+                .where('Roles.id = :id', { id });
 
-        const repository =  dataBase.getRepository(Roles);
+            if (query && query.someCondition) {
+                queryBuilder.andWhere('Roles.someColumn = :value', { value: query.someValue });
+            }
 
-        const result = await this.get(id, query);
+            const result = await queryBuilder.update().set(data).returning('*').execute();
 
-        await repository.delete(id);
+            if (result.affected === 0) {
+                throw new NotFound('Role not found');
+            }
 
-        return result;
+            return result.raw[0];
+
+        } catch (error) {
+            throw new Error('Failed to update role');
+        }
+    }
+
+    async remove(id: id, query?: Query): Promise<Roles> {
+        try {
+            const result = await this.get(id, query);
+
+            await this.repository.delete(id);
+
+            return result;
+
+        } catch (error) {
+            throw new Error('Failed to remove role');
+        }
     }
 }

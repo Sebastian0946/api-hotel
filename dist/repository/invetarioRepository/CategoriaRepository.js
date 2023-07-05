@@ -17,44 +17,75 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Categorias_1 = require("../../entities/inventario/Categorias");
 class CategoriaRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(Categorias_1.Categorias);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Categorias_1.Categorias);
-            const result = repository.create(data);
-            yield repository.save(result);
-            return result;
+            try {
+                const result = this.repository.create(data);
+                yield this.repository.save(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to create categoria');
+            }
         });
     }
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Categorias_1.Categorias);
-            return repository.find();
+            try {
+                return this.repository.find();
+            }
+            catch (error) {
+                throw new Error('Failed to retrieve categorias');
+            }
         });
     }
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Categorias_1.Categorias);
-            const result = yield repository.findOneBy({ id: id });
-            if (!result) {
-                throw new http_errors_1.NotFound("Usuario not Found");
+            try {
+                const result = yield this.repository.findOneBy({ id: id });
+                if (!result) {
+                    throw new http_errors_1.NotFound("Categoria not found");
+                }
+                return result;
             }
-            ;
-            return result;
+            catch (error) {
+                throw new Error('Failed to retrieve categoria');
+            }
         });
     }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Categorias_1.Categorias);
-            yield repository.update(id, data);
-            return this.get(id, query);
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Categorias")
+                    .where("Categorias.id = :id", { id });
+                if (query && query.someCondition) {
+                    queryBuilder.andWhere("Categorias.someColumn = :value", { value: query.someValue });
+                }
+                const result = yield queryBuilder.update().set(data).returning("*").execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Categorias not found");
+                }
+                return result.raw[0];
+            }
+            catch (error) {
+                // Manejar la excepción adecuadamente
+                throw error;
+            }
         });
     }
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Categorias_1.Categorias);
-            const result = yield this.get(id, query);
-            yield repository.delete(id);
-            return result;
+            try {
+                const result = yield this.get(id, query);
+                yield this.repository.remove(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to remove categoria');
+            }
         });
     }
 }

@@ -1,12 +1,13 @@
-import { Entity, Column, ManyToOne, JoinColumn} from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, BaseEntity, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Productos} from './Productos';
+import { InventariosHabitaciones } from './InventariosHabitaciones';
 
 @Entity({schema: 'inventario'})
 export class Inventarios extends ModelEntity {
     
-    @ManyToOne(() => Productos)
-    @JoinColumn({name: 'productoId'})
+    @ManyToOne(() => Productos, (producto) => producto.InventarioId)
+    @JoinColumn({name: 'producto_id'})
     ProductoId: Productos;
 
     @Column({name: 'cantidad', nullable: false})
@@ -17,4 +18,7 @@ export class Inventarios extends ModelEntity {
     
     @Column({ name: 'precio_venta', type: 'double precision', nullable: false })
     PrecioVenta: number;
+
+    @OneToMany(() => InventariosHabitaciones, (inventarioHabitaciones) => inventarioHabitaciones.InventarioId)
+    InventarioHabitacionesId: InventariosHabitaciones
 }

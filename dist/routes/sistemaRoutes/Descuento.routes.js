@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const DescuentoController_1 = require("../../controller/sistemaController/DescuentoController");
+const DescuentosRepository_1 = require("../../repository/sistemaRepository/DescuentosRepository");
+const router = (0, express_1.Router)();
+const controller = new DescuentoController_1.DescuentosController(new DescuentosRepository_1.DescuentosRepository());
+router.post('/sistema/descuento', controller.create.bind(controller));
+router.get('/sistema/descuento', controller.list.bind(controller));
+router.get('/sistema/descuento/:id', controller.get.bind(controller));
+router.put('/sistema/descuento/:id', controller.update.bind(controller));
+router.delete('/sistema/descuento/:id', controller.remove.bind(controller));
+exports.default = router;

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Categorias = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
+const Productos_1 = require("./Productos");
 let Categorias = exports.Categorias = class Categorias extends ModelEntity_1.ModelEntity {
 };
 __decorate([
@@ -22,6 +23,10 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'descripcion', length: 25, nullable: false }),
     __metadata("design:type", String)
 ], Categorias.prototype, "Descripcion", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Productos_1.Productos, (producto) => producto.CategoriaId),
+    __metadata("design:type", Productos_1.Productos)
+], Categorias.prototype, "ProductosId", void 0);
 exports.Categorias = Categorias = __decorate([
     (0, typeorm_1.Entity)()
 ], Categorias);

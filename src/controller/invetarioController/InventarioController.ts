@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response, NextFunction } from "express";
+import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
 
-import { DatabaseRepository } from "../../declaraciones";
-import { Inventarios } from "../../entities/inventario/Inventarios";
-
+import { InventarioRepository } from "../../repository/invetarioRepository/InventarioRepository";
+@JsonController('/inventario')
 export class InventarioController {
-    
-    constructor(private repository: DatabaseRepository<Inventarios>) {}
 
-    async create(req: Request, res: Response, next: NextFunction){
+    constructor(private repository: InventarioRepository) { }
 
-       try {
+    @Post()
+    async create(req: Request, res: Response, next: NextFunction) {
+        try {
             const body = req.body;
 
             const result = await this.repository.create(body);
@@ -20,22 +20,21 @@ export class InventarioController {
         }
     }
 
-    async list(req: Request, res: Response, next: NextFunction){
-        
+    @Get()
+    async list(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.repository.list();
-            
+
             res.status(200).json(result);
         } catch (error) {
             next(error);
         }
-
     }
 
-    async get(req: Request, res: Response, next: NextFunction){
-        
+    @Get('/:id')
+    async get(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.get(id)
 
@@ -43,13 +42,12 @@ export class InventarioController {
         } catch (error) {
             next(error);
         }
-
     }
 
-    async update(req: Request, res: Response, next: NextFunction){
-        
+    @Put('/:id')
+    async update(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
             const body = req.body;
 
             const result = await this.repository.update(id, body);
@@ -58,13 +56,12 @@ export class InventarioController {
         } catch (error) {
             next(error);
         }
-
     }
 
-    async remove(req: Request, res: Response, next: NextFunction){
-        
+    @Delete('/:id')
+    async remove(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.remove(id);
 
@@ -72,6 +69,5 @@ export class InventarioController {
         } catch (error) {
             next(error);
         }
-
     }
 }

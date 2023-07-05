@@ -1,61 +1,74 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { CategoriaService, Query, id } from "../../service/inventarioService/CategoriaService";
 import { Categorias } from "../../entities/inventario/Categorias";
 
+export class CategoriaRepository implements CategoriaService<Categorias> {
 
-export class CategoriaRepository implements DatabaseRepository<Categorias> {
+    private repository = dataBase.getRepository(Categorias);
 
-    async create(data: Partial<Categorias>, query?: Query ): Promise<Categorias> {
-
-       const repository =  dataBase.getRepository(Categorias);
-
-       const result = repository.create(data);
-
-       await repository.save(result);
-
-       return result;
+    async create(data: Partial<Categorias>, query?: Query): Promise<Categorias> {
+        try {
+            const result = this.repository.create(data);
+            await this.repository.save(result);
+            return result;
+        } catch (error) {
+            throw new Error('Failed to create categoria');
+        }
     }
 
     async list(query?: Query): Promise<Categorias[]> {
-
-        const repository =  dataBase.getRepository(Categorias);
-
-        return repository.find();
-    }
-    
-    async get(id: id, query?: Query ): Promise<Categorias> {
-
-        const repository =  dataBase.getRepository(Categorias);
-
-        const result = await repository.findOneBy({id: id as any});
-
-        if(!result) {
-            throw new NotFound("Usuario not Found")
-        };
-
-        return result;
+        try {
+            return this.repository.find();
+        } catch (error) {
+            throw new Error('Failed to retrieve categorias');
+        }
     }
 
-    async update(id: id, data: Categorias, query?: Query ): Promise<Categorias> {
-        
-        const repository =  dataBase.getRepository(Categorias);
+    async get(id: id, query?: Query): Promise<Categorias> {
+        try {
+            const result = await this.repository.findOneBy({id: id as any});
 
-        await repository.update(id, data);
+            if (!result) {
+                throw new NotFound("Categoria not found");
+            }
 
-        return this.get(id, query);
+            return result;
+        } catch (error) {
+            throw new Error('Failed to retrieve categoria');
+        }
     }
 
-    async remove(id: id, query?: Query | undefined): Promise<Categorias> {
+    async update(id: id, data: Categorias, query?: Query): Promise<Categorias> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Categorias")
+                .where("Categorias.id = :id", { id });
 
-        const repository =  dataBase.getRepository(Categorias);
+            if (query && query.someCondition) {
+                queryBuilder.andWhere("Categorias.someColumn = :value", { value: query.someValue });
+            }
 
-        const result = await this.get(id, query);
+            const result = await queryBuilder.update().set(data).returning("*").execute();
 
-        await repository.delete(id);
+            if (result.affected === 0) {
+                throw new NotFound("Categorias not found");
+            }
 
-        return result;
+            return result.raw[0];
+
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
+    }
+
+    async remove(id: id, query?: Query): Promise<Categorias> {
+        try {
+            const result = await this.get(id, query);
+            await this.repository.remove(result);
+            return result;
+        } catch (error) {
+            throw new Error('Failed to remove categoria');
+        }
     }
 }

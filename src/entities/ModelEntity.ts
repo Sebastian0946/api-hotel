@@ -1,6 +1,6 @@
 import { PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, DeleteDateColumn } from 'typeorm';
 
-enum Estado {
+export enum Estado {
   Activo = 'Activo',
   Inactivo = 'Inactivo',
 }

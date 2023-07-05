@@ -1,15 +1,16 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response, NextFunction } from "express";
+import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
 
-import { DatabaseRepository } from "../../declaraciones";
-import { Modulos } from "../../entities/seguridad/Modulos";
+import { ModuloRepository } from "../../repository/seguridadRepository/ModuloRepository";
 
+@JsonController('/modulo')
 export class ModuloController {
     
-    constructor(private repository: DatabaseRepository<Modulos>) {}
+    constructor(private repository: ModuloRepository) { }
 
-    async create(req: Request, res: Response, next: NextFunction){
-
-       try {
+    @Post()
+    async create(req: Request, res: Response, next: NextFunction) {
+        try {
             const body = req.body;
 
             const result = await this.repository.create(body);
@@ -20,22 +21,21 @@ export class ModuloController {
         }
     }
 
-    async list(req: Request, res: Response, next: NextFunction){
-        
+    @Get()
+    async list(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.repository.list();
-            
+
             res.status(200).json(result);
         } catch (error) {
             next(error);
         }
-
     }
 
-    async get(req: Request, res: Response, next: NextFunction){
-        
+    @Get('/:id')
+    async get(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.get(id)
 
@@ -43,13 +43,12 @@ export class ModuloController {
         } catch (error) {
             next(error);
         }
-
     }
 
-    async update(req: Request, res: Response, next: NextFunction){
-        
+    @Put('/:id')
+    async update(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
             const body = req.body;
 
             const result = await this.repository.update(id, body);
@@ -58,13 +57,12 @@ export class ModuloController {
         } catch (error) {
             next(error);
         }
-
     }
 
-    async remove(req: Request, res: Response, next: NextFunction){
-        
+    @Delete('/:id')
+    async remove(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.remove(id);
 
@@ -72,6 +70,5 @@ export class ModuloController {
         } catch (error) {
             next(error);
         }
-
     }
 }

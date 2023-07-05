@@ -17,44 +17,80 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Modulos_1 = require("../../entities/seguridad/Modulos");
 class ModuloRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(Modulos_1.Modulos);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Modulos_1.Modulos);
-            const result = repository.create(data);
-            yield repository.save(result);
-            return result;
+            try {
+                const result = this.repository.create(data);
+                yield this.repository.save(result);
+                return result;
+            }
+            catch (error) {
+                // Manejar la excepción adecuadamente
+                throw error;
+            }
         });
     }
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Modulos_1.Modulos);
-            return repository.find();
+            try {
+                const result = yield this.repository.find();
+                return result;
+            }
+            catch (error) {
+                // Manejar la excepción adecuadamente
+                throw error;
+            }
         });
     }
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Modulos_1.Modulos);
-            const result = yield repository.findOneBy({ id: id });
-            if (!result) {
-                throw new http_errors_1.NotFound("Modulo not Found");
+            try {
+                const result = yield this.repository.findOneBy({ id: id });
+                if (!result) {
+                    throw new http_errors_1.NotFound("Modulo not found");
+                }
+                return result;
             }
-            ;
-            return result;
+            catch (error) {
+                // Manejar la excepción adecuadamente
+                throw error;
+            }
         });
     }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Modulos_1.Modulos);
-            yield repository.update(id, data);
-            return this.get(id, query);
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Modulos")
+                    .where("Modulos.id = :id", { id });
+                if (query && query.someCondition) {
+                    queryBuilder.andWhere("Modulos.someColumn = :value", { value: query.someValue });
+                }
+                const result = yield queryBuilder.update().set(data).returning("*").execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Modulo not found");
+                }
+                return result.raw[0];
+            }
+            catch (error) {
+                // Manejar la excepción adecuadamente
+                throw error;
+            }
         });
     }
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Modulos_1.Modulos);
-            const result = yield this.get(id, query);
-            yield repository.delete(id);
-            return result;
+            try {
+                const result = yield this.get(id, query);
+                yield this.repository.delete(id);
+                return result;
+            }
+            catch (error) {
+                // Manejar la excepción adecuadamente
+                throw error;
+            }
         });
     }
 }

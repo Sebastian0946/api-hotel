@@ -1,4 +1,13 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10,7 +19,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InventarioController = void 0;
-class InventarioController {
+const routing_controllers_1 = require("routing-controllers");
+const InventarioRepository_1 = require("../../repository/invetarioRepository/InventarioRepository");
+let InventarioController = exports.InventarioController = class InventarioController {
     constructor(repository) {
         this.repository = repository;
     }
@@ -74,5 +85,38 @@ class InventarioController {
             }
         });
     }
-}
-exports.InventarioController = InventarioController;
+};
+__decorate([
+    (0, routing_controllers_1.Post)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Function]),
+    __metadata("design:returntype", Promise)
+], InventarioController.prototype, "create", null);
+__decorate([
+    (0, routing_controllers_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Function]),
+    __metadata("design:returntype", Promise)
+], InventarioController.prototype, "list", null);
+__decorate([
+    (0, routing_controllers_1.Get)('/:id'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Function]),
+    __metadata("design:returntype", Promise)
+], InventarioController.prototype, "get", null);
+__decorate([
+    (0, routing_controllers_1.Put)('/:id'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Function]),
+    __metadata("design:returntype", Promise)
+], InventarioController.prototype, "update", null);
+__decorate([
+    (0, routing_controllers_1.Delete)('/:id'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Function]),
+    __metadata("design:returntype", Promise)
+], InventarioController.prototype, "remove", null);
+exports.InventarioController = InventarioController = __decorate([
+    (0, routing_controllers_1.JsonController)('/inventario'),
+    __metadata("design:paramtypes", [InventarioRepository_1.InventarioRepository])
+], InventarioController);

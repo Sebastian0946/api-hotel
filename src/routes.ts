@@ -11,7 +11,19 @@ import formularioRolRoutes from './routes/seguridadRoutes/FormulariosRoles.route
 import categoriaRoutes from './routes/inventarioRoutes/Categorias.routes';
 import inventarioRoutes from './routes/inventarioRoutes/Inventarios.routes';
 import productoRoutes from './routes/inventarioRoutes/Productos.routes';
+import inventarioHabitacionRoutes from './routes/inventarioRoutes/InventarioHabitacion.routes';
 
+//Rutas parametrizacion
+import ConfiguracionSistemaRoutes from './routes/parametrizacionRoutes/ConfiguracionSistema.routes';
+import TipoHabitacion from './routes/parametrizacionRoutes/TipoHabitacion.routes';
+
+//Rutas Sistema
+import ConsumoHabitacionRoutes from './routes/sistemaRoutes/ConsumoHabitacion.routes';
+import DescuentoRoutes from './routes/sistemaRoutes/Descuento.routes';
+import EstadoFacturaRoutes from './routes/sistemaRoutes/EstadoFactura.routes';
+import HabitacionRoutes from './routes/sistemaRoutes/Habitacion.routes';
+import HuespedRoutes from './routes/sistemaRoutes/Huesped.routes';
+import ReservaHabitacionRoutes from './routes/sistemaRoutes/ReservaHabitacion.routes';
 
 const routes = [
   usurioRoutes,
@@ -23,7 +35,16 @@ const routes = [
   formularioRolRoutes,
   categoriaRoutes,
   inventarioRoutes,
-  productoRoutes
+  productoRoutes,
+  inventarioHabitacionRoutes,
+  ConfiguracionSistemaRoutes,
+  TipoHabitacion,
+  ConsumoHabitacionRoutes,
+  EstadoFacturaRoutes,
+  DescuentoRoutes,
+  HabitacionRoutes,
+  HuespedRoutes,
+  ReservaHabitacionRoutes
 ];
 
 export default routes;

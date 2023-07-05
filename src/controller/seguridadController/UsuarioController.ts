@@ -1,15 +1,16 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response, NextFunction } from "express";
+import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
 
-import { DatabaseRepository } from "../../declaraciones";
-import { Usuarios } from "../../entities/seguridad/Usuarios";
 
+import { UsuarioRepository } from "../../repository/seguridadRepository/UsuarioRepository";
+@JsonController('/usuario')
 export class UsuarioController {
-    
-    constructor(private repository: DatabaseRepository<Usuarios>) {}
 
-    async create(req: Request, res: Response, next: NextFunction){
+    constructor(private repository: UsuarioRepository) { }
 
-       try {
+    @Post()
+    async create(req: Request, res: Response, next: NextFunction) {
+        try {
             const body = req.body;
 
             const result = await this.repository.create(body);
@@ -18,24 +19,23 @@ export class UsuarioController {
         } catch (error) {
             next(error);
         }
-    }
+    };
 
-    async list(req: Request, res: Response, next: NextFunction){
-        
+    @Get()
+    async list(req: Request, res: Response, next: NextFunction) {
         try {
             const result = await this.repository.list();
-            
+
             res.status(200).json(result);
         } catch (error) {
             next(error);
         }
+    };
 
-    }
-
-    async get(req: Request, res: Response, next: NextFunction){
-        
+    @Get('/:id')
+    async get(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.get(id)
 
@@ -43,13 +43,13 @@ export class UsuarioController {
         } catch (error) {
             next(error);
         }
+    };
 
-    }
-
-    async update(req: Request, res: Response, next: NextFunction){
-        
+    @Put('/:id')
+    async update(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
+
             const body = req.body;
 
             const result = await this.repository.update(id, body);
@@ -58,13 +58,12 @@ export class UsuarioController {
         } catch (error) {
             next(error);
         }
+    };
 
-    }
-
-    async remove(req: Request, res: Response, next: NextFunction){
-        
+    @Delete('/:id')
+    async remove(req: Request, res: Response, next: NextFunction) {
         try {
-            const {id} = req.params;
+            const { id } = req.params;
 
             const result = await this.repository.remove(id);
 
@@ -72,8 +71,34 @@ export class UsuarioController {
         } catch (error) {
             next(error);
         }
+    };
 
-    }
+    @Get('/permissions/:usuario/:contrasena')
+    async getPermission(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { usuario, contrasena } = req.params;
+            
+            const permisos = await this.repository.getPermission(usuario, contrasena);
+            
+            res.status(200).json(permisos);
+            
 
+        } catch (error) {
+            next(error);
+        }
+    };
 
+    @Get('/login/:usuario/:contrasena')
+    async getLogin(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { usuario, contrasena } = req.params;
+
+            const login = await this.repository.getLogin(usuario, contrasena);
+
+            res.status(200).json(login);
+
+        } catch (error) {
+            next(error);
+        }
+    };
 }

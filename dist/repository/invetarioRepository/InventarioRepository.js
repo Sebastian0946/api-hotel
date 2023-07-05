@@ -12,55 +12,86 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.inventarioRepository = void 0;
+exports.InventarioRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Inventarios_1 = require("../../entities/inventario/Inventarios");
-class inventarioRepository {
+class InventarioRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(Inventarios_1.Inventarios);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Inventarios_1.Inventarios);
-            const result = repository.create(data);
-            yield repository.save(result);
-            return result;
+            try {
+                const result = this.repository.create(data);
+                yield this.repository.save(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to create inventario');
+            }
         });
     }
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Inventarios_1.Inventarios);
-            const queryBuilder = repository.createQueryBuilder('Inventarios')
-                .leftJoinAndSelect('Inventarios.ProductoId', 'Productos');
-            const result = yield queryBuilder.getMany();
-            return result;
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                    .leftJoinAndSelect("Inventarios.ProductoId", "Productos");
+                const result = yield queryBuilder.getMany();
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to retrieve inventarios');
+            }
         });
     }
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Inventarios_1.Inventarios);
-            const queryBuilder = repository.createQueryBuilder('Inventarios')
-                .leftJoinAndSelect('Inventarios.ProductoId', 'Productos')
-                .where('Inventarios.id = :id', { id });
-            const result = yield queryBuilder.getOne();
-            if (!result) {
-                throw new http_errors_1.NotFound('Inventario not found');
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                    .leftJoinAndSelect("Inventarios.ProductoId", "Productos")
+                    .where("Inventarios.id = :id", { id });
+                const result = yield queryBuilder.getOne();
+                if (!result) {
+                    throw new http_errors_1.NotFound("Inventario not found");
+                }
+                return result;
             }
-            return result;
+            catch (error) {
+                throw new Error('Failed to retrieve inventario');
+            }
         });
     }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Inventarios_1.Inventarios);
-            yield repository.update(id, data);
-            return this.get(id, query);
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                    .where("Inventarios.id = :id", { id });
+                if (query && query.someCondition) {
+                    queryBuilder.andWhere("Inventarios.someColumn = :value", { value: query.someValue });
+                }
+                const result = yield queryBuilder.update().set(data).returning("*").execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Inventario not found");
+                }
+                return result.raw[0];
+            }
+            catch (error) {
+                throw new Error('Failed to update inventario');
+            }
         });
     }
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Inventarios_1.Inventarios);
-            const result = yield this.get(id, query);
-            yield repository.delete(id);
-            return result;
+            try {
+                const result = yield this.get(id, query);
+                yield this.repository.remove(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to remove inventario');
+            }
         });
     }
 }
-exports.inventarioRepository = inventarioRepository;
+exports.InventarioRepository = InventarioRepository;

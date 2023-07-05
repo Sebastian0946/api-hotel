@@ -7,11 +7,11 @@ import {Roles} from './Roles';
 export class UsuariosRoles extends ModelEntity {
 
     @ManyToOne(() => Roles)
-    @JoinColumn({ name: 'rolId'})
+    @JoinColumn({ name: 'rol_id'})
     RolesId: Roles;
 
     @ManyToOne(() => Usuarios)
-    @JoinColumn({ name: 'usuarioId'})
+    @JoinColumn({ name: 'usuario_id'})
     UsuariosId: Usuarios;
 
 }

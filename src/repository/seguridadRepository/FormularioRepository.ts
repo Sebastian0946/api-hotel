@@ -1,70 +1,95 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { FormularioService, Query, id } from "../../service/seguridadService/FormularioService";
 import { Formularios } from "../../entities/seguridad/Formularios";
 
+export class FormularioRepository implements FormularioService<Formularios> {
+    
+    private repository = dataBase.getRepository(Formularios);
 
-export class FormularioRepository implements DatabaseRepository<Formularios> {
+    async create(data: Partial<Formularios>, query?: Query): Promise<Formularios> {
+        try {
+            const result = this.repository.create(data);
 
-    async create(data: Partial<Formularios>, query?: Query ): Promise<Formularios> {
+            await this.repository.save(result);
 
-       const repository =  dataBase.getRepository(Formularios);
+            return result;
 
-       const result = repository.create(data);
-
-       await repository.save(result);
-
-       return result;
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 
     async list(query?: Query): Promise<Formularios[]> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                .leftJoinAndSelect("Formularios.ModuloId", "Modulos");
 
-        const repository =  dataBase.getRepository(Formularios);
-      
-        const queryBuilder = repository.createQueryBuilder('Formularios')
-        .leftJoinAndSelect('Formularios.ModuloId', 'Modulos');
-    
-        const result = await queryBuilder.getMany();
-    
-        return result;
-    }
-    
-    async get(id: id, query?: Query ): Promise<Formularios> {
+            const result = await queryBuilder.getMany();
 
-        const repository =  dataBase.getRepository(Formularios);
+            return result;
 
-
-        const queryBuilder = repository.createQueryBuilder('Formularios')
-        .leftJoinAndSelect('Formularios.ModuloId', 'Modulos')
-        .where('Formularios.id = :id', { id });
-    
-        const result = await queryBuilder.getOne();
-    
-        if (!result) {
-            throw new NotFound('Formulario not found');
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
         }
-        return result;
     }
 
-    async update(id: id, data: Formularios, query?: Query ): Promise<Formularios> {
-        
-        const repository =  dataBase.getRepository(Formularios);
+    async get(id: id, query?: Query): Promise<Formularios> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                .leftJoinAndSelect("Formularios.ModuloId", "Modulos")
+                .where("Formularios.id = :id", { id });
 
-        await repository.update(id, data);
+            const result = await queryBuilder.getOne();
 
-        return this.get(id, query);
+            if (!result) {
+                throw new NotFound("Formulario not found");
+            }
+
+            return result;
+
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 
-    async remove(id: id, query?: Query | undefined): Promise<Formularios> {
+    async update(id: id, data: Formularios, query?: Query): Promise<Formularios> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                .where("Formularios.id = :id", { id });
 
-        const repository =  dataBase.getRepository(Formularios);
+            if (query && query.someCondition) {
+                queryBuilder.andWhere("Formularios.someColumn = :value", { value: query.someValue });
+            }
 
-        const result = await this.get(id, query);
+            const result = await queryBuilder.update().set(data).returning("*").execute();
 
-        await repository.delete(id);
+            if (result.affected === 0) {
+                throw new NotFound("Formulario not found");
+            }
 
-        return result;
+            return result.raw[0];
+
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
+    }
+
+    async remove(id: id, query?: Query): Promise<Formularios> {
+        try {
+            const result = await this.get(id, query);
+
+            await this.repository.delete(id);
+
+            return result;
+
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 }

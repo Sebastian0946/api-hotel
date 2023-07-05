@@ -1,68 +1,84 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { InventarioService, Query, id } from "../../service/inventarioService/InventarioService";
 import { Inventarios } from "../../entities/inventario/Inventarios";
 
-export class inventarioRepository implements DatabaseRepository<Inventarios> {
+export class InventarioRepository implements InventarioService<Inventarios> {
 
-    async create(data: Partial<Inventarios>, query?: Query ): Promise<Inventarios> {
+    private repository = dataBase.getRepository(Inventarios);
 
-       const repository =  dataBase.getRepository(Inventarios);
-
-       const result = repository.create(data);
-
-       await repository.save(result);
-
-       return result;
+    async create(data: Partial<Inventarios>, query?: Query): Promise<Inventarios> {
+        try {
+            const result = this.repository.create(data);
+            await this.repository.save(result);
+            return result;
+        } catch (error) {
+            throw new Error('Failed to create inventario');
+        }
     }
 
     async list(query?: Query): Promise<Inventarios[]> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                .leftJoinAndSelect("Inventarios.ProductoId", "Productos");
 
-        const repository =  dataBase.getRepository(Inventarios);
+            const result = await queryBuilder.getMany();
 
-        const queryBuilder = repository.createQueryBuilder('Inventarios')
-        .leftJoinAndSelect('Inventarios.ProductoId', 'Productos');
-    
-        const result = await queryBuilder.getMany();
-    
-        return result;
-    }
-    
-    async get(id: id, query?: Query ): Promise<Inventarios> {
-
-        const repository =  dataBase.getRepository(Inventarios);
-
-        const queryBuilder = repository.createQueryBuilder('Inventarios')
-        .leftJoinAndSelect('Inventarios.ProductoId', 'Productos')
-        .where('Inventarios.id = :id', { id });
-    
-        const result = await queryBuilder.getOne();
-    
-        if (!result) {
-            throw new NotFound('Inventario not found');
+            return result;
+        } catch (error) {
+            throw new Error('Failed to retrieve inventarios');
         }
-        return result;
     }
 
-    async update(id: id, data: Inventarios, query?: Query ): Promise<Inventarios> {
-        
-        const repository =  dataBase.getRepository(Inventarios);
+    async get(id: id, query?: Query): Promise<Inventarios> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                .leftJoinAndSelect("Inventarios.ProductoId", "Productos")
+                .where("Inventarios.id = :id", { id });
 
-        await repository.update(id, data);
+            const result = await queryBuilder.getOne();
 
-        return this.get(id, query);
+            if (!result) {
+                throw new NotFound("Inventario not found");
+            }
+
+            return result;
+        } catch (error) {
+            throw new Error('Failed to retrieve inventario');
+        }
     }
 
-    async remove(id: id, query?: Query | undefined): Promise<Inventarios> {
+    async update(id: id, data: Inventarios, query?: Query): Promise<Inventarios> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                .where("Inventarios.id = :id", { id });
 
-        const repository =  dataBase.getRepository(Inventarios);
+            if (query && query.someCondition) {
+                queryBuilder.andWhere("Inventarios.someColumn = :value", { value: query.someValue });
+            }
 
-        const result = await this.get(id, query);
+            const result = await queryBuilder.update().set(data).returning("*").execute();
 
-        await repository.delete(id);
+            if (result.affected === 0) {
+                throw new NotFound("Inventario not found");
+            }
 
-        return result;
+            return result.raw[0];
+        } catch (error) {
+            throw new Error('Failed to update inventario');
+        }
+    }
+
+    async remove(id: id, query?: Query): Promise<Inventarios> {
+        try {
+            const result = await this.get(id, query);
+
+            await this.repository.remove(result);
+
+            return result;
+            
+        } catch (error) {
+            throw new Error('Failed to remove inventario');
+        }
     }
 }

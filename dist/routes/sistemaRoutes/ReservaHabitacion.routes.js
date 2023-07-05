@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ReservaHabitacionController_1 = require("../../controller/sistemaController/ReservaHabitacionController");
+const ReservaHabitacionRepository_1 = require("../../repository/sistemaRepository/ReservaHabitacionRepository");
+const router = (0, express_1.Router)();
+const controller = new ReservaHabitacionController_1.ReservaHabitacionController(new ReservaHabitacionRepository_1.ReservaHabitacionRepository());
+router.post('/sistema/reservaHabitacion', controller.create.bind(controller));
+router.get('/sistema/reservaHabitacion', controller.list.bind(controller));
+router.get('/sistema/reservaHabitacion/:id', controller.get.bind(controller));
+router.put('/sistema/reservaHabitacion/:id', controller.update.bind(controller));
+router.delete('/sistema/reservaHabitacion/:id', controller.remove.bind(controller));
+exports.default = router;

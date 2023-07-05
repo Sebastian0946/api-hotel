@@ -18,12 +18,12 @@ let FormulariosRoles = exports.FormulariosRoles = class FormulariosRoles extends
 };
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Roles_1.Roles),
-    (0, typeorm_1.JoinColumn)({ name: 'rolId' }),
+    (0, typeorm_1.JoinColumn)({ name: 'rol_id' }),
     __metadata("design:type", Roles_1.Roles)
 ], FormulariosRoles.prototype, "RolesId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Formularios_1.Formularios),
-    (0, typeorm_1.JoinColumn)({ name: 'formularioId' }),
+    (0, typeorm_1.JoinColumn)({ name: 'formulario_id' }),
     __metadata("design:type", Formularios_1.Formularios)
 ], FormulariosRoles.prototype, "FormulariosId", void 0);
 exports.FormulariosRoles = FormulariosRoles = __decorate([

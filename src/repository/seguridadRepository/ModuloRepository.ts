@@ -1,61 +1,87 @@
 import { NotFound } from "http-errors";
-
 import dataBase from "../../db";
-
-import { DatabaseRepository, Query, id } from "../../declaraciones";
+import { ModulosService, Query, id } from "../../service/seguridadService/ModuloService";
 import { Modulos } from "../../entities/seguridad/Modulos";
 
+export class ModuloRepository implements ModulosService<Modulos> {
+    private repository = dataBase.getRepository(Modulos);
 
-export class ModuloRepository implements DatabaseRepository<Modulos> {
+    async create(data: Partial<Modulos>, query?: Query): Promise<Modulos> {
+        try {
+            const result = this.repository.create(data);
 
-    async create(data: Partial<Modulos>, query?: Query ): Promise<Modulos> {
+            await this.repository.save(result);
 
-       const repository =  dataBase.getRepository(Modulos);
+            return result;
 
-       const result = repository.create(data);
-
-       await repository.save(result);
-
-       return result;
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 
     async list(query?: Query): Promise<Modulos[]> {
+        try {
+            const result = await this.repository.find();
 
-        const repository =  dataBase.getRepository(Modulos);
-
-        return repository.find();
-    }
-    
-    async get(id: id, query?: Query ): Promise<Modulos> {
-
-        const repository =  dataBase.getRepository(Modulos);
-
-        const result = await repository.findOneBy({id: id as any});
-
-        if(!result) {
-            throw new NotFound("Modulo not Found")
-        };
-
-        return result;
+            return result;
+            
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 
-    async update(id: id, data: Modulos, query?: Query ): Promise<Modulos> {
-        
-        const repository =  dataBase.getRepository(Modulos);
+    async get(id: id, query?: Query): Promise<Modulos> {
+        try {
+            const result = await this.repository.findOneBy({id: id as any});
 
-        await repository.update(id, data);
+            if (!result) {
+                throw new NotFound("Modulo not found");
+            }
 
-        return this.get(id, query);
+            return result;
+
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
+    }
+
+    async update(id: id, data: Modulos, query?: Query): Promise<Modulos> {
+        try {
+            const queryBuilder = this.repository.createQueryBuilder("Modulos")
+                .where("Modulos.id = :id", { id });
+
+            if (query && query.someCondition) {
+                queryBuilder.andWhere("Modulos.someColumn = :value", { value: query.someValue });
+            }
+
+            const result = await queryBuilder.update().set(data).returning("*").execute();
+
+            if (result.affected === 0) {
+                throw new NotFound("Modulo not found");
+            }
+
+            return result.raw[0];
+
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 
     async remove(id: id, query?: Query): Promise<Modulos> {
+        try {
+            const result = await this.get(id, query);
 
-        const repository =  dataBase.getRepository(Modulos);
+            await this.repository.delete(id);
 
-        const result = await this.get(id, query);
-
-        await repository.delete(id);
-
-        return result;
+            return result;
+            
+        } catch (error) {
+            // Manejar la excepción adecuadamente
+            throw error;
+        }
     }
 }

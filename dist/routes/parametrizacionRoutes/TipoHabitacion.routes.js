@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const TipoHabitacionesController_1 = require("../../controller/parametrizacionController/TipoHabitacionesController");
+const TipoHabitacionRepostiroty_1 = require("../../repository/parametrizacionRepository/TipoHabitacionRepostiroty");
+const router = (0, express_1.Router)();
+const controller = new TipoHabitacionesController_1.TipoHabitacionesController(new TipoHabitacionRepostiroty_1.TipoHabitacionRepository());
+router.post('/parametrizacion/tipoHabitacion', controller.create.bind(controller));
+router.get('/inventario/tipoHabitacion', controller.list.bind(controller));
+router.get('/inventario/tipoHabitacion/:id', controller.get.bind(controller));
+router.put('/inventario/tipoHabitacion/:id', controller.update.bind(controller));
+router.delete('/inventario/tipoHabitacion/:id', controller.remove.bind(controller));
+exports.default = router;

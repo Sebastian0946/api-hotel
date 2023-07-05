@@ -4,7 +4,7 @@ const express_1 = require("express");
 const InventarioController_1 = require("../../controller/invetarioController/InventarioController");
 const InventarioRepository_1 = require("../../repository/invetarioRepository/InventarioRepository");
 const router = (0, express_1.Router)();
-const controller = new InventarioController_1.InventarioController(new InventarioRepository_1.inventarioRepository());
+const controller = new InventarioController_1.InventarioController(new InventarioRepository_1.InventarioRepository());
 router.post('/inventario/inventario', controller.create.bind(controller));
 router.get('/inventario/inventario', controller.list.bind(controller));
 router.get('/inventario/inventario/:id', controller.get.bind(controller));

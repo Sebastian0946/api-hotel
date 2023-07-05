@@ -1,5 +1,6 @@
-import { Entity, Column} from 'typeorm';
+import { Entity, Column, BaseEntity, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
+import { Productos } from './Productos';
 
 
 @Entity({schema: 'inventario'})
@@ -10,4 +11,7 @@ export class Categorias extends ModelEntity {
 
     @Column({name: 'descripcion',length: 25, nullable: false})
     Descripcion: String;
+
+    @OneToMany(() => Productos, (producto) => producto.CategoriaId)
+    ProductosId: Productos
 }

@@ -9,13 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ModelEntity = void 0;
+exports.ModelEntity = exports.Estado = void 0;
 const typeorm_1 = require("typeorm");
 var Estado;
 (function (Estado) {
     Estado["Activo"] = "Activo";
     Estado["Inactivo"] = "Inactivo";
-})(Estado || (Estado = {}));
+})(Estado || (exports.Estado = Estado = {}));
 class ModelEntity extends typeorm_1.BaseEntity {
 }
 exports.ModelEntity = ModelEntity;

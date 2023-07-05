@@ -17,44 +17,74 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Personas_1 = require("../../entities/seguridad/Personas");
 class PersonaRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(Personas_1.Personas);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Personas_1.Personas);
-            const result = repository.create(data);
-            yield repository.save(result);
-            return result;
+            try {
+                const result = this.repository.create(data);
+                yield this.repository.save(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to create persona');
+            }
         });
     }
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Personas_1.Personas);
-            return repository.find();
+            try {
+                return yield this.repository.find();
+            }
+            catch (error) {
+                throw new Error('Failed to retrieve personas');
+            }
         });
     }
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Personas_1.Personas);
-            const result = yield repository.findOneBy({ id: id });
-            if (!result) {
-                throw new http_errors_1.NotFound("Persona not Found");
+            try {
+                const result = yield this.repository.findOneBy({ id: id });
+                if (!result) {
+                    throw new http_errors_1.NotFound('Persona not found');
+                }
+                return result;
             }
-            ;
-            return result;
+            catch (error) {
+                throw new Error('Failed to retrieve persona');
+            }
         });
     }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Personas_1.Personas);
-            yield repository.update(id, data);
-            return this.get(id, query);
+            try {
+                const queryBuilder = this.repository.createQueryBuilder('Personas')
+                    .where('Personas.id = :id', { id });
+                if (query && query.someCondition) {
+                    queryBuilder.andWhere('Personas.someColumn = :value', { value: query.someValue });
+                }
+                const result = yield queryBuilder.update().set(data).returning('*').execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound('Persona not found');
+                }
+                return result.raw[0];
+            }
+            catch (error) {
+                throw new Error('Failed to update persona');
+            }
         });
     }
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Personas_1.Personas);
-            const result = yield this.get(id, query);
-            yield repository.delete(id);
-            return result;
+            try {
+                const result = yield this.get(id, query);
+                yield this.repository.delete(id);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to remove persona');
+            }
         });
     }
 }

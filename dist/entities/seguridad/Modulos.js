@@ -24,7 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], Modulos.prototype, "Ruta", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'etiquieta', length: 25, nullable: false, unique: true }),
+    (0, typeorm_1.Column)({ name: 'etiqueta', length: 25, nullable: false, unique: true }),
     __metadata("design:type", String)
 ], Modulos.prototype, "Etiqueta", void 0);
 __decorate([

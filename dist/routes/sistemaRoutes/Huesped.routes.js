@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const HuespedController_1 = require("../../controller/sistemaController/HuespedController");
+const HuespedRepository_1 = require("../../repository/sistemaRepository/HuespedRepository");
+const router = (0, express_1.Router)();
+const controller = new HuespedController_1.HuespedController(new HuespedRepository_1.HuespedRepository());
+router.post('/sistema/huesped', controller.create.bind(controller));
+router.get('/sistema/huesped', controller.list.bind(controller));
+router.get('/sistema/huesped/:id', controller.get.bind(controller));
+router.put('/sistema/huesped/:id', controller.update.bind(controller));
+router.delete('/sistema/huesped/:id', controller.remove.bind(controller));
+exports.default = router;

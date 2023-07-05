@@ -17,49 +17,79 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Productos_1 = require("../../entities/inventario/Productos");
 class ProductoRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(Productos_1.Productos);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Productos_1.Productos);
-            const result = repository.create(data);
-            yield repository.save(result);
-            return result;
+            try {
+                const result = this.repository.create(data);
+                yield this.repository.save(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to create producto');
+            }
         });
     }
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Productos_1.Productos);
-            const queryBuilder = repository.createQueryBuilder('Productos')
-                .leftJoinAndSelect('Productos.CategoriaId', 'Categorias');
-            const result = yield queryBuilder.getMany();
-            return result;
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Productos")
+                    .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
+                return queryBuilder.getMany();
+            }
+            catch (error) {
+                throw new Error('Failed to retrieve productos');
+            }
         });
     }
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Productos_1.Productos);
-            const queryBuilder = repository.createQueryBuilder('Productos')
-                .leftJoinAndSelect('Productos.CategoriaId', 'Categorias')
-                .where('Productos.id = :id', { id });
-            const result = yield queryBuilder.getOne();
-            if (!result) {
-                throw new http_errors_1.NotFound('Producto not found');
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Productos")
+                    .leftJoinAndSelect("Productos.CategoriaId", "Categorias")
+                    .where("Productos.id = :id", { id });
+                const result = yield queryBuilder.getOne();
+                if (!result) {
+                    throw new http_errors_1.NotFound("Producto not found");
+                }
+                return result;
             }
-            return result;
+            catch (error) {
+                throw new Error('Failed to retrieve producto');
+            }
         });
     }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Productos_1.Productos);
-            yield repository.update(id, data);
-            return this.get(id, query);
+            try {
+                const queryBuilder = this.repository.createQueryBuilder("Productos")
+                    .where("Productos.id = :id", { id });
+                if (query && query.someCondition) {
+                    queryBuilder.andWhere("Productos.someColumn = :value", { value: query.someValue });
+                }
+                const result = yield queryBuilder.update().set(data).returning("*").execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Producto not found");
+                }
+                return result.raw[0];
+            }
+            catch (error) {
+                throw new Error('Failed to update producto');
+            }
         });
     }
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repository = db_1.default.getRepository(Productos_1.Productos);
-            const result = yield this.get(id, query);
-            yield repository.delete(id);
-            return result;
+            try {
+                const result = yield this.get(id, query);
+                yield this.repository.remove(result);
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to remove producto');
+            }
         });
     }
 }

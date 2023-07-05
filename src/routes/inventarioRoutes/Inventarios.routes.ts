@@ -1,12 +1,12 @@
 import {Router} from 'express'
 import { InventarioController} from '../../controller/invetarioController/InventarioController'
-import { inventarioRepository } from '../../repository/invetarioRepository/InventarioRepository';
+import { InventarioRepository } from '../../repository/invetarioRepository/InventarioRepository';
 
 const router = Router()
 
 const controller = new InventarioController(
     
-    new inventarioRepository()
+    new InventarioRepository()
 
 );
 
