@@ -4,11 +4,12 @@ import { DB_DATABASE,DB_HOST,DB_PASSWORD,DB_PORT,DB_USER } from './config';
 
 export default new DataSource({
   type: 'postgres',
-  host: DB_HOST,
-  username: DB_USER,
-  password: DB_PASSWORD,
-  port: DB_PORT,
-  database: DB_DATABASE,
+  host: process.env.DB_HOST || DB_HOST,
+  username: process.env.DB_USER || DB_USER,
+  password: process.env.DB_PASSWORD || DB_PASSWORD,
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : DB_PORT,
+  database: process.env.DB_DATABASE || DB_DATABASE,
   entities: Entities,
   synchronize: true,
+  ssl: true
 });
