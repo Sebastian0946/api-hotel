@@ -23,5 +23,5 @@ __decorate([
     __metadata("design:type", String)
 ], Roles.prototype, "Descripcion", void 0);
 exports.Roles = Roles = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: 'seguridad' })
 ], Roles);

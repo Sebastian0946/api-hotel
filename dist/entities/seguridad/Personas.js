@@ -66,5 +66,5 @@ __decorate([
     __metadata("design:type", Usuarios_1.Usuarios)
 ], Personas.prototype, "UsuarioId", void 0);
 exports.Personas = Personas = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: 'seguridad' })
 ], Personas);
