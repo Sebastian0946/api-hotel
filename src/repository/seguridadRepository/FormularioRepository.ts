@@ -17,7 +17,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('Error al crea el formulario, observa los campos' +  error);
         }
     }
 
@@ -32,7 +32,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el formulario: ' +  error);
         }
     }
 
@@ -52,7 +52,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el formulario: ' +  error);
         }
     }
 
@@ -75,7 +75,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el formulario: ' +  error);
         }
     }
 
@@ -89,7 +89,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el formulario: ' +  error);
         }
     }
 }

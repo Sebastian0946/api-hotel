@@ -16,7 +16,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el modulo: ' +  error);
         }
     }
 
@@ -28,7 +28,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
             
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el modulo: ' +  error);
         }
     }
 
@@ -44,7 +44,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el modulo: ' +  error);
         }
     }
 
@@ -67,7 +67,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el modulo: ' +  error);
         }
     }
 
@@ -81,7 +81,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
             
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el modulo: ' +  error);
         }
     }
 }

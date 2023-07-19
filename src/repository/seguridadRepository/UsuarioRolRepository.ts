@@ -13,7 +13,7 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
             await this.repository.save(result);
             return result;
         } catch (error) {
-            throw new Error('Failed to create usuarioRol');
+            throw new Error('Failed to create usuarioRol: ' + error);
         }
     }
 
@@ -25,7 +25,7 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
             return queryBuilder.getMany();
         } catch (error) {
-            throw new Error('Failed to retrieve usuarioRoles');
+            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
         }
     }
 
@@ -44,14 +44,14 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
             return result;
         } catch (error) {
-            throw new Error('Failed to retrieve usuarioRol');
+            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
         }
     }
 
     async update(id: id, data: UsuariosRoles, query?: Query): Promise<UsuariosRoles> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
-                .where("UsuariosRoles.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("Usuarios_Roles")
+                .where("Usuarios_Roles.id = :id", { id });
 
             if (query && query.someCondition) {
                 queryBuilder.andWhere("UsuariosRoles.someColumn = :value", { value: query.someValue });
@@ -65,7 +65,7 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
             return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to update usuarioRol');
+            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
         }
     }
 
@@ -78,7 +78,7 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
             return result;
 
         } catch (error) {
-            throw new Error('Failed to remove usuarioRol');
+            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
         }
     }
 }

@@ -17,7 +17,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
         }
     }
 
@@ -33,7 +33,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
         }
     }
 
@@ -54,7 +54,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
         }
     }
 
@@ -77,7 +77,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
         }
     }
 
@@ -91,7 +91,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
             
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw error;
+            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
         }
     }
 }
