@@ -29,7 +29,7 @@ class FormularioRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('Error al crea el formulario, observa los campos' + error);
             }
         });
     }
@@ -43,7 +43,7 @@ class FormularioRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el formulario: ' + error);
             }
         });
     }
@@ -61,7 +61,7 @@ class FormularioRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el formulario: ' + error);
             }
         });
     }
@@ -81,7 +81,7 @@ class FormularioRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el formulario: ' + error);
             }
         });
     }
@@ -94,7 +94,7 @@ class FormularioRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el formulario: ' + error);
             }
         });
     }

@@ -16,6 +16,7 @@ exports.RolRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Roles_1 = require("../../entities/seguridad/Roles");
+const console_1 = require("console");
 class RolRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Roles_1.Roles);
@@ -28,7 +29,7 @@ class RolRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to create role');
+                throw new Error('Failed to create role: ' + error);
             }
         });
     }
@@ -38,7 +39,7 @@ class RolRepository {
                 return yield this.repository.find();
             }
             catch (error) {
-                throw new Error('Failed to retrieve roles');
+                throw new Error('Failed to retrieve roles: ' + error);
             }
         });
     }
@@ -47,12 +48,12 @@ class RolRepository {
             try {
                 const result = yield this.repository.findOneBy({ id: id });
                 if (!result) {
-                    throw new http_errors_1.NotFound('Role not found');
+                    throw new http_errors_1.NotFound('Role not found' + console_1.error);
                 }
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve role');
+                throw new Error('Failed to retrieve role: ' + error);
             }
         });
     }
@@ -71,7 +72,7 @@ class RolRepository {
                 return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to update role');
+                throw new Error('Failed to update role: ' + error);
             }
         });
     }
@@ -83,7 +84,7 @@ class RolRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to remove role');
+                throw new Error('Failed to remove role: ' + error);
             }
         });
     }

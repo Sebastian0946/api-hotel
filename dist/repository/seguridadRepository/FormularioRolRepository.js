@@ -29,7 +29,7 @@ class FormularioRolRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el rol de formulario: ' + error);
             }
         });
     }
@@ -44,7 +44,7 @@ class FormularioRolRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el rol de formulario: ' + error);
             }
         });
     }
@@ -63,7 +63,7 @@ class FormularioRolRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el rol de formulario: ' + error);
             }
         });
     }
@@ -83,7 +83,7 @@ class FormularioRolRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el rol de formulario: ' + error);
             }
         });
     }
@@ -96,7 +96,7 @@ class FormularioRolRepository {
             }
             catch (error) {
                 // Manejar la excepción adecuadamente
-                throw error;
+                throw new Error('No se pudo recuperar el rol de formulario: ' + error);
             }
         });
     }
