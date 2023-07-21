@@ -6,8 +6,8 @@ const ConfiguracionSistemaRepostiroty_1 = require("../../repository/parametrizac
 const router = (0, express_1.Router)();
 const controller = new ConfiguracionSistemaController_1.ConfiguracionSistemaController(new ConfiguracionSistemaRepostiroty_1.ConfiguracionSistemaRepository());
 router.post('/parametrizacion/configuracionSistema', controller.create.bind(controller));
-router.get('/inventario/configuracionSistema', controller.list.bind(controller));
-router.get('/inventario/configuracionSistema/:id', controller.get.bind(controller));
-router.put('/inventario/configuracionSistema/:id', controller.update.bind(controller));
-router.delete('/inventario/configuracionSistema/:id', controller.remove.bind(controller));
+router.get('/parametrizacion/configuracionSistema', controller.list.bind(controller));
+router.get('/parametrizacion/configuracionSistema/:id', controller.get.bind(controller));
+router.put('/parametrizacion/configuracionSistema/:id', controller.update.bind(controller));
+router.delete('/parametrizacion/configuracionSistema/:id', controller.remove.bind(controller));
 exports.default = router;
