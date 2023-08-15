@@ -60,10 +60,10 @@ class TipoHabitacionRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("tipo_habitacion")
-                    .where("tipo_habitacion.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("tipo_habitaciones")
+                    .where("tipo_habitaciones.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("tipo_habitacion.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("tipo_habitaciones.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {
