@@ -61,13 +61,11 @@ class EstadoFacturaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(EstadoFacturas_1.EstadoFacturas);
-                const queryBuilder = repository.createQueryBuilder('EstadoFacturas')
-                    .where('EstadoFacturas.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('estado_facturas')
+                    .where('estado_facturas.id = :id', { id });
                 if (query) {
-                    // Aquí puedes agregar condiciones adicionales según la consulta
-                    // Por ejemplo:
                     if (query.someCondition) {
-                        queryBuilder.andWhere('EstadoFacturas.someColumn = :value', { value: query.someValue });
+                        queryBuilder.andWhere('estado_facturas.someColumn = :value', { value: query.someValue });
                     }
                 }
                 const result = yield queryBuilder.update().set(data).returning('*').execute();

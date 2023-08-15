@@ -21,7 +21,6 @@ function main() {
             yield db_1.default.initialize();
             app_1.default.listen(config_1.PORT);
             console.log('Sever runing', config_1.PORT);
-            console.log('host', config_1.DB_HOST);
         }
         catch (error) {
             console.log(error);
