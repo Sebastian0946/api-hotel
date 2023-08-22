@@ -19,6 +19,9 @@ export class ConsumoHabitaciones extends ModelEntity {
     @JoinColumn({name: 'descuentos_id'})
     DescuentoId: Descuentos;
 
+    @Column({name: 'codigo',unique: true, length: 25, nullable: false})
+    Codigo: String;
+
     @Column({name: 'cantidad', nullable: false})
     Cantidad: String;
 }

@@ -18,6 +18,10 @@ const Descuentos_1 = require("./Descuentos");
 let Huespedes = exports.Huespedes = class Huespedes extends ModelEntity_1.ModelEntity {
 };
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
+    __metadata("design:type", String)
+], Huespedes.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => Usuarios_1.Usuarios, (usuario) => usuario.HuespedId),
     (0, typeorm_1.JoinColumn)({ name: 'usuario_id' }),
     __metadata("design:type", Usuarios_1.Usuarios)

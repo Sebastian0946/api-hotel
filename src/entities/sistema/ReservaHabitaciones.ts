@@ -25,6 +25,9 @@ export class ReservaHabitaciones extends ModelEntity {
     @JoinColumn({ name: 'descuento_id' })
     DescuentoId: Descuentos;
 
+    @Column({name: 'codigo',unique: true, length: 25, nullable: false})
+    Codigo: String;
+
     @Column({ name: 'fechaEntrada', type: 'timestamp' })
     FechaEntrada: Date;
 

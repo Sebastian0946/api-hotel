@@ -10,6 +10,9 @@ export class Inventarios extends ModelEntity {
     @JoinColumn({name: 'producto_id'})
     ProductoId: Productos;
 
+    @Column({name: 'codigo',unique: true, length: 25, nullable: false})
+    Codigo: String;
+
     @Column({name: 'cantidad', nullable: false})
     Cantidad: String;
 

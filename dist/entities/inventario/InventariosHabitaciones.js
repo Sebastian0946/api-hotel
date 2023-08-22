@@ -27,6 +27,10 @@ __decorate([
     __metadata("design:type", Habitaciones_1.Habitaciones)
 ], InventariosHabitaciones.prototype, "AdministracionHabitacionId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
+    __metadata("design:type", String)
+], InventariosHabitaciones.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
     __metadata("design:type", String)
 ], InventariosHabitaciones.prototype, "Cantidad", void 0);

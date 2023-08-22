@@ -22,6 +22,10 @@ __decorate([
     __metadata("design:type", Productos_1.Productos)
 ], Inventarios.prototype, "ProductoId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
+    __metadata("design:type", String)
+], Inventarios.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
     __metadata("design:type", String)
 ], Inventarios.prototype, "Cantidad", void 0);

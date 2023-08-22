@@ -33,6 +33,10 @@ __decorate([
     __metadata("design:type", Descuentos_1.Descuentos)
 ], ConsumoHabitaciones.prototype, "DescuentoId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
+    __metadata("design:type", String)
+], ConsumoHabitaciones.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
     __metadata("design:type", String)
 ], ConsumoHabitaciones.prototype, "Cantidad", void 0);

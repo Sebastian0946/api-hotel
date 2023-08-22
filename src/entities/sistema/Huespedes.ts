@@ -8,6 +8,9 @@ import { Descuentos } from "./Descuentos";
 @Entity({schema: 'public'})
 export class Huespedes extends ModelEntity {
 
+    @Column({name: 'codigo',unique: true, length: 25, nullable: false})
+    Codigo: String;
+
     @ManyToOne(() => Usuarios, (usuario) => usuario.HuespedId)
     @JoinColumn({name: 'usuario_id'})
     UsuarioId: Usuarios;

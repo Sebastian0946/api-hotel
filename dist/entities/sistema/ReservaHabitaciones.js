@@ -40,6 +40,10 @@ __decorate([
     __metadata("design:type", Descuentos_1.Descuentos)
 ], ReservaHabitaciones.prototype, "DescuentoId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
+    __metadata("design:type", String)
+], ReservaHabitaciones.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'fechaEntrada', type: 'timestamp' }),
     __metadata("design:type", Date)
 ], ReservaHabitaciones.prototype, "FechaEntrada", void 0);
