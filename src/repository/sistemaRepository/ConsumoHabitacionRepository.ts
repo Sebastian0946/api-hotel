@@ -23,9 +23,9 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
     async list(query?: Query): Promise<ConsumoHabitaciones[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.ProductoId", "Productos")
-                .leftJoinAndSelect("consumo_habitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
+            const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
+                .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
+                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
 
             const result = await queryBuilder.getMany();
 
@@ -39,10 +39,10 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
     async get(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.ProductoId", "Productos")
-                .leftJoinAndSelect("consumo_habitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
-                .where("consumo_habitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
+                .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
+                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                .where("ConsumoHabitaciones.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
@@ -60,11 +60,11 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
     async update(id: id, data: ConsumoHabitaciones, query?: Query): Promise<ConsumoHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                .where("consumo_habitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
+                .where("ConsumoHabitaciones.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("consumo_habitaciones.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("ConsumoHabitaciones.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

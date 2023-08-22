@@ -19,9 +19,9 @@ export class InventarioHabitacionRepository implements InventarioHabitacionServi
 
     async list(query?: Query): Promise<InventariosHabitaciones[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
-                .leftJoinAndSelect("inventarios_habitaciones.InventarioId", "Inventarios")
-                .leftJoinAndSelect("inventarios_habitaciones.AdministracionHabitacionId", "Habitaciones");
+            const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
+                .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
+                .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones");
 
             const result = await queryBuilder.getMany();
 
@@ -33,10 +33,10 @@ export class InventarioHabitacionRepository implements InventarioHabitacionServi
 
     async get(id: id, query?: Query): Promise<InventariosHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
-                .leftJoinAndSelect("inventarios_habitaciones.InventarioId", "Inventarios")
-                .leftJoinAndSelect("inventarios_habitaciones.AdministracionHabitacionId", "Habitaciones")
-                .where("inventarios_habitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
+                .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
+                .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones")
+                .where("InventariosHabitaciones.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
@@ -52,11 +52,11 @@ export class InventarioHabitacionRepository implements InventarioHabitacionServi
 
     async update(id: id, data: InventariosHabitaciones, query?: Query): Promise<InventariosHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
-                .where("inventarios_habitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
+                .where("InventariosHabitaciones.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("inventarios_habitaciones.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("InventariosHabitaciones.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

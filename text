@@ -1,9 +1,0 @@
-Postgres cluster hotel-api created
-Username:    postgres
-Password:    CQt8jbFFrCIWQ91
-Hostname:    hotel-api.internal
-Flycast:     fdaa:2:2a2d:0:1::2
-Proxy port:  5432
-Postgres port:  5433
-Connection string: postgres://postgres:CQt8jbFFrCIWQ91@hotel-api.flycast:5432
-

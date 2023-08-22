@@ -11,7 +11,7 @@ export class Productos extends ModelEntity {
     @JoinColumn({name: 'categoria_id'})
     CategoriaId: Categorias;
 
-    @Column({name: 'codigo',length: 45, nullable: false})
+    @Column({name: 'codigo',length: 45})
     Codigo: string;
 
     @Column({name: 'nombre',length: 45})

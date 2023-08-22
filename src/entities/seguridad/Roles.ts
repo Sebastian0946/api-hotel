@@ -1,5 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Entity, Column, ManyToOne} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
+import { Formularios } from './Formularios';
 
 @Entity({schema: 'seguridad'})
 export class Roles extends ModelEntity {

@@ -35,9 +35,9 @@ class InventarioHabitacionRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
-                    .leftJoinAndSelect("inventarios_habitaciones.InventarioId", "Inventarios")
-                    .leftJoinAndSelect("inventarios_habitaciones.AdministracionHabitacionId", "Habitaciones");
+                const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
+                    .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
+                    .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones");
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -49,10 +49,10 @@ class InventarioHabitacionRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
-                    .leftJoinAndSelect("inventarios_habitaciones.InventarioId", "Inventarios")
-                    .leftJoinAndSelect("inventarios_habitaciones.AdministracionHabitacionId", "Habitaciones")
-                    .where("inventarios_habitaciones.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
+                    .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
+                    .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones")
+                    .where("InventariosHabitaciones.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound("InventarioHabitacion not found");
@@ -67,10 +67,10 @@ class InventarioHabitacionRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
-                    .where("inventarios_habitaciones.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
+                    .where("InventariosHabitaciones.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("inventarios_habitaciones.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("InventariosHabitaciones.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {

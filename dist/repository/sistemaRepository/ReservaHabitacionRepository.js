@@ -34,11 +34,11 @@ class ReservaHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
-                const queryBuilder = repository.createQueryBuilder('reserva_habitaciones')
-                    .leftJoinAndSelect('reserva_habitaciones.EstadoFacturaId', 'EstadoFacturas')
-                    .leftJoinAndSelect('reserva_habitaciones.HabitacionId', 'Habitaciones')
-                    .leftJoinAndSelect('reserva_habitaciones.HuespedId', 'Huespedes')
-                    .leftJoinAndSelect('reserva_habitaciones.DescuentoId', 'Descuentos');
+                const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
+                    .leftJoinAndSelect('ReservaHabitaciones.EstadoFacturaId', 'EstadoFacturas')
+                    .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+                    .leftJoinAndSelect('ReservaHabitaciones.HuespedId', 'Huespedes')
+                    .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos');
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -51,12 +51,12 @@ class ReservaHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
-                const queryBuilder = repository.createQueryBuilder('reserva_habitaciones')
-                    .leftJoinAndSelect('reserva_habitaciones.EstadoFacturaId', 'EstadoFacturas')
-                    .leftJoinAndSelect('reserva_habitaciones.HabitacionId', 'Habitaciones')
-                    .leftJoinAndSelect('reserva_habitaciones.HuespedId', 'Huespedes')
-                    .leftJoinAndSelect('reserva_habitaciones.DescuentoId', 'Descuentos')
-                    .where('reserva_habitaciones.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
+                    .leftJoinAndSelect('ReservaHabitaciones.EstadoFacturaId', 'EstadoFacturas')
+                    .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+                    .leftJoinAndSelect('ReservaHabitaciones.HuespedId', 'Huespedes')
+                    .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
+                    .where('ReservaHabitaciones.id = :id', { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound('ReservaHabitaciones not found');
@@ -72,11 +72,13 @@ class ReservaHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
-                const queryBuilder = repository.createQueryBuilder('reserva_habitaciones')
-                    .where('reserva_habitaciones.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
+                    .where('ReservaHabitaciones.id = :id', { id });
                 if (query) {
+                    // Aquí puedes agregar condiciones adicionales según la consulta
+                    // Por ejemplo:
                     if (query.someCondition) {
-                        queryBuilder.andWhere('reserva_habitaciones.someColumn = :value', { value: query.someValue });
+                        queryBuilder.andWhere('ReservaHabitaciones.someColumn = :value', { value: query.someValue });
                     }
                 }
                 const result = yield queryBuilder.update().set(data).returning('*').execute();

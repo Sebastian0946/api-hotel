@@ -11,6 +11,7 @@ import { DB_DATABASE,DB_HOST,DB_PASSWORD,DB_PORT,DB_USER, DATABASE_URL } from '.
 //   database: process.env.DB_DATABASE || DB_DATABASE,
 //   entities: Entities,
 //   synchronize: true,
+//   ssl: true
 // });
 
 export default new DataSource({

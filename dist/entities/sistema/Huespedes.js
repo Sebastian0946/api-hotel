@@ -24,7 +24,7 @@ __decorate([
 ], Huespedes.prototype, "UsuarioId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Descuentos_1.Descuentos, (descuento) => descuento.HuespedId),
-    (0, typeorm_1.JoinColumn)({ name: 'descuentos_id' }),
+    (0, typeorm_1.JoinColumn)({ name: 'descuentosId' }),
     __metadata("design:type", Descuentos_1.Descuentos
     // Relacion con Usuario
     )

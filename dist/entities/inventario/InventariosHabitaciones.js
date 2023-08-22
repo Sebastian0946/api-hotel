@@ -17,10 +17,6 @@ const Habitaciones_1 = require("../sistema/Habitaciones");
 let InventariosHabitaciones = exports.InventariosHabitaciones = class InventariosHabitaciones extends ModelEntity_1.ModelEntity {
 };
 __decorate([
-    (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
-    __metadata("design:type", String)
-], InventariosHabitaciones.prototype, "Codigo", void 0);
-__decorate([
     (0, typeorm_1.ManyToOne)(() => Inventarios_1.Inventarios, (inventario) => inventario.InventarioHabitacionesId),
     (0, typeorm_1.JoinColumn)({ name: 'inventario_id' }),
     __metadata("design:type", Inventarios_1.Inventarios)

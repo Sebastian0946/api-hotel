@@ -15,6 +15,7 @@ const config_1 = require("./config");
 //   database: process.env.DB_DATABASE || DB_DATABASE,
 //   entities: Entities,
 //   synchronize: true,
+//   ssl: true
 // });
 exports.default = new typeorm_1.DataSource({
     type: 'postgres',

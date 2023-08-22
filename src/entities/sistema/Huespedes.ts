@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { ModelEntity } from "../ModelEntity";
 import { Usuarios } from "../seguridad/Usuarios";
 import { ReservaHabitaciones } from "./ReservaHabitaciones";
@@ -13,7 +13,7 @@ export class Huespedes extends ModelEntity {
     UsuarioId: Usuarios;
 
     @ManyToOne(() => Descuentos, (descuento) => descuento.HuespedId)
-    @JoinColumn({name: 'descuentos_id'})
+    @JoinColumn({name: 'descuentosId'})
     DescuentoId: Descuentos
 
     // Relacion con Usuario

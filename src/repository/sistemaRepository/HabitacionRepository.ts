@@ -19,8 +19,8 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
     async list(query?: Query): Promise<Habitaciones[]> {
         try {
             const repository = dataBase.getRepository(Habitaciones);
-            const queryBuilder = repository.createQueryBuilder('habitaciones')
-                .leftJoinAndSelect('habitaciones.TipoHabitacionesId', 'TipoHabitaciones');
+            const queryBuilder = repository.createQueryBuilder('Habitaciones')
+                .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones');
 
             const result = await queryBuilder.getMany();
             return result;
@@ -32,9 +32,9 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
     async get(id: id, query?: Query): Promise<Habitaciones> {
         try {
             const repository = dataBase.getRepository(Habitaciones);
-            const queryBuilder = repository.createQueryBuilder('habitaciones')
-                .leftJoinAndSelect('habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
-                .where('habitaciones.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('Habitaciones')
+                .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                .where('Habitaciones.id = :id', { id });
 
             const result = await queryBuilder.getOne();
 
@@ -52,14 +52,14 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
         try {
             const repository = dataBase.getRepository(Habitaciones);
 
-            const queryBuilder = repository.createQueryBuilder('habitaciones')
-                .where('habitaciones.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('Habitaciones')
+                .where('Habitaciones.id = :id', { id });
 
             if (query) {
                 // Aquí puedes agregar condiciones adicionales según la consulta
                 // Por ejemplo:
                 if (query.someCondition) {
-                    queryBuilder.andWhere('habitaciones.someColumn = :value', { value: query.someValue });
+                    queryBuilder.andWhere('Habitaciones.someColumn = :value', { value: query.someValue });
                 }
             }
 

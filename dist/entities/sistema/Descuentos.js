@@ -18,10 +18,6 @@ const Huespedes_1 = require("./Huespedes");
 let Descuentos = exports.Descuentos = class Descuentos extends ModelEntity_1.ModelEntity {
 };
 __decorate([
-    (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
-    __metadata("design:type", String)
-], Descuentos.prototype, "Codigo", void 0);
-__decorate([
     (0, typeorm_1.Column)({ name: 'valorNeto', type: 'double precision', nullable: false }),
     __metadata("design:type", Number)
 ], Descuentos.prototype, "ValorNeto", void 0);
