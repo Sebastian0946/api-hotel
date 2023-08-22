@@ -6,6 +6,9 @@ import { Habitaciones } from '../sistema/Habitaciones';
 @Entity({schema: 'inventario'})
 export class InventariosHabitaciones extends ModelEntity {
     
+    @Column({name: 'codigo',unique: true, length: 25, nullable: false})
+    Codigo: String;
+
     @ManyToOne(() => Inventarios, (inventario) => inventario.InventarioHabitacionesId)
     @JoinColumn({name: 'inventario_id'})
     InventarioId: Inventarios;

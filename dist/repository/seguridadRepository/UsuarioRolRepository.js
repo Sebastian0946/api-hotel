@@ -28,7 +28,7 @@ class UsuarioRolRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to create usuarioRol');
+                throw new Error('Failed to create usuarioRol: ' + error);
             }
         });
     }
@@ -41,7 +41,7 @@ class UsuarioRolRepository {
                 return queryBuilder.getMany();
             }
             catch (error) {
-                throw new Error('Failed to retrieve usuarioRoles');
+                throw new Error('No se pudo recuperar el rol de usuario: ' + error);
             }
         });
     }
@@ -59,15 +59,15 @@ class UsuarioRolRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve usuarioRol');
+                throw new Error('No se pudo recuperar el rol de usuario: ' + error);
             }
         });
     }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
-                    .where("UsuariosRoles.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("Usuarios_Roles")
+                    .where("Usuarios_Roles.id = :id", { id });
                 if (query && query.someCondition) {
                     queryBuilder.andWhere("UsuariosRoles.someColumn = :value", { value: query.someValue });
                 }
@@ -78,7 +78,7 @@ class UsuarioRolRepository {
                 return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to update usuarioRol');
+                throw new Error('No se pudo recuperar el rol de usuario: ' + error);
             }
         });
     }
@@ -90,7 +90,7 @@ class UsuarioRolRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to remove usuarioRol');
+                throw new Error('No se pudo recuperar el rol de usuario: ' + error);
             }
         });
     }

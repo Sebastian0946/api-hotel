@@ -28,7 +28,7 @@ class PersonaRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to create persona');
+                throw new Error('Error al crea la persona, observa los campos' + error);
             }
         });
     }

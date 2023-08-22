@@ -2,6 +2,8 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { RolService, Query, id } from "../../service/seguridadService/RolService";
 import { Roles } from "../../entities/seguridad/Roles";
+import { error } from "console";
+
 export class RolRepository implements RolService<Roles> {
 
     private repository = dataBase.getRepository(Roles);
@@ -15,7 +17,7 @@ export class RolRepository implements RolService<Roles> {
             return result;
 
         } catch (error) {
-            throw new Error('Failed to create role');
+            throw new Error('Failed to create role: ' + error);
         }
     }
 
@@ -23,7 +25,7 @@ export class RolRepository implements RolService<Roles> {
         try {
             return await this.repository.find();
         } catch (error) {
-            throw new Error('Failed to retrieve roles');
+            throw new Error('Failed to retrieve roles: ' + error);
         }
     }
 
@@ -32,13 +34,13 @@ export class RolRepository implements RolService<Roles> {
             const result = await this.repository.findOneBy({id: id as any});
 
             if (!result) {
-                throw new NotFound('Role not found');
+                throw new NotFound('Role not found'+ error);
             }
 
             return result;
             
         } catch (error) {
-            throw new Error('Failed to retrieve role');
+            throw new Error('Failed to retrieve role: ' + error);
         }
     }
 
@@ -60,7 +62,7 @@ export class RolRepository implements RolService<Roles> {
             return result.raw[0];
 
         } catch (error) {
-            throw new Error('Failed to update role');
+            throw new Error('Failed to update role: ' + error );
         }
     }
 
@@ -73,7 +75,7 @@ export class RolRepository implements RolService<Roles> {
             return result;
 
         } catch (error) {
-            throw new Error('Failed to remove role');
+            throw new Error('Failed to remove role: ' + error);
         }
     }
 }

@@ -154,7 +154,7 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
       return login;
 
     } catch (error) {
-      throw new Error('Failed to retrieve login details '+ error);
+      throw new Error('Failed to retrieve login details ' + error);
     }
   }
 }
