@@ -7,4 +7,4 @@ exports.DB_PASSWORD = process.env.DB_PASSWORD || '0946';
 exports.DB_HOST = process.env.DB_HOST || 'localhost';
 exports.DB_DATABASE = process.env.DB_DATABASE || 'Hotel';
 exports.DB_PORT = parseInt(process.env.DB_PORT || '5432', 10);
-exports.DATABASE_URL = 'postgres://sebas:gQzZjtrLyk5h0mPLD5KWUdxtElct2Jah@dpg-cis1d4p8g3n42okr38pg-a.oregon-postgres.render.com/hotel_ode6';
+exports.DATABASE_URL = 'postgres://sebas:9caJQvW9IZzFQ0fgJIFukxhKdLnVDi4C@dpg-cjihb27jbvhs73a5kdg0-a.oregon-postgres.render.com/hotel_roaz';

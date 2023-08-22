@@ -19,6 +19,10 @@ class Descuentos extends ModelEntity_1.ModelEntity {
 }
 exports.Descuentos = Descuentos;
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', nullable: false, unique: true }),
+    __metadata("design:type", String)
+], Descuentos.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'valorNeto', type: 'double precision', nullable: false }),
     __metadata("design:type", Number)
 ], Descuentos.prototype, "ValorNeto", void 0);

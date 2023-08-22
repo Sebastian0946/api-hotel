@@ -6,6 +6,9 @@ import { Huespedes } from "./Huespedes";
 
 export class Descuentos extends ModelEntity{
 
+    @Column({name: 'codigo', nullable: false, unique: true})
+    Codigo: string;
+
     @Column({name: 'valorNeto', type: 'double precision', nullable: false})
     ValorNeto: number;
 

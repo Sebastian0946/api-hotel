@@ -60,10 +60,10 @@ class RolRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder('Roles')
-                    .where('Roles.id = :id', { id });
+                const queryBuilder = this.repository.createQueryBuilder('roles')
+                    .where('roles.id = :id', { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere('Roles.someColumn = :value', { value: query.someValue });
+                    queryBuilder.andWhere('roles.someColumn = :value', { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning('*').execute();
                 if (result.affected === 0) {

@@ -35,7 +35,7 @@ class ConfiguracionSistemaRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("z")
+                const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
                     .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios");
                 const result = yield queryBuilder.getMany();
                 return result;

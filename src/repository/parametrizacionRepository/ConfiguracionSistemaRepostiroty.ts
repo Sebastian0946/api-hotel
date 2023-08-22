@@ -19,7 +19,7 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
 
     async list(query?: Query): Promise<ConfiguracionSistema[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("z")
+            const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
                 .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios");
 
             const result = await queryBuilder.getMany();
