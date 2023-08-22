@@ -15,9 +15,8 @@ const ModelEntity_1 = require("../ModelEntity");
 const Categorias_1 = require("./Categorias");
 const Inventarios_1 = require("./Inventarios");
 const ConsumoHabitaciones_1 = require("../sistema/ConsumoHabitaciones");
-class Productos extends ModelEntity_1.ModelEntity {
-}
-exports.Productos = Productos;
+let Productos = exports.Productos = class Productos extends ModelEntity_1.ModelEntity {
+};
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Categorias_1.Categorias, (categoria) => categoria.ProductosId),
     (0, typeorm_1.JoinColumn)({ name: 'categoria_id' }),
@@ -41,3 +40,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => ConsumoHabitaciones_1.ConsumoHabitaciones, (consumoHabitaciones) => consumoHabitaciones.ProductoId),
     __metadata("design:type", ConsumoHabitaciones_1.ConsumoHabitaciones)
 ], Productos.prototype, "ConsumoHabitacionesId", void 0);
+exports.Productos = Productos = __decorate([
+    (0, typeorm_1.Entity)()
+], Productos);

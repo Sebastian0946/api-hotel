@@ -4,6 +4,7 @@ import {Categorias} from './Categorias'
 import { Inventarios } from './Inventarios';
 import { ConsumoHabitaciones } from '../sistema/ConsumoHabitaciones';
 
+@Entity({schema: 'inventario'})
 export class Productos extends ModelEntity {
 
     @ManyToOne(() => Categorias, (categoria) => categoria.ProductosId)

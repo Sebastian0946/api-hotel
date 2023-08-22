@@ -12,6 +12,7 @@ enum Genero {
     F = 'Femenino'
 }
 
+@Entity({schema: 'seguridad'})
 export class Personas extends ModelEntity {
 
     @Column({name: 'tipo_documento', type: 'enum', enum: TipoDocumento, nullable: false})

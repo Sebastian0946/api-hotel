@@ -14,13 +14,8 @@ const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const Inventarios_1 = require("./Inventarios");
 const Habitaciones_1 = require("../sistema/Habitaciones");
-class InventariosHabitaciones extends ModelEntity_1.ModelEntity {
-}
-exports.InventariosHabitaciones = InventariosHabitaciones;
-__decorate([
-    (0, typeorm_1.Column)({ name: 'codigo', length: 45, nullable: false }),
-    __metadata("design:type", String)
-], InventariosHabitaciones.prototype, "Codigo", void 0);
+let InventariosHabitaciones = exports.InventariosHabitaciones = class InventariosHabitaciones extends ModelEntity_1.ModelEntity {
+};
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
     __metadata("design:type", String)
@@ -39,3 +34,6 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
     __metadata("design:type", String)
 ], InventariosHabitaciones.prototype, "Cantidad", void 0);
+exports.InventariosHabitaciones = InventariosHabitaciones = __decorate([
+    (0, typeorm_1.Entity)()
+], InventariosHabitaciones);

@@ -4,6 +4,7 @@ import { Productos } from '../inventario/Productos';
 import { ReservaHabitaciones } from './ReservaHabitaciones';
 import { Descuentos } from './Descuentos';
 
+@Entity({schema: 'public'})
 export class ConsumoHabitaciones extends ModelEntity {
     
     @ManyToOne(() => Productos, (producto) => producto.ConsumoHabitacionesId)

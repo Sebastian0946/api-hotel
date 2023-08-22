@@ -15,9 +15,8 @@ const ModelEntity_1 = require("../ModelEntity");
 const Productos_1 = require("../inventario/Productos");
 const ReservaHabitaciones_1 = require("./ReservaHabitaciones");
 const Descuentos_1 = require("./Descuentos");
-class ConsumoHabitaciones extends ModelEntity_1.ModelEntity {
-}
-exports.ConsumoHabitaciones = ConsumoHabitaciones;
+let ConsumoHabitaciones = exports.ConsumoHabitaciones = class ConsumoHabitaciones extends ModelEntity_1.ModelEntity {
+};
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Productos_1.Productos, (producto) => producto.ConsumoHabitacionesId),
     (0, typeorm_1.JoinColumn)({ name: 'producto_id' }),
@@ -37,3 +36,6 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
     __metadata("design:type", String)
 ], ConsumoHabitaciones.prototype, "Cantidad", void 0);
+exports.ConsumoHabitaciones = ConsumoHabitaciones = __decorate([
+    (0, typeorm_1.Entity)()
+], ConsumoHabitaciones);

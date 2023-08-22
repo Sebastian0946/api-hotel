@@ -3,6 +3,8 @@ import { ModelEntity } from '../ModelEntity';
 import {Inventarios} from './Inventarios';
 import { Habitaciones } from '../sistema/Habitaciones';
 
+@Entity({schema: 'inventario'})
+
 export class InventariosHabitaciones extends ModelEntity {
     
     @Column({name: 'codigo',unique: true, length: 25, nullable: false})

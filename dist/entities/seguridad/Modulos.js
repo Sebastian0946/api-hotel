@@ -13,9 +13,8 @@ exports.Modulos = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const Formularios_1 = require("./Formularios");
-class Modulos extends ModelEntity_1.ModelEntity {
-}
-exports.Modulos = Modulos;
+let Modulos = exports.Modulos = class Modulos extends ModelEntity_1.ModelEntity {
+};
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
     __metadata("design:type", String)
@@ -32,3 +31,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Formularios_1.Formularios, (formulario) => formulario.ModuloId),
     __metadata("design:type", Array)
 ], Modulos.prototype, "FormularioId", void 0);
+exports.Modulos = Modulos = __decorate([
+    (0, typeorm_1.Entity)()
+], Modulos);

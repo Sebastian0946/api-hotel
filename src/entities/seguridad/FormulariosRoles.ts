@@ -3,6 +3,7 @@ import { ModelEntity } from '../ModelEntity';
 import {Formularios} from './Formularios';
 import {Roles} from './Roles';
 
+@Entity({schema: 'seguridad'})
 export class FormulariosRoles extends ModelEntity {
 
     @ManyToOne(() => Roles)

@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const entities_1 = __importDefault(require("./entities"));
 const config_1 = require("./config");
-
 // export default new DataSource({
 //   type: 'postgres',
 //   host: process.env.DB_HOST || DB_HOST,
@@ -16,9 +15,7 @@ const config_1 = require("./config");
 //   database: process.env.DB_DATABASE || DB_DATABASE,
 //   entities: Entities,
 //   synchronize: true,
-//   ssl: true
 // });
-
 exports.default = new typeorm_1.DataSource({
     type: 'postgres',
     url: config_1.DATABASE_URL,

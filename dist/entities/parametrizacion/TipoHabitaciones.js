@@ -13,9 +13,8 @@ exports.TipoHabitaciones = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const Habitaciones_1 = require("../sistema/Habitaciones");
-class TipoHabitaciones extends ModelEntity_1.ModelEntity {
-}
-exports.TipoHabitaciones = TipoHabitaciones;
+let TipoHabitaciones = exports.TipoHabitaciones = class TipoHabitaciones extends ModelEntity_1.ModelEntity {
+};
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
     __metadata("design:type", String)
@@ -32,3 +31,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Habitaciones_1.Habitaciones, (habitaciones) => habitaciones.TipoHabitacionesId),
     __metadata("design:type", Habitaciones_1.Habitaciones)
 ], TipoHabitaciones.prototype, "HabitacionesId", void 0);
+exports.TipoHabitaciones = TipoHabitaciones = __decorate([
+    (0, typeorm_1.Entity)()
+], TipoHabitaciones);

@@ -2,6 +2,7 @@ import { Entity, Column, ManyToOne, JoinColumn} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Modulos} from './Modulos'
 
+@Entity({schema: 'seguridad'})
 export class Formularios extends ModelEntity {
 
     @ManyToOne(() => Modulos, (modulo) => modulo.FormularioId)

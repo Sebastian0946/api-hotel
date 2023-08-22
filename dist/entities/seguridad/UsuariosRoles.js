@@ -14,9 +14,8 @@ const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const Usuarios_1 = require("./Usuarios");
 const Roles_1 = require("./Roles");
-class UsuariosRoles extends ModelEntity_1.ModelEntity {
-}
-exports.UsuariosRoles = UsuariosRoles;
+let UsuariosRoles = exports.UsuariosRoles = class UsuariosRoles extends ModelEntity_1.ModelEntity {
+};
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Roles_1.Roles),
     (0, typeorm_1.JoinColumn)({ name: 'rol_id' }),
@@ -27,3 +26,6 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'usuario_id' }),
     __metadata("design:type", Usuarios_1.Usuarios)
 ], UsuariosRoles.prototype, "UsuariosId", void 0);
+exports.UsuariosRoles = UsuariosRoles = __decorate([
+    (0, typeorm_1.Entity)()
+], UsuariosRoles);

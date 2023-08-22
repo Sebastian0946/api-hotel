@@ -15,9 +15,8 @@ const ModelEntity_1 = require("../ModelEntity");
 const TipoHabitaciones_1 = require("../parametrizacion/TipoHabitaciones");
 const InventariosHabitaciones_1 = require("../inventario/InventariosHabitaciones");
 const ReservaHabitaciones_1 = require("./ReservaHabitaciones");
-class Habitaciones extends ModelEntity_1.ModelEntity {
-}
-exports.Habitaciones = Habitaciones;
+let Habitaciones = exports.Habitaciones = class Habitaciones extends ModelEntity_1.ModelEntity {
+};
 __decorate([
     (0, typeorm_1.ManyToOne)(() => TipoHabitaciones_1.TipoHabitaciones, (tipoHabitaciones) => tipoHabitaciones.HabitacionesId),
     (0, typeorm_1.JoinColumn)({ name: 'tipoHabitaciones_id' }),
@@ -41,3 +40,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => ReservaHabitaciones_1.ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.HabitacionId),
     __metadata("design:type", ReservaHabitaciones_1.ReservaHabitaciones)
 ], Habitaciones.prototype, "ReservaHabitacionId", void 0);
+exports.Habitaciones = Habitaciones = __decorate([
+    (0, typeorm_1.Entity)()
+], Habitaciones);

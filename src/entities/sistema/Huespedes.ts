@@ -1,10 +1,11 @@
-import { JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { ModelEntity } from "../ModelEntity";
 import { Usuarios } from "../seguridad/Usuarios";
 import { ReservaHabitaciones } from "./ReservaHabitaciones";
 import { Descuentos } from "./Descuentos";
 
 
+@Entity({schema: 'public'})
 export class Huespedes extends ModelEntity {
 
     @ManyToOne(() => Usuarios, (usuario) => usuario.HuespedId)
