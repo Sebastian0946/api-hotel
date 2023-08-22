@@ -1,4 +1,4 @@
-import { Entity, Column, OneToOne, JoinColumn, OneToMany} from 'typeorm';
+import { Column, OneToOne, JoinColumn, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Personas} from './Personas'
 import { Huespedes } from '../sistema/Huespedes';

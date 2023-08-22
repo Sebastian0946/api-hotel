@@ -27,8 +27,8 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
 
   async list(query?: Query): Promise<Usuarios[]> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder("usuarios")
-        .leftJoinAndSelect("usuarios.persona_id", "personas");
+      const queryBuilder = this.repository.createQueryBuilder("Usuarios")
+        .leftJoinAndSelect("Usuarios.PersonaId", "persona");
       return queryBuilder.getMany();
     } catch (error) {
       throw new Error('Failed to retrieve usuarios' + error);
@@ -37,9 +37,9 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
 
   async get(id: id, query?: Query): Promise<Usuarios> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder("usuarios")
-        .leftJoinAndSelect("usuarios.persona_id", "personas")
-        .where("usuarios.id = :id", { id });
+      const queryBuilder = this.repository.createQueryBuilder("Usuarios")
+        .leftJoinAndSelect("Usuarios.PersonaId", "persona")
+        .where("Usuarios.id = :id", { id });
 
       const result = await queryBuilder.getOne();
 
@@ -55,11 +55,11 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
 
   async update(id: id, data: Usuarios, query?: Query): Promise<Usuarios> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder("usuarios")
-        .where("usuarios.id = :id", { id });
+      const queryBuilder = this.repository.createQueryBuilder("Usuarios")
+        .where("Usuarios.id = :id", { id });
 
       if (query && query.someCondition) {
-        queryBuilder.andWhere("usuarios.someColumn = :value", { value: query.someValue });
+        queryBuilder.andWhere("Usuarios.someColumn = :value", { value: query.someValue });
       }
 
       const result = await queryBuilder.update().set(data).returning("*").execute();
@@ -136,8 +136,8 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
       const queryBuilder = this.repository.createQueryBuilder("u")
         .select("u.estado", "estado")
         .addSelect("u.usuario", "usuario")
-        .where("u.usuario = $1", { usuario })
-        .andWhere("u.contrasena = $2", { contrasena })
+        .where("u.usuario = :usuario", { usuario })
+        .andWhere("u.contrasena = :contrasena", { contrasena })
         .andWhere("u.estado = 'Activo'");
 
       const result = await queryBuilder.getRawOne();

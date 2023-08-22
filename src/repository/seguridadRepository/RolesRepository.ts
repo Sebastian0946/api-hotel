@@ -46,11 +46,11 @@ export class RolRepository implements RolService<Roles> {
 
     async update(id: id, data: Roles, query?: Query): Promise<Roles> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder('roles')
-                .where('roles.id = :id', { id });
+            const queryBuilder = this.repository.createQueryBuilder('Roles')
+                .where('Roles.id = :id', { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere('roles.someColumn = :value', { value: query.someValue });
+                queryBuilder.andWhere('Roles.someColumn = :value', { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning('*').execute();

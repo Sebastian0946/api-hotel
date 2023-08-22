@@ -35,9 +35,9 @@ class UsuarioRolRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("usuarios_roles")
-                    .leftJoinAndSelect("usuarios_roles.rol_id", "roles")
-                    .leftJoinAndSelect("usuarios_roles.usuario_id", "usuarios");
+                const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
+                    .leftJoinAndSelect("UsuariosRoles.RolesId", "Roles")
+                    .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios");
                 return queryBuilder.getMany();
             }
             catch (error) {
@@ -48,10 +48,10 @@ class UsuarioRolRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("usuarios_roles")
-                    .leftJoinAndSelect("usuarios_roles.rol_id", "roles")
-                    .leftJoinAndSelect("usuarios_roles.usuario_id", "usuarios")
-                    .where("usuarios_roles.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
+                    .leftJoinAndSelect("UsuariosRoles.RolesId", "Roles")
+                    .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios")
+                    .where("UsuariosRoles.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound("UsuarioRol not found");
@@ -69,7 +69,7 @@ class UsuarioRolRepository {
                 const queryBuilder = this.repository.createQueryBuilder("Usuarios_Roles")
                     .where("Usuarios_Roles.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("Usuarios_Roles.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("UsuariosRoles.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {

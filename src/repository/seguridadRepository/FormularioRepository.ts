@@ -23,8 +23,8 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
     async list(query?: Query): Promise<Formularios[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("formulario")
-                .leftJoinAndSelect("formulario.modulo_id", "modulos");
+            const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                .leftJoinAndSelect("Formularios.ModuloId", "Modulos");
 
             const result = await queryBuilder.getMany();
 
@@ -38,9 +38,9 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
     async get(id: id, query?: Query): Promise<Formularios> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("formularios")
-                .leftJoinAndSelect("formulario.modulo_id", "modulos")
-                .where("formulario.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                .leftJoinAndSelect("Formularios.ModuloId", "Modulos")
+                .where("Formularios.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
@@ -51,17 +51,18 @@ export class FormularioRepository implements FormularioService<Formularios> {
             return result;
 
         } catch (error) {
+            // Manejar la excepción adecuadamente
             throw new Error('No se pudo recuperar el formulario: ' +  error);
         }
     }
 
     async update(id: id, data: Formularios, query?: Query): Promise<Formularios> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("formularios")
-                .where("formularios.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                .where("Formularios.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("formularios.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("Formularios.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

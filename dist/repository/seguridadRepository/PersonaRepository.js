@@ -59,10 +59,10 @@ class PersonaRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder('personas')
-                    .where('personas.id = :id', { id });
+                const queryBuilder = this.repository.createQueryBuilder('z')
+                    .where('Personas.id = :id', { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere('personas.someColumn = :value', { value: query.someValue });
+                    queryBuilder.andWhere('Personas.someColumn = :value', { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning('*').execute();
                 if (result.affected === 0) {

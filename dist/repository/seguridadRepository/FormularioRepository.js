@@ -36,8 +36,8 @@ class FormularioRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("formulario")
-                    .leftJoinAndSelect("formulario.modulo_id", "modulos");
+                const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                    .leftJoinAndSelect("Formularios.ModuloId", "Modulos");
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -50,9 +50,9 @@ class FormularioRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("formularios")
-                    .leftJoinAndSelect("formulario.modulo_id", "modulos")
-                    .where("formulario.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                    .leftJoinAndSelect("Formularios.ModuloId", "Modulos")
+                    .where("Formularios.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound("Formulario not found");
@@ -60,6 +60,7 @@ class FormularioRepository {
                 return result;
             }
             catch (error) {
+                // Manejar la excepción adecuadamente
                 throw new Error('No se pudo recuperar el formulario: ' + error);
             }
         });
@@ -67,10 +68,10 @@ class FormularioRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("formularios")
-                    .where("formularios.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                    .where("Formularios.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("formularios.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("Formularios.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {
