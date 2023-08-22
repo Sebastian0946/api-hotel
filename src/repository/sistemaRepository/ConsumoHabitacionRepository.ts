@@ -4,7 +4,7 @@ import { ConsumoHabitacionService, Query, id } from "../../service/sistemaSerivc
 import { ConsumoHabitaciones } from "../../entities/sistema/ConsumoHabitaciones";
 
 export class ConsumoHabitacionRepository implements ConsumoHabitacionService<ConsumoHabitaciones> {
-    
+
     private repository = dataBase.getRepository(ConsumoHabitaciones);
 
     async create(data: Partial<ConsumoHabitaciones>, query?: Query): Promise<ConsumoHabitaciones> {
@@ -23,9 +23,10 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
     async list(query?: Query): Promise<ConsumoHabitaciones[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
-                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
+            const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
+                .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
+                .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
+                .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
 
             const result = await queryBuilder.getMany();
 
@@ -39,10 +40,11 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
     async get(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
-                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
-                .where("ConsumoHabitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
+                .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
+                .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
+                .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
+                .where("consumo_habitaciones.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
@@ -60,11 +62,14 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
     async update(id: id, data: ConsumoHabitaciones, query?: Query): Promise<ConsumoHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                .where("ConsumoHabitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
+                .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
+                .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
+                .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
+                .where("consumo_habitaciones.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("ConsumoHabitaciones.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("consumo_habitaciones.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();
@@ -76,7 +81,6 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
             return result.raw[0];
 
         } catch (error) {
-            // Manejar la excepción adecuadamente
             throw error;
         }
     }
@@ -88,9 +92,8 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
             await this.repository.delete(id);
 
             return result;
-            
+
         } catch (error) {
-            // Manejar la excepción adecuadamente
             throw error;
         }
     }

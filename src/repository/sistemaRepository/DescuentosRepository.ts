@@ -45,14 +45,12 @@ export class DescuentosRepository implements DescuentoService<Descuentos> {
         try {
             const repository = dataBase.getRepository(Descuentos);
 
-            const queryBuilder = repository.createQueryBuilder('Descuentos')
-                .where('Descuentos.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('descuentos')
+                .where('descuentos.id = :id', { id });
 
             if (query) {
-                // Aquí puedes agregar condiciones adicionales según la consulta
-                // Por ejemplo:
                 if (query.someCondition) {
-                    queryBuilder.andWhere('Descuentos.someColumn = :value', { value: query.someValue });
+                    queryBuilder.andWhere('descuentos.someColumn = :value', { value: query.someValue });
                 }
             }
 

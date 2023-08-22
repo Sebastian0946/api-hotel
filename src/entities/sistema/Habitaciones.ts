@@ -4,7 +4,6 @@ import { TipoHabitaciones } from '../parametrizacion/TipoHabitaciones';
 import { InventariosHabitaciones } from '../inventario/InventariosHabitaciones';
 import { ReservaHabitaciones } from './ReservaHabitaciones';
 
-@Entity({schema: 'public'})
 export class Habitaciones extends ModelEntity {
 
     @ManyToOne(() => TipoHabitaciones, (tipoHabitaciones) => tipoHabitaciones.HabitacionesId)

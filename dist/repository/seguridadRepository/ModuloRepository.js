@@ -63,10 +63,10 @@ class ModuloRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("Modulos")
-                    .where("Modulos.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("modulos")
+                    .where("modulos.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("Modulos.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("modulos.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {

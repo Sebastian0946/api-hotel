@@ -15,8 +15,13 @@ const ModelEntity_1 = require("../ModelEntity");
 const ReservaHabitaciones_1 = require("./ReservaHabitaciones");
 const ConsumoHabitaciones_1 = require("./ConsumoHabitaciones");
 const Huespedes_1 = require("./Huespedes");
-let Descuentos = exports.Descuentos = class Descuentos extends ModelEntity_1.ModelEntity {
-};
+class Descuentos extends ModelEntity_1.ModelEntity {
+}
+exports.Descuentos = Descuentos;
+__decorate([
+    (0, typeorm_1.Column)({ name: 'codigo', nullable: false, unique: true }),
+    __metadata("design:type", String)
+], Descuentos.prototype, "Codigo", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'valorNeto', type: 'double precision', nullable: false }),
     __metadata("design:type", Number)
@@ -39,6 +44,3 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Huespedes_1.Huespedes, (huesped) => huesped.DescuentoId),
     __metadata("design:type", Huespedes_1.Huespedes)
 ], Descuentos.prototype, "HuespedId", void 0);
-exports.Descuentos = Descuentos = __decorate([
-    (0, typeorm_1.Entity)()
-], Descuentos);

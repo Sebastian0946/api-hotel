@@ -2,7 +2,6 @@ import { Column, Entity, OneToMany } from "typeorm";
 import { ModelEntity } from "../ModelEntity";
 import { ReservaHabitaciones } from "./ReservaHabitaciones";
 
-@Entity({schema: 'public'})
 export class EstadoFacturas extends ModelEntity{
 
     @Column({name: 'codigo', unique: true, length: 25})

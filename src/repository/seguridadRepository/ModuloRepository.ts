@@ -50,11 +50,11 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
     async update(id: id, data: Modulos, query?: Query): Promise<Modulos> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("Modulos")
-                .where("Modulos.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("modulos")
+                .where("modulos.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("Modulos.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("modulos.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

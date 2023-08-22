@@ -59,10 +59,10 @@ class CategoriaRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("Categorias")
-                    .where("Categorias.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("categorias")
+                    .where("categorias.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("Categorias.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("categorias.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {

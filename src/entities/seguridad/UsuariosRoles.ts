@@ -1,9 +1,8 @@
-import { Entity, ManyToOne, JoinColumn} from 'typeorm';
+import { ManyToOne, JoinColumn} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Usuarios} from './Usuarios';
 import {Roles} from './Roles';
 
-@Entity({schema: 'seguridad'})
 export class UsuariosRoles extends ModelEntity {
 
     @ManyToOne(() => Roles)

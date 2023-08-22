@@ -35,8 +35,8 @@ class ConfiguracionSistemaRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
-                    .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios");
+                const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
+                    .leftJoinAndSelect("configuracion_sistema.usuario_id", "usuarios");
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -48,12 +48,12 @@ class ConfiguracionSistemaRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
-                    .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios")
-                    .where("ConfiguracionSistema.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
+                    .leftJoinAndSelect("configuracion_sistema.usuario_id", "usuarios")
+                    .where("configuracion_sistema.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
-                    throw new http_errors_1.NotFound("ConfiguracionSistema not found");
+                    throw new http_errors_1.NotFound("configuracion_sistema not found");
                 }
                 return result;
             }
@@ -65,10 +65,10 @@ class ConfiguracionSistemaRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
-                    .where("ConfiguracionSistema.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
+                    .where("configuracion_sistema.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("ConfiguracionSistema.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("configuracion_sistema.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {

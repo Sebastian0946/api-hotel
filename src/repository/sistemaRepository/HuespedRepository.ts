@@ -19,8 +19,8 @@ export class HuespedRepository implements HuespedService<Huespedes> {
     async list(query?: Query): Promise<Huespedes[]> {
         try {
             const repository = dataBase.getRepository(Huespedes);
-            const queryBuilder = repository.createQueryBuilder('Huespedes')
-                .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios');
+            const queryBuilder = repository.createQueryBuilder('huesped')
+                .leftJoinAndSelect('huesped.UsuarioId', 'Usuarios');
 
             const result = await queryBuilder.getMany();
             return result;
@@ -32,9 +32,10 @@ export class HuespedRepository implements HuespedService<Huespedes> {
     async get(id: id, query?: Query): Promise<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
-            const queryBuilder = repository.createQueryBuilder('Huespedes')
-                .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios')
-                .where('Huespedes.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('huespedes')
+                .leftJoinAndSelect('huespedes.usuario_id', 'usuarios')
+                .leftJoinAndSelect('huespedes.descuentos_id', 'descuentos')
+                .where('huespedes.id = :id', { id });
 
             const result = await queryBuilder.getOne();
 
@@ -52,14 +53,15 @@ export class HuespedRepository implements HuespedService<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
 
-            const queryBuilder = repository.createQueryBuilder('Huespedes')
-                .where('Huespedes.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('huespedes')
+                .leftJoinAndSelect('huespedes.usuario_id', 'usuarios')
+                .leftJoinAndSelect('huespedes.descuentos_id', 'descuentos')
+                .where('huespedes.id = :id', { id });
 
             if (query) {
-                // Aquí puedes agregar condiciones adicionales según la consulta
-                // Por ejemplo:
+
                 if (query.someCondition) {
-                    queryBuilder.andWhere('Huespedes.someColumn = :value', { value: query.someValue });
+                    queryBuilder.andWhere('huespedes.someColumn = :value', { value: query.someValue });
                 }
             }
 

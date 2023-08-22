@@ -2,7 +2,6 @@ import { Entity, Column, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import { Habitaciones } from '../sistema/Habitaciones';
 
-@Entity({schema: 'parametrizacion'})
 export class TipoHabitaciones extends ModelEntity {
 
     @Column({name: 'codigo',unique: true, length: 25, nullable: false})

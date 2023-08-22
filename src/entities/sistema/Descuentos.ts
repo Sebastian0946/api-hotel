@@ -4,8 +4,10 @@ import { ReservaHabitaciones } from "./ReservaHabitaciones";
 import { ConsumoHabitaciones } from "./ConsumoHabitaciones";
 import { Huespedes } from "./Huespedes";
 
-@Entity({schema: 'public'})
 export class Descuentos extends ModelEntity{
+
+    @Column({name: 'codigo', nullable: false, unique: true})
+    Codigo: string;
 
     @Column({name: 'valorNeto', type: 'double precision', nullable: false})
     ValorNeto: number;

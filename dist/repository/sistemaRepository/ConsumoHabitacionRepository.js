@@ -36,9 +36,10 @@ class ConsumoHabitacionRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                    .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
-                    .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
+                const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
+                    .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
+                    .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
+                    .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos");
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -51,10 +52,11 @@ class ConsumoHabitacionRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                    .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
-                    .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
-                    .where("ConsumoHabitaciones.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
+                    .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
+                    .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
+                    .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
+                    .where("consumo_habitaciones.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound("ConsumoHabitacion not found");
@@ -70,10 +72,13 @@ class ConsumoHabitacionRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                    .where("ConsumoHabitaciones.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
+                    .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
+                    .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
+                    .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
+                    .where("consumo_habitaciones.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("ConsumoHabitaciones.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("consumo_habitaciones.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {
@@ -82,7 +87,6 @@ class ConsumoHabitacionRepository {
                 return result.raw[0];
             }
             catch (error) {
-                // Manejar la excepción adecuadamente
                 throw error;
             }
         });
@@ -95,7 +99,6 @@ class ConsumoHabitacionRepository {
                 return result;
             }
             catch (error) {
-                // Manejar la excepción adecuadamente
                 throw error;
             }
         });

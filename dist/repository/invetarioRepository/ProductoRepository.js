@@ -35,8 +35,8 @@ class ProductoRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("Productos")
-                    .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
+                const queryBuilder = this.repository.createQueryBuilder("productos")
+                    .leftJoinAndSelect("productos.categoria_id", "categorias");
                 return queryBuilder.getMany();
             }
             catch (error) {
@@ -47,9 +47,9 @@ class ProductoRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("Productos")
-                    .leftJoinAndSelect("Productos.CategoriaId", "Categorias")
-                    .where("Productos.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("productos")
+                    .leftJoinAndSelect("productos.categoria_id", "categorias")
+                    .where("productos.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound("Producto not found");
@@ -64,10 +64,10 @@ class ProductoRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("Productos")
-                    .where("Productos.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("productos")
+                    .where("productos.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("Productos.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("productos.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {

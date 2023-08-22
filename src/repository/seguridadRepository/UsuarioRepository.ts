@@ -27,8 +27,8 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
 
   async list(query?: Query): Promise<Usuarios[]> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder("Usuarios")
-        .leftJoinAndSelect("Usuarios.PersonaId", "persona");
+      const queryBuilder = this.repository.createQueryBuilder("usuarios")
+        .leftJoinAndSelect("usuarios.persona_id", "personas");
       return queryBuilder.getMany();
     } catch (error) {
       throw new Error('Failed to retrieve usuarios' + error);
@@ -37,9 +37,9 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
 
   async get(id: id, query?: Query): Promise<Usuarios> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder("Usuarios")
-        .leftJoinAndSelect("Usuarios.PersonaId", "persona")
-        .where("Usuarios.id = :id", { id });
+      const queryBuilder = this.repository.createQueryBuilder("usuarios")
+        .leftJoinAndSelect("usuarios.persona_id", "personas")
+        .where("usuarios.id = :id", { id });
 
       const result = await queryBuilder.getOne();
 
@@ -55,11 +55,11 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
 
   async update(id: id, data: Usuarios, query?: Query): Promise<Usuarios> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder("Usuarios")
-        .where("Usuarios.id = :id", { id });
+      const queryBuilder = this.repository.createQueryBuilder("usuarios")
+        .where("usuarios.id = :id", { id });
 
       if (query && query.someCondition) {
-        queryBuilder.andWhere("Usuarios.someColumn = :value", { value: query.someValue });
+        queryBuilder.andWhere("usuarios.someColumn = :value", { value: query.someValue });
       }
 
       const result = await queryBuilder.update().set(data).returning("*").execute();
@@ -97,12 +97,12 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
                     m.ruta AS "ModuloRuta",
                     m.etiqueta AS "ModuloEtiqueta"
                   FROM
-                    seguridad.usuarios AS u
-                    INNER JOIN seguridad.usuarios_roles AS ur ON ur.usuario_id = u.id
-                    INNER JOIN seguridad.roles AS r ON r.id = ur.rol_id
-                    INNER JOIN seguridad.formularios_roles AS fr ON fr.rol_id = r.id
-                    INNER JOIN seguridad.formularios AS f ON f.id = fr.formulario_id
-                    INNER JOIN seguridad.modulos AS m ON m.id = f.modulo_id
+                    usuarios AS u
+                    INNER JOIN usuarios_roles AS ur ON ur.usuario_id = u.id
+                    INNER JOIN roles AS r ON r.id = ur.rol_id
+                    INNER JOIN formularios_roles AS fr ON fr.rol_id = r.id
+                    INNER JOIN formularios AS f ON f.id = fr.formulario_id
+                    INNER JOIN modulos AS m ON m.id = f.modulo_id
                   WHERE
                     u.usuario = $1
                     AND u.contrasena = $2
@@ -136,8 +136,8 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
       const queryBuilder = this.repository.createQueryBuilder("u")
         .select("u.estado", "estado")
         .addSelect("u.usuario", "usuario")
-        .where("u.usuario = :usuario", { usuario })
-        .andWhere("u.contrasena = :contrasena", { contrasena })
+        .where("u.usuario = $1", { usuario })
+        .andWhere("u.contrasena = $2", { contrasena })
         .andWhere("u.estado = 'Activo'");
 
       const result = await queryBuilder.getRawOne();

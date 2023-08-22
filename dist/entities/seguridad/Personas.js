@@ -23,8 +23,9 @@ var Genero;
     Genero["M"] = "Masculino";
     Genero["F"] = "Femenino";
 })(Genero || (Genero = {}));
-let Personas = exports.Personas = class Personas extends ModelEntity_1.ModelEntity {
-};
+class Personas extends ModelEntity_1.ModelEntity {
+}
+exports.Personas = Personas;
 __decorate([
     (0, typeorm_1.Column)({ name: 'tipo_documento', type: 'enum', enum: TipoDocumento, nullable: false }),
     __metadata("design:type", String)
@@ -65,6 +66,3 @@ __decorate([
     (0, typeorm_1.OneToOne)(() => Usuarios_1.Usuarios, (usuario) => usuario.PersonaId),
     __metadata("design:type", Usuarios_1.Usuarios)
 ], Personas.prototype, "UsuarioId", void 0);
-exports.Personas = Personas = __decorate([
-    (0, typeorm_1.Entity)()
-], Personas);

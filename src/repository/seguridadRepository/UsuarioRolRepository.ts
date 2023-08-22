@@ -19,9 +19,9 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
     async list(query?: Query): Promise<UsuariosRoles[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
-                .leftJoinAndSelect("UsuariosRoles.RolesId", "Roles")
-                .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios");
+            const queryBuilder = this.repository.createQueryBuilder("usuarios_roles")
+                .leftJoinAndSelect("usuarios_roles.rol_id", "roles")
+                .leftJoinAndSelect("usuarios_roles.usuario_id", "usuarios");
 
             return queryBuilder.getMany();
         } catch (error) {
@@ -31,10 +31,10 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
     async get(id: id, query?: Query): Promise<UsuariosRoles> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
-                .leftJoinAndSelect("UsuariosRoles.RolesId", "Roles")
-                .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios")
-                .where("UsuariosRoles.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("usuarios_roles")
+                .leftJoinAndSelect("usuarios_roles.rol_id", "roles")
+                .leftJoinAndSelect("usuarios_roles.usuario_id", "usuarios")
+                .where("usuarios_roles.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
@@ -54,7 +54,7 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
                 .where("Usuarios_Roles.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("UsuariosRoles.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("Usuarios_Roles.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

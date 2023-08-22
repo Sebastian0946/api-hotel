@@ -45,11 +45,11 @@ export class PersonaRepository implements PersonaService<Personas> {
 
     async update(id: id, data: Personas, query?: Query): Promise<Personas> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder('Personas')
-                .where('Personas.id = :id', { id });
+            const queryBuilder = this.repository.createQueryBuilder('personas')
+                .where('personas.id = :id', { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere('Personas.someColumn = :value', { value: query.someValue });
+                queryBuilder.andWhere('personas.someColumn = :value', { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning('*').execute();

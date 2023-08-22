@@ -19,8 +19,8 @@ export class InventarioRepository implements InventarioService<Inventarios> {
 
     async list(query?: Query): Promise<Inventarios[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("Inventarios")
-                .leftJoinAndSelect("Inventarios.ProductoId", "Productos");
+            const queryBuilder = this.repository.createQueryBuilder("inventarios")
+                .leftJoinAndSelect("inventarios.producto_id", "productos");
 
             const result = await queryBuilder.getMany();
 
@@ -32,9 +32,9 @@ export class InventarioRepository implements InventarioService<Inventarios> {
 
     async get(id: id, query?: Query): Promise<Inventarios> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("Inventarios")
-                .leftJoinAndSelect("Inventarios.ProductoId", "Productos")
-                .where("Inventarios.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("inventarios")
+                .leftJoinAndSelect("inventarios.producto_id", "productos")
+                .where("inventarios.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
@@ -50,11 +50,11 @@ export class InventarioRepository implements InventarioService<Inventarios> {
 
     async update(id: id, data: Inventarios, query?: Query): Promise<Inventarios> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("Inventarios")
-                .where("Inventarios.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("inventarios")
+                .where("inventarios.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("Inventarios.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("inventarios.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

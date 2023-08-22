@@ -36,9 +36,9 @@ class FormularioRolRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("FormulariosRoles")
-                    .leftJoinAndSelect("FormulariosRoles.RolesId", "Roles")
-                    .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios");
+                const queryBuilder = this.repository.createQueryBuilder("formularios_roles")
+                    .leftJoinAndSelect("formularios_roles.rol_id", "roles")
+                    .leftJoinAndSelect("formularios_roles.formulario_id", "formularios");
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -51,10 +51,10 @@ class FormularioRolRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("FormulariosRoles")
-                    .leftJoinAndSelect("FormulariosRoles.RolesId", "Roles")
-                    .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios")
-                    .where("FormulariosRoles.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("formularios_roles")
+                    .leftJoinAndSelect("formularios_roles.rol_id", "roles")
+                    .leftJoinAndSelect("formularios_roles.formulario_id", "formularios")
+                    .where("formularios_roles.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound("FormularioRol not found");
@@ -70,10 +70,10 @@ class FormularioRolRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("Formularios_Roles")
-                    .where("Formularios_Roles.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("formularios_roles")
+                    .where("formularios_roles.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("FormulariosRoles.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("formularios_roles.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {
