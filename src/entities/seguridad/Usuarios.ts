@@ -1,10 +1,9 @@
-import { Entity, Column, OneToOne, JoinColumn, OneToMany} from 'typeorm';
+import { Column, OneToOne, JoinColumn, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Personas} from './Personas'
 import { Huespedes } from '../sistema/Huespedes';
 import { ConfiguracionSistema } from '../parametrizacion/ConfiguracionSistema';
 
-@Entity({schema: 'seguridad'})
 export class Usuarios extends ModelEntity {
 
     @OneToOne(() => Personas, (persona) => persona.UsuarioId)

@@ -12,12 +12,12 @@ const controller = new TipoHabitacionesController(
 
 router.post('/parametrizacion/tipoHabitacion', controller.create.bind(controller));
 
-router.get('/inventario/tipoHabitacion', controller.list.bind(controller));
+router.get('/parametrizacion/tipoHabitacion', controller.list.bind(controller));
 
-router.get('/inventario/tipoHabitacion/:id', controller.get.bind(controller));
+router.get('/parametrizacion/tipoHabitacion/:id', controller.get.bind(controller));
 
-router.put('/inventario/tipoHabitacion/:id', controller.update.bind(controller));
+router.put('/parametrizacion/tipoHabitacion/:id', controller.update.bind(controller));
 
-router.delete('/inventario/tipoHabitacion/:id', controller.remove.bind(controller));
+router.delete('/parametrizacion/tipoHabitacion/:id', controller.remove.bind(controller));
 
 export default router;

@@ -34,8 +34,8 @@ class HabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Habitaciones_1.Habitaciones);
-                const queryBuilder = repository.createQueryBuilder('Habitaciones')
-                    .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones');
+                const queryBuilder = repository.createQueryBuilder('habitaciones')
+                    .leftJoinAndSelect('habitaciones.TipoHabitacionesId', 'TipoHabitaciones');
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -48,9 +48,9 @@ class HabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Habitaciones_1.Habitaciones);
-                const queryBuilder = repository.createQueryBuilder('Habitaciones')
-                    .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
-                    .where('Habitaciones.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('habitaciones')
+                    .leftJoinAndSelect('habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                    .where('habitaciones.id = :id', { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound('Habitacion not found');
@@ -66,13 +66,13 @@ class HabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Habitaciones_1.Habitaciones);
-                const queryBuilder = repository.createQueryBuilder('Habitaciones')
-                    .where('Habitaciones.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('habitaciones')
+                    .where('habitaciones.id = :id', { id });
                 if (query) {
                     // Aquí puedes agregar condiciones adicionales según la consulta
                     // Por ejemplo:
                     if (query.someCondition) {
-                        queryBuilder.andWhere('Habitaciones.someColumn = :value', { value: query.someValue });
+                        queryBuilder.andWhere('habitaciones.someColumn = :value', { value: query.someValue });
                     }
                 }
                 const result = yield queryBuilder.update().set(data).returning('*').execute();

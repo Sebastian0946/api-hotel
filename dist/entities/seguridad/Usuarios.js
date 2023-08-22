@@ -15,8 +15,9 @@ const ModelEntity_1 = require("../ModelEntity");
 const Personas_1 = require("./Personas");
 const Huespedes_1 = require("../sistema/Huespedes");
 const ConfiguracionSistema_1 = require("../parametrizacion/ConfiguracionSistema");
-let Usuarios = exports.Usuarios = class Usuarios extends ModelEntity_1.ModelEntity {
-};
+class Usuarios extends ModelEntity_1.ModelEntity {
+}
+exports.Usuarios = Usuarios;
 __decorate([
     (0, typeorm_1.OneToOne)(() => Personas_1.Personas, (persona) => persona.UsuarioId),
     (0, typeorm_1.JoinColumn)({ name: 'persona_id' }),
@@ -38,6 +39,3 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => ConfiguracionSistema_1.ConfiguracionSistema, (configuracionSistema) => configuracionSistema.UsuarioId),
     __metadata("design:type", ConfiguracionSistema_1.ConfiguracionSistema)
 ], Usuarios.prototype, "ConfiguracionSistemaId", void 0);
-exports.Usuarios = Usuarios = __decorate([
-    (0, typeorm_1.Entity)()
-], Usuarios);

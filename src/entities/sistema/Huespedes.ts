@@ -1,11 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { ModelEntity } from "../ModelEntity";
 import { Usuarios } from "../seguridad/Usuarios";
 import { ReservaHabitaciones } from "./ReservaHabitaciones";
 import { Descuentos } from "./Descuentos";
 
 
-@Entity({schema: 'public'})
 export class Huespedes extends ModelEntity {
 
     @ManyToOne(() => Usuarios, (usuario) => usuario.HuespedId)
@@ -13,7 +12,7 @@ export class Huespedes extends ModelEntity {
     UsuarioId: Usuarios;
 
     @ManyToOne(() => Descuentos, (descuento) => descuento.HuespedId)
-    @JoinColumn({name: 'descuentosId'})
+    @JoinColumn({name: 'descuentos_id'})
     DescuentoId: Descuentos
 
     // Relacion con Usuario

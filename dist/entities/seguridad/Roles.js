@@ -12,8 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Roles = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
-let Roles = exports.Roles = class Roles extends ModelEntity_1.ModelEntity {
-};
+class Roles extends ModelEntity_1.ModelEntity {
+}
+exports.Roles = Roles;
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
     __metadata("design:type", String)
@@ -22,6 +23,3 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'descripcion', length: 25, nullable: false }),
     __metadata("design:type", String)
 ], Roles.prototype, "Descripcion", void 0);
-exports.Roles = Roles = __decorate([
-    (0, typeorm_1.Entity)()
-], Roles);

@@ -13,8 +13,9 @@ exports.ConfiguracionSistema = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const Usuarios_1 = require("../seguridad/Usuarios");
-let ConfiguracionSistema = exports.ConfiguracionSistema = class ConfiguracionSistema extends ModelEntity_1.ModelEntity {
-};
+class ConfiguracionSistema extends ModelEntity_1.ModelEntity {
+}
+exports.ConfiguracionSistema = ConfiguracionSistema;
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Usuarios_1.Usuarios, (usuario) => usuario.ConfiguracionSistemaId),
     (0, typeorm_1.JoinColumn)({ name: 'usuario_id' }),
@@ -28,6 +29,3 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'descripcion' }),
     __metadata("design:type", String)
 ], ConfiguracionSistema.prototype, "Descripcion", void 0);
-exports.ConfiguracionSistema = ConfiguracionSistema = __decorate([
-    (0, typeorm_1.Entity)()
-], ConfiguracionSistema);

@@ -6,8 +6,8 @@ const TipoHabitacionRepostiroty_1 = require("../../repository/parametrizacionRep
 const router = (0, express_1.Router)();
 const controller = new TipoHabitacionesController_1.TipoHabitacionesController(new TipoHabitacionRepostiroty_1.TipoHabitacionRepository());
 router.post('/parametrizacion/tipoHabitacion', controller.create.bind(controller));
-router.get('/inventario/tipoHabitacion', controller.list.bind(controller));
-router.get('/inventario/tipoHabitacion/:id', controller.get.bind(controller));
-router.put('/inventario/tipoHabitacion/:id', controller.update.bind(controller));
-router.delete('/inventario/tipoHabitacion/:id', controller.remove.bind(controller));
+router.get('/parametrizacion/tipoHabitacion', controller.list.bind(controller));
+router.get('/parametrizacion/tipoHabitacion/:id', controller.get.bind(controller));
+router.put('/parametrizacion/tipoHabitacion/:id', controller.update.bind(controller));
+router.delete('/parametrizacion/tipoHabitacion/:id', controller.remove.bind(controller));
 exports.default = router;

@@ -45,14 +45,12 @@ export class EstadoFacturaRepository implements EstadoFacturaService<EstadoFactu
         try {
             const repository = dataBase.getRepository(EstadoFacturas);
 
-            const queryBuilder = repository.createQueryBuilder('EstadoFacturas')
-                .where('EstadoFacturas.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('estado_facturas')
+                .where('estado_facturas.id = :id', { id });
 
             if (query) {
-                // Aquí puedes agregar condiciones adicionales según la consulta
-                // Por ejemplo:
                 if (query.someCondition) {
-                    queryBuilder.andWhere('EstadoFacturas.someColumn = :value', { value: query.someValue });
+                    queryBuilder.andWhere('estado_facturas.someColumn = :value', { value: query.someValue });
                 }
             }
 

@@ -104,12 +104,12 @@ class UsuarioRepository {
                     m.ruta AS "ModuloRuta",
                     m.etiqueta AS "ModuloEtiqueta"
                   FROM
-                    seguridad.usuarios AS u
-                    INNER JOIN seguridad.usuarios_roles AS ur ON ur.usuario_id = u.id
-                    INNER JOIN seguridad.roles AS r ON r.id = ur.rol_id
-                    INNER JOIN seguridad.formularios_roles AS fr ON fr.rol_id = r.id
-                    INNER JOIN seguridad.formularios AS f ON f.id = fr.formulario_id
-                    INNER JOIN seguridad.modulos AS m ON m.id = f.modulo_id
+                    usuarios AS u
+                    INNER JOIN usuarios_roles AS ur ON ur.usuario_id = u.id
+                    INNER JOIN roles AS r ON r.id = ur.rol_id
+                    INNER JOIN formularios_roles AS fr ON fr.rol_id = r.id
+                    INNER JOIN formularios AS f ON f.id = fr.formulario_id
+                    INNER JOIN modulos AS m ON m.id = f.modulo_id
                   WHERE
                     u.usuario = $1
                     AND u.contrasena = $2

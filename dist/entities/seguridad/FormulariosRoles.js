@@ -14,8 +14,9 @@ const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const Formularios_1 = require("./Formularios");
 const Roles_1 = require("./Roles");
-let FormulariosRoles = exports.FormulariosRoles = class FormulariosRoles extends ModelEntity_1.ModelEntity {
-};
+class FormulariosRoles extends ModelEntity_1.ModelEntity {
+}
+exports.FormulariosRoles = FormulariosRoles;
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Roles_1.Roles),
     (0, typeorm_1.JoinColumn)({ name: 'rol_id' }),
@@ -26,6 +27,3 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'formulario_id' }),
     __metadata("design:type", Formularios_1.Formularios)
 ], FormulariosRoles.prototype, "FormulariosId", void 0);
-exports.FormulariosRoles = FormulariosRoles = __decorate([
-    (0, typeorm_1.Entity)()
-], FormulariosRoles);

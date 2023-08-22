@@ -4,14 +4,13 @@ import {Categorias} from './Categorias'
 import { Inventarios } from './Inventarios';
 import { ConsumoHabitaciones } from '../sistema/ConsumoHabitaciones';
 
-@Entity({schema: 'inventario'})
 export class Productos extends ModelEntity {
 
     @ManyToOne(() => Categorias, (categoria) => categoria.ProductosId)
     @JoinColumn({name: 'categoria_id'})
     CategoriaId: Categorias;
 
-    @Column({name: 'codigo',length: 45})
+    @Column({name: 'codigo',length: 45, nullable: false})
     Codigo: string;
 
     @Column({name: 'nombre',length: 45})
