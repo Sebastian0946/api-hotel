@@ -45,7 +45,7 @@ export class PersonaRepository implements PersonaService<Personas> {
 
     async update(id: id, data: Personas, query?: Query): Promise<Personas> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder('z')
+            const queryBuilder = this.repository.createQueryBuilder('Personas')
                 .where('Personas.id = :id', { id });
 
             if (query && query.someCondition) {

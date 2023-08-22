@@ -48,10 +48,9 @@ class HuespedRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
-                const queryBuilder = repository.createQueryBuilder('huespedes')
-                    .leftJoinAndSelect('huespedes.usuario_id', 'usuarios')
-                    .leftJoinAndSelect('huespedes.descuentos_id', 'descuentos')
-                    .where('huespedes.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('huesped')
+                    .leftJoinAndSelect('huesped.UsuarioId', 'Usuarios')
+                    .where('huesped.id = :id', { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound('Huespedes not found');
@@ -67,13 +66,11 @@ class HuespedRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
-                const queryBuilder = repository.createQueryBuilder('huespedes')
-                    .leftJoinAndSelect('huespedes.usuario_id', 'usuarios')
-                    .leftJoinAndSelect('huespedes.descuentos_id', 'descuentos')
-                    .where('huespedes.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('huesped')
+                    .where('huesped.id = :id', { id });
                 if (query) {
                     if (query.someCondition) {
-                        queryBuilder.andWhere('huespedes.someColumn = :value', { value: query.someValue });
+                        queryBuilder.andWhere('huesped.someColumn = :value', { value: query.someValue });
                     }
                 }
                 const result = yield queryBuilder.update().set(data).returning('*').execute();

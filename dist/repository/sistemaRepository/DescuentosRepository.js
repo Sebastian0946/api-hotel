@@ -61,11 +61,13 @@ class DescuentosRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Descuentos_1.Descuentos);
-                const queryBuilder = repository.createQueryBuilder('descuentos')
-                    .where('descuentos.id = :id', { id });
+                const queryBuilder = repository.createQueryBuilder('Descuentos')
+                    .where('Descuentos.id = :id', { id });
                 if (query) {
+                    // Aquí puedes agregar condiciones adicionales según la consulta
+                    // Por ejemplo:
                     if (query.someCondition) {
-                        queryBuilder.andWhere('descuentos.someColumn = :value', { value: query.someValue });
+                        queryBuilder.andWhere('Descuentos.someColumn = :value', { value: query.someValue });
                     }
                 }
                 const result = yield queryBuilder.update().set(data).returning('*').execute();

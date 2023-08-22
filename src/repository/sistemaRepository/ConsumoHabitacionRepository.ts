@@ -4,7 +4,7 @@ import { ConsumoHabitacionService, Query, id } from "../../service/sistemaSerivc
 import { ConsumoHabitaciones } from "../../entities/sistema/ConsumoHabitaciones";
 
 export class ConsumoHabitacionRepository implements ConsumoHabitacionService<ConsumoHabitaciones> {
-
+    
     private repository = dataBase.getRepository(ConsumoHabitaciones);
 
     async create(data: Partial<ConsumoHabitaciones>, query?: Query): Promise<ConsumoHabitaciones> {
@@ -24,9 +24,8 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
     async list(query?: Query): Promise<ConsumoHabitaciones[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
-                .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
+                .leftJoinAndSelect("consumo_habitaciones.ProductoId", "Productos")
+                .leftJoinAndSelect("consumo_habitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
 
             const result = await queryBuilder.getMany();
 
@@ -41,9 +40,8 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
     async get(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
-                .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
+                .leftJoinAndSelect("consumo_habitaciones.ProductoId", "Productos")
+                .leftJoinAndSelect("consumo_habitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
                 .where("consumo_habitaciones.id = :id", { id });
 
             const result = await queryBuilder.getOne();
@@ -63,9 +61,6 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
     async update(id: id, data: ConsumoHabitaciones, query?: Query): Promise<ConsumoHabitaciones> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
-                .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
-                .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
                 .where("consumo_habitaciones.id = :id", { id });
 
             if (query && query.someCondition) {
@@ -81,6 +76,7 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
             return result.raw[0];
 
         } catch (error) {
+            // Manejar la excepción adecuadamente
             throw error;
         }
     }
@@ -92,8 +88,9 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
             await this.repository.delete(id);
 
             return result;
-
+            
         } catch (error) {
+            // Manejar la excepción adecuadamente
             throw error;
         }
     }

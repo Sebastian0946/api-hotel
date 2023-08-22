@@ -63,7 +63,7 @@ class ModuloRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("z")
+                const queryBuilder = this.repository.createQueryBuilder("Modulos")
                     .where("Modulos.id = :id", { id });
                 if (query && query.someCondition) {
                     queryBuilder.andWhere("Modulos.someColumn = :value", { value: query.someValue });

@@ -32,10 +32,9 @@ export class HuespedRepository implements HuespedService<Huespedes> {
     async get(id: id, query?: Query): Promise<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
-            const queryBuilder = repository.createQueryBuilder('huespedes')
-                .leftJoinAndSelect('huespedes.usuario_id', 'usuarios')
-                .leftJoinAndSelect('huespedes.descuentos_id', 'descuentos')
-                .where('huespedes.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('huesped')
+                .leftJoinAndSelect('huesped.UsuarioId', 'Usuarios')
+                .where('huesped.id = :id', { id });
 
             const result = await queryBuilder.getOne();
 
@@ -53,15 +52,13 @@ export class HuespedRepository implements HuespedService<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
 
-            const queryBuilder = repository.createQueryBuilder('huespedes')
-                .leftJoinAndSelect('huespedes.usuario_id', 'usuarios')
-                .leftJoinAndSelect('huespedes.descuentos_id', 'descuentos')
-                .where('huespedes.id = :id', { id });
+            const queryBuilder = repository.createQueryBuilder('huesped')
+                .where('huesped.id = :id', { id });
 
             if (query) {
-
+                
                 if (query.someCondition) {
-                    queryBuilder.andWhere('huespedes.someColumn = :value', { value: query.someValue });
+                    queryBuilder.andWhere('huesped.someColumn = :value', { value: query.someValue });
                 }
             }
 

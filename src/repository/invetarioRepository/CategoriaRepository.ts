@@ -41,11 +41,11 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
 
     async update(id: id, data: Categorias, query?: Query): Promise<Categorias> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("categorias")
-                .where("categorias.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("Categorias")
+                .where("Categorias.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("categorias.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("Categorias.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

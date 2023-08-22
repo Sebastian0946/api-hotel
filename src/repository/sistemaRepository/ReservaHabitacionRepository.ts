@@ -20,10 +20,10 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
         try {
             const repository = dataBase.getRepository(ReservaHabitaciones);
             const queryBuilder = repository.createQueryBuilder('reserva_habitaciones')
-                .leftJoinAndSelect('huespedes.huesped_id', 'huespedes')
-                .leftJoinAndSelect('huespedes.descuento_id', 'descuentos')
-                .leftJoinAndSelect('huespedes.habitacion_id', 'habitaciones')
-                .leftJoinAndSelect('huespedes.estadoFactura_id', 'estado_facturas')
+                .leftJoinAndSelect('reserva_habitaciones.EstadoFacturaId', 'EstadoFacturas')
+                .leftJoinAndSelect('reserva_habitaciones.HabitacionId', 'Habitaciones')
+                .leftJoinAndSelect('reserva_habitaciones.HuespedId', 'Huespedes')
+                .leftJoinAndSelect('reserva_habitaciones.DescuentoId', 'Descuentos');
 
             const result = await queryBuilder.getMany();
             return result;
@@ -36,10 +36,10 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
         try {
             const repository = dataBase.getRepository(ReservaHabitaciones);
             const queryBuilder = repository.createQueryBuilder('reserva_habitaciones')
-                .leftJoinAndSelect('huespedes.huesped_id', 'huespedes')
-                .leftJoinAndSelect('huespedes.descuento_id', 'descuentos')
-                .leftJoinAndSelect('huespedes.habitacion_id', 'habitaciones')
-                .leftJoinAndSelect('huespedes.estadoFactura_id', 'estado_facturas')
+                .leftJoinAndSelect('reserva_habitaciones.EstadoFacturaId', 'EstadoFacturas')
+                .leftJoinAndSelect('reserva_habitaciones.HabitacionId', 'Habitaciones')
+                .leftJoinAndSelect('reserva_habitaciones.HuespedId', 'Huespedes')
+                .leftJoinAndSelect('reserva_habitaciones.DescuentoId', 'Descuentos')
                 .where('reserva_habitaciones.id = :id', { id });
 
             const result = await queryBuilder.getOne();
@@ -59,10 +59,6 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             const repository = dataBase.getRepository(ReservaHabitaciones);
 
             const queryBuilder = repository.createQueryBuilder('reserva_habitaciones')
-                .leftJoinAndSelect('huespedes.huesped_id', 'huespedes')
-                .leftJoinAndSelect('huespedes.descuento_id', 'descuentos')
-                .leftJoinAndSelect('huespedes.habitacion_id', 'habitaciones')
-                .leftJoinAndSelect('huespedes.estadoFactura_id', 'estado_facturas')
                 .where('reserva_habitaciones.id = :id', { id });
 
             if (query) {
@@ -75,7 +71,7 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             const result = await queryBuilder.update().set(data).returning('*').execute();
 
             if (result.affected === 0) {
-                throw new NotFound('reserva_habitaciones not found');
+                throw new NotFound('ReservaHabitaciones not found');
             }
 
             return result.raw[0];

@@ -37,9 +37,8 @@ class ConsumoHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                    .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
-                    .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
-                    .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos");
+                    .leftJoinAndSelect("consumo_habitaciones.ProductoId", "Productos")
+                    .leftJoinAndSelect("consumo_habitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -53,9 +52,8 @@ class ConsumoHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                    .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
-                    .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
-                    .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
+                    .leftJoinAndSelect("consumo_habitaciones.ProductoId", "Productos")
+                    .leftJoinAndSelect("consumo_habitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
                     .where("consumo_habitaciones.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
@@ -73,9 +71,6 @@ class ConsumoHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
-                    .leftJoinAndSelect("consumo_habitaciones.producto_id", "productos")
-                    .leftJoinAndSelect("consumo_habitaciones.reservaHabitacion_id", "reserva_habitaciones")
-                    .leftJoinAndSelect("consumo_habitaciones.descuentos_id", "descuentos")
                     .where("consumo_habitaciones.id = :id", { id });
                 if (query && query.someCondition) {
                     queryBuilder.andWhere("consumo_habitaciones.someColumn = :value", { value: query.someValue });
@@ -87,6 +82,7 @@ class ConsumoHabitacionRepository {
                 return result.raw[0];
             }
             catch (error) {
+                // Manejar la excepción adecuadamente
                 throw error;
             }
         });
@@ -99,6 +95,7 @@ class ConsumoHabitacionRepository {
                 return result;
             }
             catch (error) {
+                // Manejar la excepción adecuadamente
                 throw error;
             }
         });

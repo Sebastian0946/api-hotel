@@ -50,7 +50,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
     async update(id: id, data: Modulos, query?: Query): Promise<Modulos> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("z")
+            const queryBuilder = this.repository.createQueryBuilder("Modulos")
                 .where("Modulos.id = :id", { id });
 
             if (query && query.someCondition) {

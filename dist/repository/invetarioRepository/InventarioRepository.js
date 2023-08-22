@@ -35,8 +35,8 @@ class InventarioRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("inventarios")
-                    .leftJoinAndSelect("inventarios.producto_id", "productos");
+                const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                    .leftJoinAndSelect("Inventarios.ProductoId", "Productos");
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -48,9 +48,9 @@ class InventarioRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("inventarios")
-                    .leftJoinAndSelect("inventarios.producto_id", "productos")
-                    .where("inventarios.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                    .leftJoinAndSelect("Inventarios.ProductoId", "Productos")
+                    .where("Inventarios.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound("Inventario not found");
@@ -65,10 +65,10 @@ class InventarioRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("inventarios")
-                    .where("inventarios.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                    .where("Inventarios.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("inventarios.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("Inventarios.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {

@@ -56,6 +56,8 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
                 .where('habitaciones.id = :id', { id });
 
             if (query) {
+                // Aquí puedes agregar condiciones adicionales según la consulta
+                // Por ejemplo:
                 if (query.someCondition) {
                     queryBuilder.andWhere('habitaciones.someColumn = :value', { value: query.someValue });
                 }

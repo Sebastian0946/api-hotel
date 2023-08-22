@@ -59,7 +59,7 @@ class PersonaRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder('z')
+                const queryBuilder = this.repository.createQueryBuilder('Personas')
                     .where('Personas.id = :id', { id });
                 if (query && query.someCondition) {
                     queryBuilder.andWhere('Personas.someColumn = :value', { value: query.someValue });

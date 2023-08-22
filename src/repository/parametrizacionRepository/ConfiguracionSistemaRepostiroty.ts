@@ -19,8 +19,8 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
 
     async list(query?: Query): Promise<ConfiguracionSistema[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
-                .leftJoinAndSelect("configuracion_sistema.usuario_id", "usuarios");
+            const queryBuilder = this.repository.createQueryBuilder("z")
+                .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios");
 
             const result = await queryBuilder.getMany();
 
@@ -32,14 +32,14 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
 
     async get(id: id, query?: Query): Promise<ConfiguracionSistema> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
-                .leftJoinAndSelect("configuracion_sistema.usuario_id", "usuarios")
-                .where("configuracion_sistema.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
+                .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios")
+                .where("ConfiguracionSistema.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
             if (!result) {
-                throw new NotFound("configuracion_sistema not found");
+                throw new NotFound("ConfiguracionSistema not found");
             }
 
             return result;
@@ -50,11 +50,11 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
 
     async update(id: id, data: ConfiguracionSistema, query?: Query): Promise<ConfiguracionSistema> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
-                .where("configuracion_sistema.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
+                .where("ConfiguracionSistema.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("configuracion_sistema.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("ConfiguracionSistema.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

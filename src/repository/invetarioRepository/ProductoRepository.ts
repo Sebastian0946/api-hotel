@@ -22,8 +22,8 @@ export class ProductoRepository implements ProductoService<Productos> {
 
     async list(query?: Query): Promise<Productos[]> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("productos")
-                .leftJoinAndSelect("productos.categoria_id", "categorias");
+            const queryBuilder = this.repository.createQueryBuilder("Productos")
+                .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
 
             return queryBuilder.getMany();
             
@@ -34,9 +34,9 @@ export class ProductoRepository implements ProductoService<Productos> {
 
     async get(id: id, query?: Query): Promise<Productos> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("productos")
-            .leftJoinAndSelect("productos.categoria_id", "categorias")
-            .where("productos.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("Productos")
+                .leftJoinAndSelect("Productos.CategoriaId", "Categorias")
+                .where("Productos.id = :id", { id });
 
             const result = await queryBuilder.getOne();
 
@@ -52,11 +52,11 @@ export class ProductoRepository implements ProductoService<Productos> {
 
     async update(id: id, data: Productos, query?: Query): Promise<Productos> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("productos")
-                .where("productos.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("Productos")
+                .where("Productos.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("productos.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("Productos.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();
