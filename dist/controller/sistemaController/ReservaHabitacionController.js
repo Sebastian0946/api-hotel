@@ -17,10 +17,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReservaHabitacionController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const ReservaHabitacionRepository_1 = require("../../repository/sistemaRepository/ReservaHabitacionRepository");
+const http_errors_1 = __importDefault(require("http-errors"));
 let ReservaHabitacionController = exports.ReservaHabitacionController = class ReservaHabitacionController {
     constructor(repository) {
         this.repository = repository;
@@ -30,10 +34,20 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
             try {
                 const body = req.body;
                 const result = yield this.repository.create(body);
-                res.status(200).json(result);
+                res.status(201).json({
+                    message: 'Reserva habitación creada exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al crear la reserva de la habitación:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo crear la reserva de la habitación. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -41,10 +55,20 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.repository.list();
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Reservas habitaciónes listadas exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al listar las reservas de las habitaciónes:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo listar las reservas de las habitaciónes. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -53,10 +77,20 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
             try {
                 const { id } = req.params;
                 const result = yield this.repository.get(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Reserva habitación obtenida exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al obtener la reserva de la habitación:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo obtener la reserva de la habitación. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -66,10 +100,20 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
                 const { id } = req.params;
                 const body = req.body;
                 const result = yield this.repository.update(id, body);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Reserva habitación actualizada exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al actualizar la reserva de la habitación:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar la reserva de la habitación. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -78,10 +122,20 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
             try {
                 const { id } = req.params;
                 const result = yield this.repository.remove(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Reserva habitación eliminada exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al eliminar la reserva de la habitación:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar la reserva de la habitación. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }

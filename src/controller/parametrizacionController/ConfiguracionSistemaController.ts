@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
 
 import { ConfiguracionSistemaRepository } from "../../repository/parametrizacionRepository/ConfiguracionSistemaRepostiroty";
+import createHttpError from "http-errors";
 
 @JsonController('/configuracionSistema')
 export class ConfiguracionSistemaController {
-    
+
     constructor(private repository: ConfiguracionSistemaRepository) { }
 
     @Post()
@@ -15,9 +16,18 @@ export class ConfiguracionSistemaController {
 
             const result = await this.repository.create(body);
 
-            res.status(200).json(result);
+            res.status(201).json({
+                message: 'Configuracion habitacion creado exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al crear la Configuracion de la habitacion:', error.message);
+                throw createHttpError(500, 'No se pudo crear la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -26,9 +36,18 @@ export class ConfiguracionSistemaController {
         try {
             const result = await this.repository.list();
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Configuracion habitacion listado exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al listar la Configuracion de la habitacion:', error.message);
+                throw createHttpError(500, 'No se pudo listar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -39,9 +58,18 @@ export class ConfiguracionSistemaController {
 
             const result = await this.repository.get(id)
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Configuracion habitacion encontrada exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al encontrar la Configuracion de la habitacion:', error.message);
+                throw createHttpError(500, 'No se pudo encontrar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -53,9 +81,18 @@ export class ConfiguracionSistemaController {
 
             const result = await this.repository.update(id, body);
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Configuracion habitacion actualizada exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al actualizar la Configuracion de la habitacion:', error.message);
+                throw createHttpError(500, 'No se pudo actualizar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -66,9 +103,18 @@ export class ConfiguracionSistemaController {
 
             const result = await this.repository.remove(id);
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Configuracion habitacion eliminada exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al eliminar la Configuracion de la habitacion:', error.message);
+                throw createHttpError(500, 'No se pudo eliminar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 }

@@ -17,10 +17,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EstadoFacturaController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const EstadoFacturaRepository_1 = require("../../repository/sistemaRepository/EstadoFacturaRepository");
+const http_errors_1 = __importDefault(require("http-errors"));
 let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFacturaController {
     constructor(repository) {
         this.repository = repository;
@@ -30,10 +34,20 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
             try {
                 const body = req.body;
                 const result = yield this.repository.create(body);
-                res.status(200).json(result);
+                res.status(201).json({
+                    message: 'Estado de la factura creada exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al crear el estado de la factura:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo crear el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -41,10 +55,20 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.repository.list();
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Estados de las facturas listadas exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al listar los estados de las facturas:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo listar los estados de las facturas. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -53,10 +77,20 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
             try {
                 const { id } = req.params;
                 const result = yield this.repository.get(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Estado de la factura obtenido exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al obtener el estado de la factura:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo obtener el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -66,10 +100,20 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
                 const { id } = req.params;
                 const body = req.body;
                 const result = yield this.repository.update(id, body);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Estado de la factura actualizado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al actualizar el estado de la factura:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -78,10 +122,20 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
             try {
                 const { id } = req.params;
                 const result = yield this.repository.remove(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Estado de la factura eliminado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al eliminar el estado de la factura:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }

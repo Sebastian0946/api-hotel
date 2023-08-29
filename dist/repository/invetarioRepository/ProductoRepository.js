@@ -13,9 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductoRepository = void 0;
-const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Productos_1 = require("../../entities/inventario/Productos");
+const http_errors_1 = __importDefault(require("http-errors"));
+const routing_controllers_1 = require("routing-controllers");
 class ProductoRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Productos_1.Productos);
@@ -28,7 +29,7 @@ class ProductoRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to create producto');
+                throw (0, http_errors_1.default)(500, 'No se pudo crear el producto. Por favor, intenta nuevamente más tarde.');
             }
         });
     }
@@ -52,7 +53,7 @@ class ProductoRepository {
                     .where("Productos.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
-                    throw new http_errors_1.NotFound("Producto not found");
+                    throw new routing_controllers_1.NotFoundError("Producto not found");
                 }
                 return result;
             }
@@ -71,7 +72,7 @@ class ProductoRepository {
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {
-                    throw new http_errors_1.NotFound("Producto not found");
+                    throw new routing_controllers_1.NotFoundError("Producto not found");
                 }
                 return result.raw[0];
             }

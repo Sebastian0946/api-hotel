@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
+import { JsonController, Get, Post, Put, Delete} from 'routing-controllers';
 
 import { CategoriaRepository } from "../../repository/invetarioRepository/CategoriaRepository";
+import createHttpError from "http-errors";
 
 @JsonController('/categoria')
 export class CategoriaController {
@@ -15,9 +16,18 @@ export class CategoriaController {
 
             const result = await this.repository.create(body);
 
-            res.status(200).json(result);
+            res.status(201).json({
+                message: 'Categoria creado exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {   
+                console.error('Error al crear la categoria:', error.message);
+                throw createHttpError(500, 'No se pudo crear la categoria. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -26,9 +36,18 @@ export class CategoriaController {
         try {
             const result = await this.repository.list();
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Categorias obtenidos exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al obtener las categorias:', error.message);
+                throw createHttpError(500, 'No se pudo listar las categorias. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -39,9 +58,18 @@ export class CategoriaController {
 
             const result = await this.repository.get(id)
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Categoria encontrado exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al encontrar la categoria:', error.message);
+                throw createHttpError(500, 'No se pudo encontrar la categoria. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -53,9 +81,18 @@ export class CategoriaController {
 
             const result = await this.repository.update(id, body);
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Categoria actualizada exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al actualizar la categoria:', error.message);
+                throw createHttpError(500, 'No se pudo actualizar la categoria. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 
@@ -66,9 +103,18 @@ export class CategoriaController {
 
             const result = await this.repository.remove(id);
 
-            res.status(200).json(result);
+            res.status(200).json({
+                message: 'Categoria eliminada exitosamente',
+                data: result
+            });
         } catch (error) {
-            next(error);
+            if (error instanceof Error) {
+                console.error('Error al eliminar la categoria:', error.message);
+                throw createHttpError(500, 'No se pudo eliminar la categoria. Por favor, intenta nuevamente más tarde.');
+            } else {
+                console.error('Error desconocido:', error);
+                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+            }
         }
     }
 }

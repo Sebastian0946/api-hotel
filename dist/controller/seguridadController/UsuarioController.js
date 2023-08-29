@@ -17,10 +17,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const UsuarioRepository_1 = require("../../repository/seguridadRepository/UsuarioRepository");
+const http_errors_1 = __importDefault(require("http-errors"));
 let UsuarioController = exports.UsuarioController = class UsuarioController {
     constructor(repository) {
         this.repository = repository;
@@ -30,22 +34,42 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
             try {
                 const body = req.body;
                 const result = yield this.repository.create(body);
-                res.status(200).json(result);
+                res.status(201).json({
+                    message: 'Usuario creado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al crear el usuario:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo crear el usuario. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
+            ;
         });
     }
-    ;
     list(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.repository.list();
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Usuarios listados exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al listar los usuarios:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo listar los usuarios. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -55,10 +79,20 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
             try {
                 const { id } = req.params;
                 const result = yield this.repository.get(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Usuario encontrado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al encontrar el usuario:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar el usuario. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -69,10 +103,20 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 const { id } = req.params;
                 const body = req.body;
                 const result = yield this.repository.update(id, body);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Usuario actualizado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al actualizar el usuario:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el usuario. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -82,10 +126,20 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
             try {
                 const { id } = req.params;
                 const result = yield this.repository.remove(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Usuario eliminado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al eliminar el usuario:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar el usuario. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }

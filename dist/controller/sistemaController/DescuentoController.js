@@ -17,10 +17,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DescuentosController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const DescuentosRepository_1 = require("../../repository/sistemaRepository/DescuentosRepository");
+const http_errors_1 = __importDefault(require("http-errors"));
 let DescuentosController = exports.DescuentosController = class DescuentosController {
     constructor(repository) {
         this.repository = repository;
@@ -30,10 +34,20 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
             try {
                 const body = req.body;
                 const result = yield this.repository.create(body);
-                res.status(200).json(result);
+                res.status(201).json({
+                    message: 'Descuento creado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al crear el descuento:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo crear el descuento. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -41,10 +55,20 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.repository.list();
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Descuentos listados exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al listar los descuentos:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo listar los descuentos. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -53,10 +77,20 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
             try {
                 const { id } = req.params;
                 const result = yield this.repository.get(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Descuento encontrado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al encontrar el descuento:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar el descuento. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -66,10 +100,20 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
                 const { id } = req.params;
                 const body = req.body;
                 const result = yield this.repository.update(id, body);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Descuento actualizado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al actualizar el descuento:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el descuento. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -78,10 +122,20 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
             try {
                 const { id } = req.params;
                 const result = yield this.repository.remove(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Descuento eliminado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al eliminar el descuento:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar el descuento. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }

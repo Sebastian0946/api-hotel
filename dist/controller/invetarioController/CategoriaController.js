@@ -17,10 +17,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriaController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const CategoriaRepository_1 = require("../../repository/invetarioRepository/CategoriaRepository");
+const http_errors_1 = __importDefault(require("http-errors"));
 let CategoriaController = exports.CategoriaController = class CategoriaController {
     constructor(repository) {
         this.repository = repository;
@@ -30,10 +34,20 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
             try {
                 const body = req.body;
                 const result = yield this.repository.create(body);
-                res.status(200).json(result);
+                res.status(201).json({
+                    message: 'Categoria creado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al crear la categoria:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo crear la categoria. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -41,10 +55,20 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const result = yield this.repository.list();
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Categorias obtenidos exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al obtener las categorias:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo listar las categorias. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -53,10 +77,20 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
             try {
                 const { id } = req.params;
                 const result = yield this.repository.get(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Categoria encontrado exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al encontrar la categoria:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar la categoria. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -66,10 +100,20 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
                 const { id } = req.params;
                 const body = req.body;
                 const result = yield this.repository.update(id, body);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Categoria actualizada exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al actualizar la categoria:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar la categoria. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }
@@ -78,10 +122,20 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
             try {
                 const { id } = req.params;
                 const result = yield this.repository.remove(id);
-                res.status(200).json(result);
+                res.status(200).json({
+                    message: 'Categoria eliminada exitosamente',
+                    data: result
+                });
             }
             catch (error) {
-                next(error);
+                if (error instanceof Error) {
+                    console.error('Error al eliminar la categoria:', error.message);
+                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar la categoria. Por favor, intenta nuevamente más tarde.');
+                }
+                else {
+                    console.error('Error desconocido:', error);
+                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                }
             }
         });
     }

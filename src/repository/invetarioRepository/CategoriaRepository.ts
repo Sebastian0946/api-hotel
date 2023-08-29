@@ -27,7 +27,7 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
 
     async get(id: id, query?: Query): Promise<Categorias> {
         try {
-            const result = await this.repository.findOneBy({id: id as any});
+            const result = await this.repository.findOneBy({ id: id as any });
 
             if (!result) {
                 throw new NotFound("Categoria not found");

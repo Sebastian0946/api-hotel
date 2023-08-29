@@ -1,7 +1,8 @@
-import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { ProductoService, Query, id } from "../../service/inventarioService/ProductoService";
 import { Productos } from "../../entities/inventario/Productos";
+import createHttpError from "http-errors";
+import { NotFoundError } from "routing-controllers";
 
 export class ProductoRepository implements ProductoService<Productos> {
 
@@ -16,7 +17,7 @@ export class ProductoRepository implements ProductoService<Productos> {
             return result;
 
         } catch (error) {
-            throw new Error('Failed to create producto');
+            throw createHttpError(500, 'No se pudo crear el producto. Por favor, intenta nuevamente más tarde.');
         }
     }
 
@@ -26,7 +27,7 @@ export class ProductoRepository implements ProductoService<Productos> {
                 .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
 
             return queryBuilder.getMany();
-            
+
         } catch (error) {
             throw new Error('Failed to retrieve productos');
         }
@@ -41,7 +42,7 @@ export class ProductoRepository implements ProductoService<Productos> {
             const result = await queryBuilder.getOne();
 
             if (!result) {
-                throw new NotFound("Producto not found");
+                throw new NotFoundError("Producto not found");
             }
 
             return result;
@@ -62,7 +63,7 @@ export class ProductoRepository implements ProductoService<Productos> {
             const result = await queryBuilder.update().set(data).returning("*").execute();
 
             if (result.affected === 0) {
-                throw new NotFound("Producto not found");
+                throw new NotFoundError("Producto not found");
             }
 
             return result.raw[0];
@@ -76,7 +77,7 @@ export class ProductoRepository implements ProductoService<Productos> {
             const result = await this.get(id, query);
 
             await this.repository.remove(result);
-            
+
             return result;
 
         } catch (error) {
