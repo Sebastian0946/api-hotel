@@ -41,11 +41,11 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
 
     async update(id: id, data: TipoHabitaciones, query?: Query): Promise<TipoHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("TipoHabitaciones")
-                .where("TipoHabitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("tipo_habitaciones")
+                .where("tipo_habitaciones.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("TipoHabitaciones.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("tipo_habitaciones.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();
