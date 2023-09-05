@@ -21,6 +21,10 @@ __decorate([
     __metadata("design:type", Usuarios_1.Usuarios)
 ], ConfiguracionSistema.prototype, "UsuarioId", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'codigo' }),
+    __metadata("design:type", String)
+], ConfiguracionSistema.prototype, "Codigo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'nombre' }),
     __metadata("design:type", String)
 ], ConfiguracionSistema.prototype, "Nombre", void 0);

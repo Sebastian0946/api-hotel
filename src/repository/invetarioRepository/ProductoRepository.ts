@@ -23,6 +23,7 @@ export class ProductoRepository implements ProductoService<Productos> {
 
     async list(query?: Query): Promise<Productos[]> {
         try {
+            
             const queryBuilder = this.repository.createQueryBuilder("Productos")
                 .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
 

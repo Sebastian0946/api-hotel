@@ -9,6 +9,9 @@ export class ConfiguracionSistema extends ModelEntity {
     @JoinColumn({name: 'usuario_id'})
     UsuarioId: Usuarios;
 
+    @Column({name: 'codigo'})
+    Codigo: String
+
     @Column({name: 'nombre'})
     Nombre: String
 
