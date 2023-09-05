@@ -50,11 +50,11 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
 
     async update(id: id, data: ConfiguracionSistema, query?: Query): Promise<ConfiguracionSistema> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
-                .where("ConfiguracionSistema.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
+                .where("configuracion_sistema.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("ConfiguracionSistema.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("configuracion_sistema.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();
