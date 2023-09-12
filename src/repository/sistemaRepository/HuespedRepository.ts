@@ -7,10 +7,15 @@ export class HuespedRepository implements HuespedService<Huespedes> {
 
     async create(data: Partial<Huespedes>, query?: Query): Promise<Huespedes> {
         try {
+
             const repository = dataBase.getRepository(Huespedes);
+
             const result = repository.create(data);
+            
             await repository.save(result);
+
             return result;
+
         } catch (error) {
             throw new Error('Failed to create huesped');
         }
@@ -20,7 +25,8 @@ export class HuespedRepository implements HuespedService<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
             const queryBuilder = repository.createQueryBuilder('Huespedes')
-                .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios');
+                .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios')
+                .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
 
             const result = await queryBuilder.getMany();
             return result;
@@ -34,6 +40,7 @@ export class HuespedRepository implements HuespedService<Huespedes> {
             const repository = dataBase.getRepository(Huespedes);
             const queryBuilder = repository.createQueryBuilder('Huespedes')
                 .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios')
+                .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
                 .where('Huespedes.id = :id', { id });
 
             const result = await queryBuilder.getOne();
