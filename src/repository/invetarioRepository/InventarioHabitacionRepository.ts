@@ -55,11 +55,11 @@ export class InventarioHabitacionRepository implements InventarioHabitacionServi
 
     async update(id: id, data: InventariosHabitaciones, query?: Query): Promise<InventariosHabitaciones> {
         try {
-            const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
-                .where("InventariosHabitaciones.id = :id", { id });
+            const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
+                .where("inventarios_habitaciones.id = :id", { id });
 
             if (query && query.someCondition) {
-                queryBuilder.andWhere("InventariosHabitaciones.someColumn = :value", { value: query.someValue });
+                queryBuilder.andWhere("inventarios_habitaciones.someColumn = :value", { value: query.someValue });
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();

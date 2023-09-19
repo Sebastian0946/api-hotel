@@ -69,10 +69,10 @@ class InventarioHabitacionRepository {
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
-                    .where("InventariosHabitaciones.id = :id", { id });
+                const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
+                    .where("inventarios_habitaciones.id = :id", { id });
                 if (query && query.someCondition) {
-                    queryBuilder.andWhere("InventariosHabitaciones.someColumn = :value", { value: query.someValue });
+                    queryBuilder.andWhere("inventarios_habitaciones.someColumn = :value", { value: query.someValue });
                 }
                 const result = yield queryBuilder.update().set(data).returning("*").execute();
                 if (result.affected === 0) {
