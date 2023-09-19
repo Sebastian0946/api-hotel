@@ -21,6 +21,7 @@ export class InventarioHabitacionRepository implements InventarioHabitacionServi
         try {
             const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
                 .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
+                .leftJoinAndSelect("InventarioId.ProductoId", "Inventarios")
                 .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones");
 
             const result = await queryBuilder.getMany();
