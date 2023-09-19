@@ -20,18 +20,19 @@ export class InventarioHabitacionRepository implements InventarioHabitacionServi
     async list(query?: Query): Promise<InventariosHabitaciones[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
-                .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "InventarioId")
-                .leftJoin("InventarioId.ProductoId", "ProductoId")
+                .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
+                .leftJoinAndSelect("Inventario.ProductoId", "Productos")
                 .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones");
-    
+
             const result = await queryBuilder.getMany();
-    
+
             return result;
         } catch (error) {
             throw new Error('Failed to retrieve inventarios habitaciones');
         }
     }
-    
+
+
     async get(id: id, query?: Query): Promise<InventariosHabitaciones> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")

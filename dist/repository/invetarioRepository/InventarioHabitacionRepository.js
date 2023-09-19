@@ -36,8 +36,8 @@ class InventarioHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
-                    .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "InventarioId")
-                    .leftJoin("InventarioId.ProductoId", "ProductoId")
+                    .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
+                    .leftJoinAndSelect("Inventario.ProductoId", "Productos")
                     .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones");
                 const result = yield queryBuilder.getMany();
                 return result;
