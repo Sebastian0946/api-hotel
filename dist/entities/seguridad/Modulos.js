@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", String)
 ], Modulos.prototype, "Codigo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'ruta', length: 25, nullable: false, unique: true }),
+    (0, typeorm_1.Column)({ name: 'ruta', length: 25, nullable: false }),
     __metadata("design:type", String)
 ], Modulos.prototype, "Ruta", void 0);
 __decorate([
