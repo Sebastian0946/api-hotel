@@ -13,26 +13,18 @@ export class ProductoController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body;
-            const imagenPath = body.Imagen; 
+            const imagenFileName = body.Imagen; // Obtén el nombre del archivo
 
-            
-            if (!fs.existsSync(imagenPath)) {
-                throw createHttpError(400, 'El archivo de imagen no existente.');
+            // Verificar si la extensión del archivo es válida (puedes agregar más extensiones si es necesario)
+            const validExtensions = ['.jpeg', '.jpg', '.png'];
+            const fileExtension = imagenFileName.slice(((imagenFileName.lastIndexOf(".") - 1) >>> 0) + 2);
+            if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
+                throw createHttpError(400, 'La extensión del archivo de imagen no es válida.');
             }
 
-            // Leer la imagen en formato binario
-            const imagenBuffer = fs.readFileSync(imagenPath);
-
-            // Convertir la imagen en Base64
-            const imagenBase64 = imagenBuffer.toString('base64');
-
-            // Verificar el tipo MIME de la imagen
-            const mimeType = await sharp(imagenBuffer).metadata().then(info => info.format);
-            if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
-                throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
-            }
-
-            body.Imagen = `data:image/${mimeType};base64,${imagenBase64}`;
+            // Almacenar solo el nombre del archivo en la base de datos
+            // body.Nombre = Nombre del producto u otros campos
+            body.Imagen = imagenFileName;
 
             const result = await this.repository.create(body);
 
@@ -50,7 +42,6 @@ export class ProductoController {
             }
         }
     }
-
 
     @Get()
     async list(req: Request, res: Response, next: NextFunction) {
