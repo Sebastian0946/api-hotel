@@ -3,8 +3,8 @@ import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 import { ProductoRepository } from "../../repository/invetarioRepository/ProductoRepository";
 import createHttpError from "http-errors";
 import sharp from 'sharp';
-
-@JsonController('/categoria')
+import * as fs from 'fs';
+@JsonController('/produco')
 export class ProductoController {
 
     constructor(private repository: ProductoRepository) { }
@@ -13,15 +13,26 @@ export class ProductoController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body;
-            const imagenBase64 = body.imagen;
+            const imagenPath = body.Imagen; 
 
-            // Verificar si mimeType es válido (JPG o PNG)
-            const mimeType = await sharp(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+            
+            if (!fs.existsSync(imagenPath)) {
+                throw createHttpError(400, 'El archivo de imagen no existe.');
+            }
+
+            // Leer la imagen en formato binario
+            const imagenBuffer = fs.readFileSync(imagenPath);
+
+            // Convertir la imagen en Base64
+            const imagenBase64 = imagenBuffer.toString('base64');
+
+            // Verificar el tipo MIME de la imagen
+            const mimeType = await sharp(imagenBuffer).metadata().then(info => info.format);
             if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
                 throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
             }
 
-            body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
+            body.Imagen = `data:image/${mimeType};base64,${imagenBase64}`;
 
             const result = await this.repository.create(body);
 
@@ -65,9 +76,9 @@ export class ProductoController {
     async get(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-    
+
             const result = await this.repository.get(id);
-    
+
             res.status(200).json({
                 message: 'Producto encontrado exitosamente',
                 data: result
@@ -82,7 +93,7 @@ export class ProductoController {
             }
         }
     }
-    
+
     @Put('/:id')
     async update(req: Request, res: Response, next: NextFunction) {
         try {
@@ -90,13 +101,15 @@ export class ProductoController {
             const body = req.body;
             const imagenBase64 = body.imagen;
 
-            // Verificar si mimeType es válido (JPG o PNG)
-            const mimeType = await sharp(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
-            if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
-                throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
-            }
+            if (imagenBase64) {
+                // Verificar si mimeType es válido (JPG o PNG)
+                const mimeType = await sharp(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+                if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
+                    throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
+                }
 
-            body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
+                body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
+            }
 
             const result = await this.repository.update(id, body);
 
@@ -114,6 +127,7 @@ export class ProductoController {
             }
         }
     }
+
 
     @Delete('/:id')
     async remove(req: Request, res: Response, next: NextFunction) {

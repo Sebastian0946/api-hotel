@@ -1,9 +1,32 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
 };
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -26,6 +49,7 @@ const routing_controllers_1 = require("routing-controllers");
 const ProductoRepository_1 = require("../../repository/invetarioRepository/ProductoRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
 const sharp_1 = __importDefault(require("sharp"));
+const fs = __importStar(require("fs"));
 let ProductoController = exports.ProductoController = class ProductoController {
     constructor(repository) {
         this.repository = repository;
@@ -34,13 +58,20 @@ let ProductoController = exports.ProductoController = class ProductoController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
-                const imagenBase64 = body.imagen;
-                // Verificar si mimeType es válido (JPG o PNG)
-                const mimeType = yield (0, sharp_1.default)(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+                const imagenPath = body.Imagen;
+                if (!fs.existsSync(imagenPath)) {
+                    throw (0, http_errors_1.default)(400, 'El archivo de imagen no existe.');
+                }
+                // Leer la imagen en formato binario
+                const imagenBuffer = fs.readFileSync(imagenPath);
+                // Convertir la imagen en Base64
+                const imagenBase64 = imagenBuffer.toString('base64');
+                // Verificar el tipo MIME de la imagen
+                const mimeType = yield (0, sharp_1.default)(imagenBuffer).metadata().then(info => info.format);
                 if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
                     throw (0, http_errors_1.default)(400, 'El archivo de imagen debe ser PNG o JPG.');
                 }
-                body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
+                body.Imagen = `data:image/${mimeType};base64,${imagenBase64}`;
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Producto creado exitosamente',
@@ -108,12 +139,14 @@ let ProductoController = exports.ProductoController = class ProductoController {
                 const { id } = req.params;
                 const body = req.body;
                 const imagenBase64 = body.imagen;
-                // Verificar si mimeType es válido (JPG o PNG)
-                const mimeType = yield (0, sharp_1.default)(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
-                if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
-                    throw (0, http_errors_1.default)(400, 'El archivo de imagen debe ser PNG o JPG.');
+                if (imagenBase64) {
+                    // Verificar si mimeType es válido (JPG o PNG)
+                    const mimeType = yield (0, sharp_1.default)(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+                    if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
+                        throw (0, http_errors_1.default)(400, 'El archivo de imagen debe ser PNG o JPG.');
+                    }
+                    body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
                 }
-                body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Producto actualizado exitosamente',
@@ -186,6 +219,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductoController.prototype, "remove", null);
 exports.ProductoController = ProductoController = __decorate([
-    (0, routing_controllers_1.JsonController)('/categoria'),
+    (0, routing_controllers_1.JsonController)('/produco'),
     __metadata("design:paramtypes", [ProductoRepository_1.ProductoRepository])
 ], ProductoController);
