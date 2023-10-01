@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
-
+import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 import { ProductoRepository } from "../../repository/invetarioRepository/ProductoRepository";
 import createHttpError from "http-errors";
+import sharp from 'sharp';
 
 @JsonController('/categoria')
 export class ProductoController {
@@ -13,6 +13,18 @@ export class ProductoController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body;
+            const imagenBase64 = body.imagen;
+
+            // Decodificar la imagen Base64 y validar si es válida (JPG o PNG)
+            const imagenBuffer = Buffer.from(imagenBase64, 'base64');
+            const mimeType = await sharp(imagenBuffer).metadata().then(info => info.format);
+
+            // Verificar si mimeType es válido (JPG o PNG)
+            if (!mimeType || !['jpeg', 'png'].includes(mimeType)) {
+                throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
+            }
+
+            body.imagen = imagenBuffer;
 
             const result = await this.repository.create(body);
 

@@ -17,6 +17,9 @@ export class Productos extends ModelEntity {
     @Column({name: 'nombre',length: 45})
     Nombre: string;
 
+    @Column({ name: 'imagen', type: 'bytea', nullable: true })
+    Imagen: Buffer;
+
     // Relacion con Inventario
     @OneToMany(() => Inventarios, (inventario) => inventario.ProductoId)
     InventarioId: Inventarios

@@ -25,6 +25,7 @@ exports.ProductoController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const ProductoRepository_1 = require("../../repository/invetarioRepository/ProductoRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
+const sharp_1 = __importDefault(require("sharp"));
 let ProductoController = exports.ProductoController = class ProductoController {
     constructor(repository) {
         this.repository = repository;
@@ -33,6 +34,15 @@ let ProductoController = exports.ProductoController = class ProductoController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                const imagenBase64 = body.imagen;
+                // Decodificar la imagen Base64 y validar si es válida (JPG o PNG)
+                const imagenBuffer = Buffer.from(imagenBase64, 'base64');
+                const mimeType = yield (0, sharp_1.default)(imagenBuffer).metadata().then(info => info.format);
+                // Verificar si mimeType es válido (JPG o PNG)
+                if (!mimeType || !['jpeg', 'png'].includes(mimeType)) {
+                    throw (0, http_errors_1.default)(400, 'El archivo de imagen debe ser PNG o JPG.');
+                }
+                body.imagen = imagenBuffer;
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Producto creado exitosamente',

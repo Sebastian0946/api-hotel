@@ -31,6 +31,10 @@ __decorate([
     __metadata("design:type", String)
 ], Productos.prototype, "Nombre", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'imagen', type: 'bytea', nullable: true }),
+    __metadata("design:type", Buffer)
+], Productos.prototype, "Imagen", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => Inventarios_1.Inventarios, (inventario) => inventario.ProductoId),
     __metadata("design:type", Inventarios_1.Inventarios
     // Relacion con consumo_habitaciones
@@ -41,5 +45,5 @@ __decorate([
     __metadata("design:type", ConsumoHabitaciones_1.ConsumoHabitaciones)
 ], Productos.prototype, "ConsumoHabitacionesId", void 0);
 exports.Productos = Productos = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: 'inventario' })
 ], Productos);
