@@ -33,6 +33,7 @@ let ProductoController = exports.ProductoController = class ProductoController {
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log('Datos recibidos en create:', req.body);
                 const body = req.body;
                 const result = yield this.repository.create(body);
                 res.status(201).json({

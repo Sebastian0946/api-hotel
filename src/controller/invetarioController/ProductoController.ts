@@ -12,6 +12,7 @@ export class ProductoController {
     @Post()
     async create(req: Request, res: Response, next: NextFunction) {
         try {
+            console.log('Datos recibidos en create:', req.body);
             const body = req.body;
 
             const result = await this.repository.create(body);
@@ -30,7 +31,6 @@ export class ProductoController {
             }
         }
     }
-
 
     @Get()
     async list(req: Request, res: Response, next: NextFunction) {
