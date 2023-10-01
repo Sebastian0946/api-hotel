@@ -1,24 +1,25 @@
-import { Entity, Column, JoinColumn, ManyToOne, OneToMany} from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
-import {Categorias} from './Categorias'
+import { Categorias } from './Categorias'
 import { Inventarios } from './Inventarios';
 import { ConsumoHabitaciones } from '../sistema/ConsumoHabitaciones';
 
-@Entity({schema: 'inventario'})
+@Entity({ schema: 'inventario' })
 export class Productos extends ModelEntity {
 
     @ManyToOne(() => Categorias, (categoria) => categoria.ProductosId)
-    @JoinColumn({name: 'categoria_id'})
+    @JoinColumn({ name: 'categoria_id' })
     CategoriaId: Categorias;
 
-    @Column({name: 'codigo',length: 45})
+    @Column({ name: 'codigo', length: 45 })
     Codigo: string;
 
-    @Column({name: 'nombre',length: 45})
+    @Column({ name: 'nombre', length: 45 })
     Nombre: string;
 
-    @Column({ name: 'imagen', type: 'bytea', nullable: true })
-    Imagen: Buffer;
+    @Column({ name: 'imagen', nullable: true })
+    Imagen: string; // Cambiar el tipo de datos a string
+
 
     // Relacion con Inventario
     @OneToMany(() => Inventarios, (inventario) => inventario.ProductoId)

@@ -34,16 +34,6 @@ let ProductoController = exports.ProductoController = class ProductoController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
-                const imagenFileName = body.Imagen; // Obtén el nombre del archivo
-                // Verificar si la extensión del archivo es válida (puedes agregar más extensiones si es necesario)
-                const validExtensions = ['.jpeg', '.jpg', '.png'];
-                const fileExtension = imagenFileName.slice(((imagenFileName.lastIndexOf(".") - 1) >>> 0) + 2);
-                if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
-                    throw (0, http_errors_1.default)(400, 'La extensión del archivo de imagen no es válida.');
-                }
-                // Almacenar solo el nombre del archivo en la base de datos
-                // body.Nombre = Nombre del producto u otros campos
-                body.Imagen = imagenFileName;
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Producto creado exitosamente',

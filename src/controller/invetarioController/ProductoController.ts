@@ -13,18 +13,6 @@ export class ProductoController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body;
-            const imagenFileName = body.Imagen; // Obtén el nombre del archivo
-
-            // Verificar si la extensión del archivo es válida (puedes agregar más extensiones si es necesario)
-            const validExtensions = ['.jpeg', '.jpg', '.png'];
-            const fileExtension = imagenFileName.slice(((imagenFileName.lastIndexOf(".") - 1) >>> 0) + 2);
-            if (!validExtensions.includes(`.${fileExtension.toLowerCase()}`)) {
-                throw createHttpError(400, 'La extensión del archivo de imagen no es válida.');
-            }
-
-            // Almacenar solo el nombre del archivo en la base de datos
-            // body.Nombre = Nombre del producto u otros campos
-            body.Imagen = imagenFileName;
 
             const result = await this.repository.create(body);
 
@@ -42,6 +30,7 @@ export class ProductoController {
             }
         }
     }
+
 
     @Get()
     async list(req: Request, res: Response, next: NextFunction) {
