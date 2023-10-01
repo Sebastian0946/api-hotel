@@ -60,7 +60,7 @@ let ProductoController = exports.ProductoController = class ProductoController {
                 const body = req.body;
                 const imagenPath = body.Imagen;
                 if (!fs.existsSync(imagenPath)) {
-                    throw (0, http_errors_1.default)(400, 'El archivo de imagen no existe.');
+                    throw (0, http_errors_1.default)(400, 'El archivo de imagen no existente.');
                 }
                 // Leer la imagen en formato binario
                 const imagenBuffer = fs.readFileSync(imagenPath);

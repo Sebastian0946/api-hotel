@@ -17,7 +17,7 @@ export class ProductoController {
 
             
             if (!fs.existsSync(imagenPath)) {
-                throw createHttpError(400, 'El archivo de imagen no existe.');
+                throw createHttpError(400, 'El archivo de imagen no existente.');
             }
 
             // Leer la imagen en formato binario
