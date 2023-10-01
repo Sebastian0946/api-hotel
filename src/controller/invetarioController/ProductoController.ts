@@ -15,16 +15,13 @@ export class ProductoController {
             const body = req.body;
             const imagenBase64 = body.imagen;
 
-            // Decodificar la imagen Base64 y validar si es válida (JPG o PNG)
-            const imagenBuffer = Buffer.from(imagenBase64, 'base64');
-            const mimeType = await sharp(imagenBuffer).metadata().then(info => info.format);
-
             // Verificar si mimeType es válido (JPG o PNG)
-            if (!mimeType || !['jpeg', 'png'].includes(mimeType)) {
+            const mimeType = await sharp(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+            if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
                 throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
             }
 
-            body.imagen = imagenBuffer;
+            body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
 
             const result = await this.repository.create(body);
 
@@ -42,6 +39,7 @@ export class ProductoController {
             }
         }
     }
+
 
     @Get()
     async list(req: Request, res: Response, next: NextFunction) {
@@ -67,9 +65,9 @@ export class ProductoController {
     async get(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-
-            const result = await this.repository.get(id)
-
+    
+            const result = await this.repository.get(id);
+    
             res.status(200).json({
                 message: 'Producto encontrado exitosamente',
                 data: result
@@ -84,17 +82,26 @@ export class ProductoController {
             }
         }
     }
-
+    
     @Put('/:id')
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
             const body = req.body;
+            const imagenBase64 = body.imagen;
+
+            // Verificar si mimeType es válido (JPG o PNG)
+            const mimeType = await sharp(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+            if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
+                throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
+            }
+
+            body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
 
             const result = await this.repository.update(id, body);
 
             res.status(200).json({
-                message: 'Producto actualizdo exitosamente',
+                message: 'Producto actualizado exitosamente',
                 data: result
             });
         } catch (error) {

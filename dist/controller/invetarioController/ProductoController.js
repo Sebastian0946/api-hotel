@@ -35,14 +35,12 @@ let ProductoController = exports.ProductoController = class ProductoController {
             try {
                 const body = req.body;
                 const imagenBase64 = body.imagen;
-                // Decodificar la imagen Base64 y validar si es válida (JPG o PNG)
-                const imagenBuffer = Buffer.from(imagenBase64, 'base64');
-                const mimeType = yield (0, sharp_1.default)(imagenBuffer).metadata().then(info => info.format);
                 // Verificar si mimeType es válido (JPG o PNG)
-                if (!mimeType || !['jpeg', 'png'].includes(mimeType)) {
+                const mimeType = yield (0, sharp_1.default)(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+                if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
                     throw (0, http_errors_1.default)(400, 'El archivo de imagen debe ser PNG o JPG.');
                 }
-                body.imagen = imagenBuffer;
+                body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Producto creado exitosamente',
@@ -109,9 +107,16 @@ let ProductoController = exports.ProductoController = class ProductoController {
             try {
                 const { id } = req.params;
                 const body = req.body;
+                const imagenBase64 = body.imagen;
+                // Verificar si mimeType es válido (JPG o PNG)
+                const mimeType = yield (0, sharp_1.default)(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
+                if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
+                    throw (0, http_errors_1.default)(400, 'El archivo de imagen debe ser PNG o JPG.');
+                }
+                body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
-                    message: 'Producto actualizdo exitosamente',
+                    message: 'Producto actualizado exitosamente',
                     data: result
                 });
             }
