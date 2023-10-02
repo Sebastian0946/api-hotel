@@ -32,10 +32,13 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const body = req.body;
-                const result = yield this.repository.create(body);
+                const { Codigo, Descripcion } = req.body;
+                if (!Codigo || !Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo y Descripcion son obligatorios.');
+                }
+                const result = yield this.repository.create(req.body);
                 res.status(201).json({
-                    message: 'Categoria creado exitosamente',
+                    message: 'Categoria creada exitosamente',
                     data: result
                 });
             }
@@ -99,6 +102,10 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
             try {
                 const { id } = req.params;
                 const body = req.body;
+                // Validar que los campos Codigo y Descripcion no sean nulos o vacíos
+                if (!body.Codigo || !body.Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo y Descripcion son obligatorios. Por favor, asegúrese de completar ambos campos.');
+                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Categoria actualizada exitosamente',

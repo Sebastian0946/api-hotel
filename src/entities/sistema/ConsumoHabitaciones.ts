@@ -1,10 +1,10 @@
-import { Entity, Column, ManyToOne, JoinColumn} from 'typeorm';
+import { Column, ManyToOne, JoinColumn, Entity} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import { Productos } from '../inventario/Productos';
 import { ReservaHabitaciones } from './ReservaHabitaciones';
 import { Descuentos } from './Descuentos';
 
-@Entity({schema: 'public'})
+@Entity({schema: ''})
 export class ConsumoHabitaciones extends ModelEntity {
     
     @ManyToOne(() => Productos, (producto) => producto.ConsumoHabitacionesId)

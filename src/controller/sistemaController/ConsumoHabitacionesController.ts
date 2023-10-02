@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
+import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 
 import { ConsumoHabitacionRepository } from "../../repository/sistemaRepository/ConsumoHabitacionRepository";
 import createHttpError from "http-errors";
@@ -13,6 +13,10 @@ export class ConsumoHabitacionesController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body;
+
+            if (!body.ProductoId || !body.ReservaHabitacionesId || !body.DescuentoId || !body.Codigo || !body.Cantidad) {
+                throw createHttpError(400, 'Los campos ProductoId, ReservaHabitacionesId, DescuentoId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            }
 
             const result = await this.repository.create(body);
 
@@ -79,6 +83,10 @@ export class ConsumoHabitacionesController {
             const { id } = req.params;
 
             const body = req.body;
+
+            if (!body.ProductoId || !body.ReservaHabitacionesId || !body.DescuentoId || !body.Codigo || !body.Cantidad) {
+                throw createHttpError(400, 'Los campos ProductoId, ReservaHabitacionesId, DescuentoId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            }
 
             const result = await this.repository.update(id, body);
 

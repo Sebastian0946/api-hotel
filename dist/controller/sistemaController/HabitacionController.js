@@ -33,6 +33,9 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                if (!body.TipoHabitacionesId || !body.Codigo || !body.Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos TipoHabitacionesId, Codigo y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Habitación creada exitosamente',
@@ -99,6 +102,9 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
             try {
                 const { id } = req.params;
                 const body = req.body;
+                if (!body.TipoHabitacionesId || !body.Codigo || !body.Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos TipoHabitacionesId, Codigo y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Habitación actualizada exitosamente',

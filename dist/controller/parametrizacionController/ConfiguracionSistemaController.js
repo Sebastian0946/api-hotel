@@ -33,6 +33,9 @@ let ConfiguracionSistemaController = exports.ConfiguracionSistemaController = cl
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                if (!body.UsuarioId || !body.Codigo || !body.Nombre || !body.Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos UsuarioId, Codigo, Nombre y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Configuracion habitacion creado exitosamente',
@@ -99,6 +102,9 @@ let ConfiguracionSistemaController = exports.ConfiguracionSistemaController = cl
             try {
                 const { id } = req.params;
                 const body = req.body;
+                if (!body.UsuarioId || !body.Codigo || !body.Nombre || !body.Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos UsuarioId, Codigo, Nombre y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Configuracion habitacion actualizada exitosamente',

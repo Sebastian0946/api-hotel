@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { JsonController, Get, Post, Put, Delete} from 'routing-controllers';
+import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 
 import { CategoriaRepository } from "../../repository/invetarioRepository/CategoriaRepository";
 import createHttpError from "http-errors";
@@ -12,16 +12,21 @@ export class CategoriaController {
     @Post()
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const body = req.body;
 
-            const result = await this.repository.create(body);
+            const { Codigo, Descripcion } = req.body;
+
+            if (!Codigo || !Descripcion) {
+                throw createHttpError(400, 'Los campos Codigo y Descripcion son obligatorios.');
+            }
+
+            const result = await this.repository.create(req.body);
 
             res.status(201).json({
-                message: 'Categoria creado exitosamente',
+                message: 'Categoria creada exitosamente',
                 data: result
             });
         } catch (error) {
-            if (error instanceof Error) {   
+            if (error instanceof Error) {
                 console.error('Error al crear la categoria:', error.message);
                 throw createHttpError(500, 'No se pudo crear la categoria. Por favor, intenta nuevamente más tarde.');
             } else {
@@ -79,6 +84,11 @@ export class CategoriaController {
             const { id } = req.params;
             const body = req.body;
 
+            // Validar que los campos Codigo y Descripcion no sean nulos o vacíos
+            if (!body.Codigo || !body.Descripcion) {
+                throw createHttpError(400, 'Los campos Codigo y Descripcion son obligatorios. Por favor, asegúrese de completar ambos campos.');
+            }
+
             const result = await this.repository.update(id, body);
 
             res.status(200).json({
@@ -95,6 +105,7 @@ export class CategoriaController {
             }
         }
     }
+
 
     @Delete('/:id')
     async remove(req: Request, res: Response, next: NextFunction) {

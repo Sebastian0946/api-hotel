@@ -33,6 +33,9 @@ let FormularioRolController = exports.FormularioRolController = class Formulario
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                if (!body.RolesId || !body.FormulariosId) {
+                    throw (0, http_errors_1.default)(400, 'Los campos RolesId y FormulariosId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Formulario del rol creado exitosamente',
@@ -99,6 +102,9 @@ let FormularioRolController = exports.FormularioRolController = class Formulario
             try {
                 const { id } = req.params;
                 const body = req.body;
+                if (!body.RolesId || !body.FormulariosId) {
+                    throw (0, http_errors_1.default)(400, 'Los campos RolesId y FormulariosId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Formulario del rol actualizado exitosamente',

@@ -33,6 +33,9 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                if (!body.Codigo || !body.ValorNeto || !body.PorcentajeDescuento) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo, ValorNeto y PorcentajeDescuento son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Descuento creado exitosamente',
@@ -99,6 +102,9 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
             try {
                 const { id } = req.params;
                 const body = req.body;
+                if (!body.Codigo || !body.ValorNeto || !body.PorcentajeDescuento) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo, ValorNeto y PorcentajeDescuento son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Descuento actualizado exitosamente',

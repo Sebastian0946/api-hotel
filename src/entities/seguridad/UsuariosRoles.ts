@@ -3,7 +3,7 @@ import { ModelEntity } from '../ModelEntity';
 import {Usuarios} from './Usuarios';
 import {Roles} from './Roles';
 
-@Entity({schema: 'seguridad'})
+@Entity({schema: ''})
 export class UsuariosRoles extends ModelEntity {
 
     @ManyToOne(() => Roles)
@@ -13,5 +13,5 @@ export class UsuariosRoles extends ModelEntity {
     @ManyToOne(() => Usuarios)
     @JoinColumn({ name: 'usuario_id'})
     UsuariosId: Usuarios;
-
+    
 }

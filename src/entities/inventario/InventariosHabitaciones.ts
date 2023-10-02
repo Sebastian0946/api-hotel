@@ -3,7 +3,8 @@ import { ModelEntity } from '../ModelEntity';
 import {Inventarios} from './Inventarios';
 import { Habitaciones } from '../sistema/Habitaciones';
 
-@Entity({schema: 'inventario'})
+@Entity({schema: ''})
+
 export class InventariosHabitaciones extends ModelEntity {
     
     @ManyToOne(() => Inventarios, (inventario) => inventario.InventarioHabitacionesId)

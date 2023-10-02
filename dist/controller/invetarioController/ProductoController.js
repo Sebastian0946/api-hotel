@@ -25,7 +25,6 @@ exports.ProductoController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const ProductoRepository_1 = require("../../repository/invetarioRepository/ProductoRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
-const sharp_1 = __importDefault(require("sharp"));
 let ProductoController = exports.ProductoController = class ProductoController {
     constructor(repository) {
         this.repository = repository;
@@ -33,8 +32,10 @@ let ProductoController = exports.ProductoController = class ProductoController {
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('Datos recibidos en create:', req.body);
                 const body = req.body;
+                if (!body.Imagen || !body.Codigo || !body.Nombre || !body.CategoriaId) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Imagen, Codigo, Nombre y CategoriaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Producto creado exitosamente',
@@ -101,14 +102,8 @@ let ProductoController = exports.ProductoController = class ProductoController {
             try {
                 const { id } = req.params;
                 const body = req.body;
-                const imagenBase64 = body.imagen;
-                if (imagenBase64) {
-                    // Verificar si mimeType es válido (JPG o PNG)
-                    const mimeType = yield (0, sharp_1.default)(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
-                    if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
-                        throw (0, http_errors_1.default)(400, 'El archivo de imagen debe ser PNG o JPG.');
-                    }
-                    body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
+                if (!body.Imagen || !body.Codigo || !body.Nombre || !body.CategoriaId) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Imagen, Codigo, Nombre y CategoriaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
                 }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({

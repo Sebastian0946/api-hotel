@@ -3,7 +3,7 @@ import { ModelEntity } from '../ModelEntity';
 import { Formularios } from './Formularios';
 
 
-@Entity({schema: 'seguridad'})
+@Entity({schema: ''})
 export class Modulos extends ModelEntity {
 
     @Column({name: 'codigo',unique: true, length: 25, nullable: false})

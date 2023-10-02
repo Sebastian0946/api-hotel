@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 import { ProductoRepository } from "../../repository/invetarioRepository/ProductoRepository";
 import createHttpError from "http-errors";
-import sharp from 'sharp';
-import * as fs from 'fs';
 @JsonController('/produco')
 export class ProductoController {
 
@@ -12,8 +10,11 @@ export class ProductoController {
     @Post()
     async create(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('Datos recibidos en create:', req.body);
             const body = req.body;
+
+            if (!body.Imagen || !body.Codigo || !body.Nombre || !body.CategoriaId) {
+                throw createHttpError(400, 'Los campos Imagen, Codigo, Nombre y CategoriaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            }
 
             const result = await this.repository.create(body);
 
@@ -78,19 +79,12 @@ export class ProductoController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+
             const body = req.body;
-            const imagenBase64 = body.imagen;
 
-            if (imagenBase64) {
-                // Verificar si mimeType es válido (JPG o PNG)
-                const mimeType = await sharp(Buffer.from(imagenBase64, 'base64')).metadata().then(info => info.format);
-                if (!mimeType || !['jpeg', 'png', 'jpg'].includes(mimeType)) {
-                    throw createHttpError(400, 'El archivo de imagen debe ser PNG o JPG.');
-                }
-
-                body.imagen = `data:image/${mimeType};base64,${imagenBase64}`;
+            if (!body.Imagen || !body.Codigo || !body.Nombre || !body.CategoriaId) {
+                throw createHttpError(400, 'Los campos Imagen, Codigo, Nombre y CategoriaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
-
             const result = await this.repository.update(id, body);
 
             res.status(200).json({

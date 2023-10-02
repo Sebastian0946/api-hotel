@@ -33,6 +33,9 @@ let HuespedController = exports.HuespedController = class HuespedController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                if (!body.Codigo || !body.UsuarioId || !body.DescuentoId) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo, UsuarioId y DescuentoId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Huesped creado exitosamente',
@@ -99,6 +102,9 @@ let HuespedController = exports.HuespedController = class HuespedController {
             try {
                 const { id } = req.params;
                 const body = req.body;
+                if (!body.Codigo || !body.UsuarioId || !body.DescuentoId) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo, UsuarioId y DescuentoId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Huesped actualizado exitosamente',

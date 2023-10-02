@@ -1,9 +1,8 @@
-import { Entity, Column, BaseEntity, OneToMany} from 'typeorm';
+import { Entity, Column, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import { Productos } from './Productos';
 
-
-@Entity({schema: 'inventario'})
+@Entity({schema: ''})
 export class Categorias extends ModelEntity {
 
     @Column({name: 'codigo',unique: true, length: 25, nullable: false})

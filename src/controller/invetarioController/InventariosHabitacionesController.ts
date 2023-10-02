@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
+import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 
 import { InventarioHabitacionRepository } from "../../repository/invetarioRepository/InventarioHabitacionRepository";
 import createHttpError from "http-errors";
@@ -13,6 +13,10 @@ export class InventariosHabitacionesController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body;
+            
+            if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad ) {
+                throw createHttpError(400, 'Los campos InventarioId, AdministracionHabitacionId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            }
 
             const result = await this.repository.create(body);
 
@@ -78,6 +82,10 @@ export class InventariosHabitacionesController {
         try {
             const { id } = req.params;
             const body = req.body;
+
+            if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad ) {
+                throw createHttpError(400, 'Los campos InventarioId, AdministracionHabitacionId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            }
 
             const result = await this.repository.update(id, body);
 

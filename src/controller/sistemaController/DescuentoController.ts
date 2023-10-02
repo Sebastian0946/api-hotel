@@ -14,6 +14,10 @@ export class DescuentosController {
         try {
             const body = req.body;
 
+            if (!body.Codigo || !body.ValorNeto || !body.PorcentajeDescuento) {
+                throw createHttpError(400, 'Los campos Codigo, ValorNeto y PorcentajeDescuento son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            }
+
             const result = await this.repository.create(body);
 
             res.status(201).json({
@@ -79,6 +83,10 @@ export class DescuentosController {
             const { id } = req.params;
 
             const body = req.body;
+            
+            if (!body.Codigo || !body.ValorNeto || !body.PorcentajeDescuento) {
+                throw createHttpError(400, 'Los campos Codigo, ValorNeto y PorcentajeDescuento son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            }
 
             const result = await this.repository.update(id, body);
 

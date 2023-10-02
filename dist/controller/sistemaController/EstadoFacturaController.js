@@ -33,6 +33,9 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                if (!body.Codigo || !body.Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Estado de la factura creada exitosamente',
@@ -99,6 +102,9 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
             try {
                 const { id } = req.params;
                 const body = req.body;
+                if (!body.Codigo || !body.Descripcion) {
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Estado de la factura actualizado exitosamente',

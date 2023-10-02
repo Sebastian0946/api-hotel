@@ -6,7 +6,7 @@ import { Huespedes } from "./Huespedes";
 import { Descuentos } from "./Descuentos";
 import { ConsumoHabitaciones } from "./ConsumoHabitaciones";
 
-@Entity({ schema: 'public' })
+@Entity({schema: ''})
 export class ReservaHabitaciones extends ModelEntity {
 
     @ManyToOne(() => EstadoFacturas, (estadoFactura) => estadoFactura.ReservaHabitacionId)
