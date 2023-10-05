@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
-import * as bcrypt from 'bcrypt';
 
 import { UsuarioRepository } from "../../repository/seguridadRepository/UsuarioRepository";
 import createHttpError from "http-errors";
@@ -17,12 +16,6 @@ export class UsuarioController {
             if (!body.PersonaId || !body.Usuario || !body.Contraseña) {
                 throw createHttpError(400, 'Los campos PersonaId, Usuario y Contraseña son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
-
-            const saltRounds = 10;
-            const hashedPassword = await bcrypt.hash(body.Contraseña, saltRounds);
-
-            // Reemplazar la contraseña original con el hash en el cuerpo
-            body.Contraseña = hashedPassword;
 
             const result = await this.repository.create(body);
 
@@ -93,11 +86,7 @@ export class UsuarioController {
                 throw createHttpError(400, 'Los campos PersonaId, Usuario y Contraseña son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
-            const saltRounds = 10; 
-            const hashedPassword = await bcrypt.hash(body.Contraseña, saltRounds);
-
-            body.Contraseña = hashedPassword;
-
+            // No se encripta la contraseña, se almacena en texto claro
             const result = await this.repository.update(id, body);
 
             res.status(200).json({
