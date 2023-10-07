@@ -14,7 +14,7 @@ export class HuespedController {
         try {
             const body = req.body;
 
-            if (!body.Codigo || !body.UsuarioId || !body.DescuentoId) {
+            if (!body.Codigo || !body.PersonaId || !body.DescuentoId) {
                 throw createHttpError(400, 'Los campos Codigo, UsuarioId y DescuentoId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
@@ -84,7 +84,7 @@ export class HuespedController {
 
             const body = req.body;
 
-            if (!body.Codigo || !body.UsuarioId || !body.DescuentoId) {
+            if (!body.Codigo || !body.PersonaId || !body.DescuentoId) {
                 throw createHttpError(400, 'Los campos Codigo, UsuarioId y DescuentoId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
