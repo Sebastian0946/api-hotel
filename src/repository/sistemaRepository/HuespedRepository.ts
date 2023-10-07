@@ -25,7 +25,7 @@ export class HuespedRepository implements HuespedService<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
             const queryBuilder = repository.createQueryBuilder('Huespedes')
-                .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios')
+                .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
                 .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
 
             const result = await queryBuilder.getMany();
@@ -39,7 +39,7 @@ export class HuespedRepository implements HuespedService<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
             const queryBuilder = repository.createQueryBuilder('Huespedes')
-                .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios')
+                .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
                 .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
                 .where('Huespedes.id = :id', { id });
 
@@ -63,8 +63,6 @@ export class HuespedRepository implements HuespedService<Huespedes> {
                 .where('Huespedes.id = :id', { id });
 
             if (query) {
-                // Aquí puedes agregar condiciones adicionales según la consulta
-                // Por ejemplo:
                 if (query.someCondition) {
                     queryBuilder.andWhere('Huespedes.someColumn = :value', { value: query.someValue });
                 }

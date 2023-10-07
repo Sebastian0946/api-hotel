@@ -35,7 +35,7 @@ class HuespedRepository {
             try {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
                 const queryBuilder = repository.createQueryBuilder('Huespedes')
-                    .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios')
+                    .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
                     .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
                 const result = yield queryBuilder.getMany();
                 return result;
@@ -50,7 +50,7 @@ class HuespedRepository {
             try {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
                 const queryBuilder = repository.createQueryBuilder('Huespedes')
-                    .leftJoinAndSelect('Huespedes.UsuarioId', 'Usuarios')
+                    .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
                     .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
                     .where('Huespedes.id = :id', { id });
                 const result = yield queryBuilder.getOne();
@@ -71,8 +71,6 @@ class HuespedRepository {
                 const queryBuilder = repository.createQueryBuilder('Huespedes')
                     .where('Huespedes.id = :id', { id });
                 if (query) {
-                    // Aquí puedes agregar condiciones adicionales según la consulta
-                    // Por ejemplo:
                     if (query.someCondition) {
                         queryBuilder.andWhere('Huespedes.someColumn = :value', { value: query.someValue });
                     }

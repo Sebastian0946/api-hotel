@@ -1,7 +1,6 @@
 import { Entity, Column, OneToOne, JoinColumn, OneToMany} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import {Personas} from './Personas'
-import { Huespedes } from '../sistema/Huespedes';
 import { ConfiguracionSistema } from '../parametrizacion/ConfiguracionSistema';
 
 
@@ -17,9 +16,6 @@ export class Usuarios extends ModelEntity {
 
     @Column({name: 'contrasena',length: 100, unique: true})
     Contraseña: string;
-
-    @OneToMany(() => Huespedes, (huesped) => huesped.UsuarioId)
-    HuespedId: Huespedes
 
     @OneToMany(() => ConfiguracionSistema, (configuracionSistema) => configuracionSistema.UsuarioId)
     ConfiguracionSistemaId: ConfiguracionSistema;

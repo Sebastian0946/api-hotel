@@ -1,5 +1,6 @@
 import { Entity, Column, OneToOne} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
+import { Huespedes } from '../sistema/Huespedes';
 import { Usuarios } from './Usuarios';
 
 enum TipoDocumento {
@@ -44,4 +45,7 @@ export class Personas extends ModelEntity {
 
     @OneToOne(() => Usuarios, (usuario) => usuario.PersonaId)
     UsuarioId!: Usuarios;
+
+    @OneToOne(() => Huespedes, (huesped) => huesped.PersonaId)
+    HuespedId: Huespedes
 }

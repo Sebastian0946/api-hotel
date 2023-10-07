@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Personas = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
+const Huespedes_1 = require("../sistema/Huespedes");
 const Usuarios_1 = require("./Usuarios");
 var TipoDocumento;
 (function (TipoDocumento) {
@@ -65,6 +66,10 @@ __decorate([
     (0, typeorm_1.OneToOne)(() => Usuarios_1.Usuarios, (usuario) => usuario.PersonaId),
     __metadata("design:type", Usuarios_1.Usuarios)
 ], Personas.prototype, "UsuarioId", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => Huespedes_1.Huespedes, (huesped) => huesped.PersonaId),
+    __metadata("design:type", Huespedes_1.Huespedes)
+], Personas.prototype, "HuespedId", void 0);
 exports.Personas = Personas = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], Personas);

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Huespedes = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
-const Usuarios_1 = require("../seguridad/Usuarios");
+const Personas_1 = require("../seguridad/Personas");
 const ReservaHabitaciones_1 = require("./ReservaHabitaciones");
 const Descuentos_1 = require("./Descuentos");
 let Huespedes = exports.Huespedes = class Huespedes extends ModelEntity_1.ModelEntity {
@@ -22,21 +22,19 @@ __decorate([
     __metadata("design:type", String)
 ], Huespedes.prototype, "Codigo", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Usuarios_1.Usuarios, (usuario) => usuario.HuespedId),
-    (0, typeorm_1.JoinColumn)({ name: 'usuario_id' }),
-    __metadata("design:type", Usuarios_1.Usuarios)
-], Huespedes.prototype, "UsuarioId", void 0);
+    (0, typeorm_1.OneToOne)(() => Personas_1.Personas, (Personas) => Personas.HuespedId),
+    (0, typeorm_1.JoinColumn)({ name: 'persona_id' }),
+    __metadata("design:type", Personas_1.Personas)
+], Huespedes.prototype, "PersonaId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Descuentos_1.Descuentos, (descuento) => descuento.HuespedId),
     (0, typeorm_1.JoinColumn)({ name: 'descuentosId' }),
-    __metadata("design:type", Descuentos_1.Descuentos
-    // Relacion con Usuario
-    )
+    __metadata("design:type", Descuentos_1.Descuentos)
 ], Huespedes.prototype, "DescuentoId", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => ReservaHabitaciones_1.ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.HabitacionId),
     __metadata("design:type", ReservaHabitaciones_1.ReservaHabitaciones)
 ], Huespedes.prototype, "ReservaHabitacionId", void 0);
 exports.Huespedes = Huespedes = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], Huespedes);
