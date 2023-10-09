@@ -22,7 +22,10 @@ class HuespedRepository {
             try {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
                 const existingHuesped = yield this.list({ where: { PersonaId: data.PersonaId } });
-                const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
+                if (existingHuesped.length > 0) {
+                    throw new Error('El huésped ya existe.');
+                }
+                const result = repository.create(data);
                 yield repository.save(result);
                 return result;
             }
@@ -100,20 +103,6 @@ class HuespedRepository {
             }
             catch (error) {
                 throw new Error('Failed to remove huesped');
-            }
-        });
-    }
-    createWithMessage(data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
-                const existingHuesped = yield this.list({ where: { PersonaId: data.PersonaId } });
-                const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
-                yield repository.save(result);
-                return { message: existingHuesped.length > 0 ? 'El huésped ya existe.' : 'Huésped creado con éxito.', huesped: result };
-            }
-            catch (error) {
-                throw new Error('Failed to create huesped');
             }
         });
     }

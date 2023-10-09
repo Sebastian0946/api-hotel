@@ -11,8 +11,11 @@ export class HuespedRepository implements HuespedService<Huespedes> {
 
             const existingHuesped = await this.list({ where: { PersonaId: data.PersonaId } });
 
-            const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
+            if (existingHuesped.length > 0) {
+                throw new Error('El huésped ya existe.');
+            }
 
+            const result = repository.create(data);
             await repository.save(result);
 
             return result;
@@ -87,30 +90,11 @@ export class HuespedRepository implements HuespedService<Huespedes> {
     async remove(id: id, query?: Query): Promise<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
-
             const result = await this.get(id, query);
-
             await repository.remove(result);
-            
             return result;
         } catch (error) {
             throw new Error('Failed to remove huesped');
-        }
-    }
-
-    async createWithMessage(data: Partial<Huespedes>): Promise<{ message: string; huesped: Huespedes }> {
-        try {
-            const repository = dataBase.getRepository(Huespedes);
-
-            const existingHuesped = await this.list({ where: { PersonaId: data.PersonaId } });
-
-            const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
-
-            await repository.save(result);
-
-            return { message: existingHuesped.length > 0 ? 'El huésped ya existe.' : 'Huésped creado con éxito.', huesped: result };
-        } catch (error) {
-            throw new Error('Failed to create huesped');
         }
     }
 }
