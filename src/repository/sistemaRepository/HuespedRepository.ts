@@ -7,18 +7,15 @@ export class HuespedRepository implements HuespedService<Huespedes> {
 
     async create(data: Partial<Huespedes>, query?: Query): Promise<Huespedes> {
         try {
+
             const repository = dataBase.getRepository(Huespedes);
 
-            const existingHuesped = await this.list({ where: { PersonaId: data.PersonaId } });
-
-            if (existingHuesped.length > 0) {
-                throw new Error('El huésped ya existe.');
-            }
-
             const result = repository.create(data);
+            
             await repository.save(result);
 
             return result;
+
         } catch (error) {
             throw new Error('Failed to create huesped');
         }
@@ -30,10 +27,6 @@ export class HuespedRepository implements HuespedService<Huespedes> {
             const queryBuilder = repository.createQueryBuilder('Huespedes')
                 .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
                 .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
-
-            if (query && query.where && query.where.PersonaId) {
-                queryBuilder.where('Personas.id = :personaId', { personaId: query.where.PersonaId });
-            }
 
             const result = await queryBuilder.getMany();
             return result;
