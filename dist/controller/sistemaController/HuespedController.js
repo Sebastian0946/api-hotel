@@ -34,7 +34,7 @@ let HuespedController = exports.HuespedController = class HuespedController {
             try {
                 const body = req.body;
                 if (!body.Codigo || !body.PersonaId) {
-                    throw (0, http_errors_1.default)(400, 'Los campos v son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                    throw (0, http_errors_1.default)(400, 'Los campos Codigo y PersonaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
                 }
                 const result = yield this.repository.create(body);
                 res.status(201).json({

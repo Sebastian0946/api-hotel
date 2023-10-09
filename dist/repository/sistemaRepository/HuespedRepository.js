@@ -21,7 +21,8 @@ class HuespedRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
-                const result = repository.create(data);
+                const existingHuesped = yield this.list({ where: { PersonaId: data.PersonaId } });
+                const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
                 yield repository.save(result);
                 return result;
             }
@@ -37,6 +38,9 @@ class HuespedRepository {
                 const queryBuilder = repository.createQueryBuilder('Huespedes')
                     .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
                     .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
+                if (query && query.where && query.where.PersonaId) {
+                    queryBuilder.where('Personas.id = :personaId', { personaId: query.where.PersonaId });
+                }
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -96,6 +100,20 @@ class HuespedRepository {
             }
             catch (error) {
                 throw new Error('Failed to remove huesped');
+            }
+        });
+    }
+    createWithMessage(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
+                const existingHuesped = yield this.list({ where: { PersonaId: data.PersonaId } });
+                const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
+                yield repository.save(result);
+                return { message: existingHuesped.length > 0 ? 'El huésped ya existe.' : 'Huésped creado con éxito.', huesped: result };
+            }
+            catch (error) {
+                throw new Error('Failed to create huesped');
             }
         });
     }

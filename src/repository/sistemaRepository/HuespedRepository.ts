@@ -7,15 +7,15 @@ export class HuespedRepository implements HuespedService<Huespedes> {
 
     async create(data: Partial<Huespedes>, query?: Query): Promise<Huespedes> {
         try {
-
             const repository = dataBase.getRepository(Huespedes);
 
-            const result = repository.create(data);
-            
+            const existingHuesped = await this.list({ where: { PersonaId: data.PersonaId } });
+
+            const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
+
             await repository.save(result);
 
             return result;
-
         } catch (error) {
             throw new Error('Failed to create huesped');
         }
@@ -27,6 +27,10 @@ export class HuespedRepository implements HuespedService<Huespedes> {
             const queryBuilder = repository.createQueryBuilder('Huespedes')
                 .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
                 .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
+
+            if (query && query.where && query.where.PersonaId) {
+                queryBuilder.where('Personas.id = :personaId', { personaId: query.where.PersonaId });
+            }
 
             const result = await queryBuilder.getMany();
             return result;
@@ -83,11 +87,30 @@ export class HuespedRepository implements HuespedService<Huespedes> {
     async remove(id: id, query?: Query): Promise<Huespedes> {
         try {
             const repository = dataBase.getRepository(Huespedes);
+
             const result = await this.get(id, query);
+
             await repository.remove(result);
+            
             return result;
         } catch (error) {
             throw new Error('Failed to remove huesped');
+        }
+    }
+
+    async createWithMessage(data: Partial<Huespedes>): Promise<{ message: string; huesped: Huespedes }> {
+        try {
+            const repository = dataBase.getRepository(Huespedes);
+
+            const existingHuesped = await this.list({ where: { PersonaId: data.PersonaId } });
+
+            const result = existingHuesped.length > 0 ? existingHuesped[0] : repository.create(data);
+
+            await repository.save(result);
+
+            return { message: existingHuesped.length > 0 ? 'El huésped ya existe.' : 'Huésped creado con éxito.', huesped: result };
+        } catch (error) {
+            throw new Error('Failed to create huesped');
         }
     }
 }
