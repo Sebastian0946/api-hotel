@@ -14,6 +14,8 @@ export class HuespedController {
         try {
             const body = req.body;
 
+            console.log('Cuerpo de la solicitud:', body);
+
             if (!body.Codigo || !body.PersonaId) {
                 throw createHttpError(400, 'Los campos Codigo y PersonaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }

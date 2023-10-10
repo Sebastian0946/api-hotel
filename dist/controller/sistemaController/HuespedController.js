@@ -33,6 +33,7 @@ let HuespedController = exports.HuespedController = class HuespedController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                console.log('Cuerpo de la solicitud:', body);
                 if (!body.Codigo || !body.PersonaId) {
                     throw (0, http_errors_1.default)(400, 'Los campos Codigo y PersonaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
                 }
