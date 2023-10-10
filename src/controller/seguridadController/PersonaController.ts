@@ -14,8 +14,8 @@ export class PersonaController {
         try {
             const body = req.body;
 
-            if (!body.TipoDocumento || !body.Documento || !body.Nombres || !body.Apellidos || !body.Email || !body.Direccion || !body.Telefono || !body.Edad || !body.Genero) {
-                throw createHttpError(400, 'Los campos TipoDocumento, Documento, Nombres, Apellidos, Email, Direccion, Telefono, Edad y Genero son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            if (!body.TipoDocumento || !body.Documento || !body.Nombres || !body.Apellidos || !body.Email || !body.Direccion || !body.Telefono) {
+                throw createHttpError(400, 'Los campos TipoDocumento, Documento, Nombres, Apellidos, Email, Direccion y Telefono son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
             const result = await this.repository.create(body);
@@ -84,8 +84,8 @@ export class PersonaController {
 
             const body = req.body;
 
-            if (!body.TipoDocumento || !body.Documento || !body.Nombres || !body.Apellidos || !body.Email || !body.Direccion || !body.Telefono || !body.Edad || !body.Genero) {
-                throw createHttpError(400, 'Los campos TipoDocumento, Documento, Nombres, Apellidos, Email, Direccion, Telefono, Edad y Genero son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            if (!body.TipoDocumento || !body.Documento || !body.Nombres || !body.Apellidos || !body.Email || !body.Direccion || !body.Telefono) {
+                throw createHttpError(400, 'Los campos TipoDocumento, Documento, Nombres, Apellidos, Email, Direccion y Telefono son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
             const result = await this.repository.update(id, body);
