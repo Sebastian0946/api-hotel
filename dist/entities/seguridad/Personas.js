@@ -55,11 +55,11 @@ __decorate([
     __metadata("design:type", String)
 ], Personas.prototype, "Telefono", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'edad' }),
+    (0, typeorm_1.Column)({ name: 'edad', nullable: true }),
     __metadata("design:type", Number)
 ], Personas.prototype, "Edad", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'genero', type: 'enum', enum: Genero }),
+    (0, typeorm_1.Column)({ name: 'genero', type: 'enum', enum: Genero, nullable: true }),
     __metadata("design:type", String)
 ], Personas.prototype, "Genero", void 0);
 __decorate([
@@ -71,5 +71,5 @@ __decorate([
     __metadata("design:type", Huespedes_1.Huespedes)
 ], Personas.prototype, "HuespedId", void 0);
 exports.Personas = Personas = __decorate([
-    (0, typeorm_1.Entity)({ schema: '' })
+    (0, typeorm_1.Entity)()
 ], Personas);
