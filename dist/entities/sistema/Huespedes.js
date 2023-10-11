@@ -15,6 +15,7 @@ const ModelEntity_1 = require("../ModelEntity");
 const Personas_1 = require("../seguridad/Personas");
 const ReservaHabitaciones_1 = require("./ReservaHabitaciones");
 const Descuentos_1 = require("./Descuentos");
+const Habitaciones_1 = require("./Habitaciones");
 let Huespedes = exports.Huespedes = class Huespedes extends ModelEntity_1.ModelEntity {
 };
 __decorate([
@@ -35,6 +36,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => ReservaHabitaciones_1.ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.HabitacionId),
     __metadata("design:type", ReservaHabitaciones_1.ReservaHabitaciones)
 ], Huespedes.prototype, "ReservaHabitacionId", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Habitaciones_1.Habitaciones, (habitaciones) => habitaciones.HuespedId),
+    __metadata("design:type", Habitaciones_1.Habitaciones)
+], Huespedes.prototype, "HabitacionesId", void 0);
 exports.Huespedes = Huespedes = __decorate([
     (0, typeorm_1.Entity)({ schema: '' })
 ], Huespedes);

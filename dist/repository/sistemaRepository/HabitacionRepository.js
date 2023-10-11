@@ -35,7 +35,8 @@ class HabitacionRepository {
             try {
                 const repository = db_1.default.getRepository(Habitaciones_1.Habitaciones);
                 const queryBuilder = repository.createQueryBuilder('Habitaciones')
-                    .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones');
+                    .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                    .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes');
                 const result = yield queryBuilder.getMany();
                 return result;
             }
@@ -50,6 +51,7 @@ class HabitacionRepository {
                 const repository = db_1.default.getRepository(Habitaciones_1.Habitaciones);
                 const queryBuilder = repository.createQueryBuilder('Habitaciones')
                     .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                    .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                     .where('Habitaciones.id = :id', { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {

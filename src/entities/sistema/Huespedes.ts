@@ -3,6 +3,7 @@ import { ModelEntity } from "../ModelEntity";
 import { Personas } from "../seguridad/Personas";
 import { ReservaHabitaciones } from "./ReservaHabitaciones";
 import { Descuentos } from "./Descuentos";
+import { Habitaciones } from "./Habitaciones";
 
 
 @Entity({schema: ''})
@@ -21,4 +22,7 @@ export class Huespedes extends ModelEntity {
 
     @OneToMany(() => ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.HabitacionId)
     ReservaHabitacionId: ReservaHabitaciones
+
+    @OneToMany(() => Habitaciones, (habitaciones) => habitaciones.HuespedId)
+    HabitacionesId!: Habitaciones;
 }

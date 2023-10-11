@@ -20,7 +20,8 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
         try {
             const repository = dataBase.getRepository(Habitaciones);
             const queryBuilder = repository.createQueryBuilder('Habitaciones')
-                .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones');
+                .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes');
 
             const result = await queryBuilder.getMany();
             return result;
@@ -34,6 +35,7 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
             const repository = dataBase.getRepository(Habitaciones);
             const queryBuilder = repository.createQueryBuilder('Habitaciones')
                 .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                 .where('Habitaciones.id = :id', { id });
 
             const result = await queryBuilder.getOne();

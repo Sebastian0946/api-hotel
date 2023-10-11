@@ -15,6 +15,7 @@ const ModelEntity_1 = require("../ModelEntity");
 const TipoHabitaciones_1 = require("../parametrizacion/TipoHabitaciones");
 const InventariosHabitaciones_1 = require("../inventario/InventariosHabitaciones");
 const ReservaHabitaciones_1 = require("./ReservaHabitaciones");
+const Huespedes_1 = require("./Huespedes");
 let Habitaciones = exports.Habitaciones = class Habitaciones extends ModelEntity_1.ModelEntity {
 };
 __decorate([
@@ -22,6 +23,11 @@ __decorate([
     (0, typeorm_1.JoinColumn)({ name: 'tipoHabitaciones_id' }),
     __metadata("design:type", TipoHabitaciones_1.TipoHabitaciones)
 ], Habitaciones.prototype, "TipoHabitacionesId", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => Huespedes_1.Huespedes, (huesped) => huesped.HabitacionesId),
+    (0, typeorm_1.JoinColumn)({ name: 'huesped_id' }),
+    __metadata("design:type", Huespedes_1.Huespedes)
+], Habitaciones.prototype, "HuespedId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
     __metadata("design:type", String)
@@ -41,5 +47,5 @@ __decorate([
     __metadata("design:type", ReservaHabitaciones_1.ReservaHabitaciones)
 ], Habitaciones.prototype, "ReservaHabitacionId", void 0);
 exports.Habitaciones = Habitaciones = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], Habitaciones);

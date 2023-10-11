@@ -1,8 +1,9 @@
-import { Column, ManyToOne, JoinColumn, OneToMany, Entity} from 'typeorm';
+import { Column, ManyToOne, JoinColumn, OneToMany, Entity, OneToOne} from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import { TipoHabitaciones } from '../parametrizacion/TipoHabitaciones';
 import { InventariosHabitaciones } from '../inventario/InventariosHabitaciones';
 import { ReservaHabitaciones } from './ReservaHabitaciones';
+import { Huespedes } from './Huespedes';
 
 @Entity({schema: ''})
 export class Habitaciones extends ModelEntity {
@@ -11,6 +12,10 @@ export class Habitaciones extends ModelEntity {
     @JoinColumn({name: 'tipoHabitaciones_id'})
     TipoHabitacionesId: TipoHabitaciones;
 
+    @OneToOne(() => Huespedes, (huesped) => huesped.HabitacionesId)
+    @JoinColumn({ name: 'huesped_id' })
+    HuespedId: Huespedes;
+    
     @Column({name: 'codigo',unique: true, length: 25, nullable: false})
     Codigo: String;
 
