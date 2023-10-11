@@ -21,13 +21,14 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
             const repository = dataBase.getRepository(Habitaciones);
             const queryBuilder = repository.createQueryBuilder('Habitaciones')
                 .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
-                .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes');
-
+                .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
+                .leftJoinAndSelect('huespedes.PersonaId', 'personas');
+        
             const result = await queryBuilder.getMany();
             return result;
         } catch (error) {
             throw new Error('Failed to retrieve habitaciones');
-        }
+        }        
     }
 
     async get(id: id, query?: Query): Promise<Habitaciones> {
@@ -36,6 +37,7 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
             const queryBuilder = repository.createQueryBuilder('Habitaciones')
                 .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
+                .leftJoinAndSelect('huespedes.PersonaId', 'personas')
                 .where('Habitaciones.id = :id', { id });
 
             const result = await queryBuilder.getOne();
