@@ -14,6 +14,8 @@ export class HabitacionController {
         try {
             const body = req.body;
 
+            console.log('Cuerpo de la solicitud:', body);
+
             if (!body.TipoHabitacionesId || !body.Codigo || !body.Descripcion) {
                 throw createHttpError(400, 'Los campos TipoHabitacionesId, Codigo y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
