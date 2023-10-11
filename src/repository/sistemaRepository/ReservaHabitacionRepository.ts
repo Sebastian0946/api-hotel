@@ -22,6 +22,7 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                 .leftJoinAndSelect('ReservaHabitaciones.EstadoFacturaId', 'EstadoFacturas')
                 .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+                .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                 .leftJoinAndSelect('huespedes.PersonaId', 'personas')
                 .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos');
@@ -39,6 +40,7 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                 .leftJoinAndSelect('ReservaHabitaciones.EstadoFacturaId', 'EstadoFacturas')
                 .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+                .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                 .leftJoinAndSelect('huespedes.PersonaId', 'personas')
                 .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
