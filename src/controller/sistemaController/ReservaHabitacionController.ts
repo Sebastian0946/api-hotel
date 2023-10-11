@@ -13,8 +13,8 @@ export class ReservaHabitacionController {
         try {
             const body = req.body;
 
-            if (!body.EstadoFacturaId || !body.HabitacionId || !body.HuespedId || !body.DescuentoId || !body.Codigo || !body.FechaEntrada || !body.FechaSalida) {
-                throw createHttpError(400, 'Los campos EstadoFacturaId, HabitacionId, HuespedId, DescuentoId, Codigo, FechaEntrada y FechaSalida son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            if (!body.EstadoFacturaId || !body.HabitacionId || !body.Codigo || !body.FechaEntrada || !body.FechaSalida) {
+                throw createHttpError(400, 'Los campos EstadoFacturaId, HabitacionId, Codigo, FechaEntrada y FechaSalida son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
             const result = await this.repository.create(body);
@@ -83,8 +83,8 @@ export class ReservaHabitacionController {
 
             const body = req.body;
 
-            if (!body.EstadoFacturaId || !body.HabitacionId || !body.HuespedId || !body.DescuentoId || !body.Codigo || !body.FechaEntrada || !body.FechaSalida) {
-                throw createHttpError(400, 'Los campos EstadoFacturaId, HabitacionId, HuespedId, DescuentoId, Codigo, FechaEntrada y FechaSalida son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            if (!body.EstadoFacturaId || !body.HabitacionId || !body.Codigo || !body.FechaEntrada || !body.FechaSalida) {
+                throw createHttpError(400, 'Los campos EstadoFacturaId, HabitacionId, Codigo, FechaEntrada y FechaSalida son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
             const result = await this.repository.update(id, body);
