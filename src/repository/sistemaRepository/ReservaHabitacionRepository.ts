@@ -22,7 +22,8 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                 .leftJoinAndSelect('ReservaHabitaciones.EstadoFacturaId', 'EstadoFacturas')
                 .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
-                .leftJoinAndSelect('ReservaHabitaciones.HuespedId', 'Huespedes')
+                .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
+                .leftJoinAndSelect('huespedes.PersonaId', 'personas')
                 .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos');
 
             const result = await queryBuilder.getMany();
@@ -38,7 +39,8 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                 .leftJoinAndSelect('ReservaHabitaciones.EstadoFacturaId', 'EstadoFacturas')
                 .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
-                .leftJoinAndSelect('ReservaHabitaciones.HuespedId', 'Huespedes')
+                .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
+                .leftJoinAndSelect('huespedes.PersonaId', 'personas')
                 .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
                 .where('ReservaHabitaciones.id = :id', { id });
 
@@ -62,8 +64,6 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
                 .where('ReservaHabitaciones.id = :id', { id });
 
             if (query) {
-                // Aquí puedes agregar condiciones adicionales según la consulta
-                // Por ejemplo:
                 if (query.someCondition) {
                     queryBuilder.andWhere('ReservaHabitaciones.someColumn = :value', { value: query.someValue });
                 }

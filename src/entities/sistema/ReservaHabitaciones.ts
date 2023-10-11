@@ -2,11 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { ModelEntity } from "../ModelEntity";
 import { EstadoFacturas } from "./EstadoFacturas";
 import { Habitaciones } from "./Habitaciones";
-import { Huespedes } from "./Huespedes";
 import { Descuentos } from "./Descuentos";
 import { ConsumoHabitaciones } from "./ConsumoHabitaciones";
 
-@Entity({schema: ''})
+@Entity({ schema: '' })
 export class ReservaHabitaciones extends ModelEntity {
 
     @ManyToOne(() => EstadoFacturas, (estadoFactura) => estadoFactura.ReservaHabitacionId)
@@ -17,24 +16,19 @@ export class ReservaHabitaciones extends ModelEntity {
     @JoinColumn({ name: 'habitacion_id' })
     HabitacionId: Habitaciones;
 
-    @ManyToOne(() => Huespedes, (huesped) => huesped.ReservaHabitacionId)
-    @JoinColumn({ name: 'huesped_id' })
-    HuespedId: Huespedes;
-
-    @ManyToOne(() => Descuentos, (descuento) => descuento.ReservaHabitacionId)
+    @ManyToOne(() => Descuentos, (descuento) => descuento.ReservaHabitacionId, { nullable: true })
     @JoinColumn({ name: 'descuento_id' })
-    DescuentoId: Descuentos;
+    DescuentoId: Descuentos | null;
 
-    @Column({name: 'codigo',unique: true, length: 25, nullable: false})
+    @Column({ name: 'codigo', unique: true, length: 25, nullable: false })
     Codigo: String;
 
-    @Column({ name: 'fechaEntrada', type: 'timestamp' })
+    @Column({ name: 'fechaEntrada', type: 'timestamp', nullable: false })
     FechaEntrada: Date;
 
-    @Column({ name: 'fechaSalida', type: 'timestamp' })
-    FechaSalida: Date;
+    @Column({ name: 'fechaSalida', type: 'timestamp', nullable: false })
+    FechaSalida: Date;  
 
-    // Relacion Consumo Habitaciones
     @OneToMany(() => ConsumoHabitaciones, (consumoHabitacion) => consumoHabitacion.ReservaHabitacionesId)
     ConsumoHabitacionesId: ConsumoHabitaciones;
 }

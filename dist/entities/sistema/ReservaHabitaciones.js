@@ -14,7 +14,6 @@ const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
 const EstadoFacturas_1 = require("./EstadoFacturas");
 const Habitaciones_1 = require("./Habitaciones");
-const Huespedes_1 = require("./Huespedes");
 const Descuentos_1 = require("./Descuentos");
 const ConsumoHabitaciones_1 = require("./ConsumoHabitaciones");
 let ReservaHabitaciones = exports.ReservaHabitaciones = class ReservaHabitaciones extends ModelEntity_1.ModelEntity {
@@ -30,25 +29,20 @@ __decorate([
     __metadata("design:type", Habitaciones_1.Habitaciones)
 ], ReservaHabitaciones.prototype, "HabitacionId", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Huespedes_1.Huespedes, (huesped) => huesped.ReservaHabitacionId),
-    (0, typeorm_1.JoinColumn)({ name: 'huesped_id' }),
-    __metadata("design:type", Huespedes_1.Huespedes)
-], ReservaHabitaciones.prototype, "HuespedId", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => Descuentos_1.Descuentos, (descuento) => descuento.ReservaHabitacionId),
+    (0, typeorm_1.ManyToOne)(() => Descuentos_1.Descuentos, (descuento) => descuento.ReservaHabitacionId, { nullable: true }),
     (0, typeorm_1.JoinColumn)({ name: 'descuento_id' }),
-    __metadata("design:type", Descuentos_1.Descuentos)
+    __metadata("design:type", Object)
 ], ReservaHabitaciones.prototype, "DescuentoId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25, nullable: false }),
     __metadata("design:type", String)
 ], ReservaHabitaciones.prototype, "Codigo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'fechaEntrada', type: 'timestamp' }),
+    (0, typeorm_1.Column)({ name: 'fechaEntrada', type: 'timestamp', nullable: false }),
     __metadata("design:type", Date)
 ], ReservaHabitaciones.prototype, "FechaEntrada", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'fechaSalida', type: 'timestamp' }),
+    (0, typeorm_1.Column)({ name: 'fechaSalida', type: 'timestamp', nullable: false }),
     __metadata("design:type", Date)
 ], ReservaHabitaciones.prototype, "FechaSalida", void 0);
 __decorate([
@@ -56,5 +50,5 @@ __decorate([
     __metadata("design:type", ConsumoHabitaciones_1.ConsumoHabitaciones)
 ], ReservaHabitaciones.prototype, "ConsumoHabitacionesId", void 0);
 exports.ReservaHabitaciones = ReservaHabitaciones = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], ReservaHabitaciones);
