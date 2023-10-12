@@ -100,9 +100,9 @@ let PersonaController = exports.PersonaController = class PersonaController {
     findDocument(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { Documento } = req.params;
-                console.log('Documento recibido:', Documento);
-                const result = yield this.repository.findByDocumento(Documento);
+                const { documento } = req.params;
+                console.log('Documento recibido:', documento);
+                const result = yield this.repository.findByDocumento(documento);
                 return res.status(200).json({
                     message: 'Persona encontrada exitosamente',
                     data: result

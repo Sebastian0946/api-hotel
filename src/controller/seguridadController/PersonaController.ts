@@ -80,11 +80,11 @@ export class PersonaController {
     @Get(':documento')
     async findDocument(req: Request, res: Response, next: NextFunction) {
         try {
-            const { Documento } = req.params;
+            const { documento } = req.params;
             
-            console.log('Documento recibido:', Documento); 
+            console.log('Documento recibido:', documento); 
     
-            const result = await this.repository.findByDocumento(Documento);
+            const result = await this.repository.findByDocumento(documento);
     
             return res.status(200).json({
                 message: 'Persona encontrada exitosamente',
