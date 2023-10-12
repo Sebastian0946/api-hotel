@@ -103,10 +103,17 @@ let PersonaController = exports.PersonaController = class PersonaController {
                 const { documento } = req.params;
                 console.log('Documento recibido:', documento);
                 const result = yield this.repository.findByDocumento(documento);
-                return res.status(200).json({
-                    message: 'Persona encontrada exitosamente',
-                    data: result
-                });
+                if (result) {
+                    return res.status(200).json({
+                        message: 'Persona encontrada exitosamente',
+                        data: result
+                    });
+                }
+                else {
+                    return res.status(404).json({
+                        message: 'Persona no encontrada'
+                    });
+                }
             }
             catch (error) {
                 console.error('Error al encontrar la persona:', error);

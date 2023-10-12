@@ -81,20 +81,27 @@ export class PersonaController {
     async findDocument(req: Request, res: Response, next: NextFunction) {
         try {
             const { documento } = req.params;
-            
-            console.log('Documento recibido:', documento); 
+    
+            console.log('Documento recibido:', documento);
     
             const result = await this.repository.findByDocumento(documento);
     
-            return res.status(200).json({
-                message: 'Persona encontrada exitosamente',
-                data: result
-            });
+            if (result) {
+                return res.status(200).json({
+                    message: 'Persona encontrada exitosamente',
+                    data: result
+                });
+            } else {
+                return res.status(404).json({ 
+                    message: 'Persona no encontrada' 
+                });
+            }
         } catch (error) {
             console.error('Error al encontrar la persona:', error);
             return res.status(500).json({ message: 'Ocurrió un error al buscar la persona. Por favor, intenta nuevamente más tarde.' });
         }
-    }    
+    }
+    
 
     @Put('/:id')
     async update(req: Request, res: Response, next: NextFunction) {
