@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
+import { JsonController, Get, Post, Put, Delete, Param, Res } from 'routing-controllers';
 
 import { PersonaRepository } from "../../repository/seguridadRepository/PersonaRepository";
 import createHttpError from "http-errors";
@@ -76,6 +76,25 @@ export class PersonaController {
             }
         }
     }
+
+    @Get(':documento')
+    async findDocument(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { Documento } = req.params;
+            
+            console.log('Documento recibido:', Documento); 
+    
+            const result = await this.repository.findByDocumento(Documento);
+    
+            return res.status(200).json({
+                message: 'Persona encontrada exitosamente',
+                data: result
+            });
+        } catch (error) {
+            console.error('Error al encontrar la persona:', error);
+            return res.status(500).json({ message: 'Ocurrió un error al buscar la persona. Por favor, intenta nuevamente más tarde.' });
+        }
+    }    
 
     @Put('/:id')
     async update(req: Request, res: Response, next: NextFunction) {

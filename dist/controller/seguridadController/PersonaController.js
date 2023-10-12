@@ -97,6 +97,23 @@ let PersonaController = exports.PersonaController = class PersonaController {
             }
         });
     }
+    findDocument(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { Documento } = req.params;
+                console.log('Documento recibido:', Documento);
+                const result = yield this.repository.findByDocumento(Documento);
+                return res.status(200).json({
+                    message: 'Persona encontrada exitosamente',
+                    data: result
+                });
+            }
+            catch (error) {
+                console.error('Error al encontrar la persona:', error);
+                return res.status(500).json({ message: 'Ocurrió un error al buscar la persona. Por favor, intenta nuevamente más tarde.' });
+            }
+        });
+    }
     update(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -164,6 +181,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Function]),
     __metadata("design:returntype", Promise)
 ], PersonaController.prototype, "get", null);
+__decorate([
+    (0, routing_controllers_1.Get)(':documento'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Function]),
+    __metadata("design:returntype", Promise)
+], PersonaController.prototype, "findDocument", null);
 __decorate([
     (0, routing_controllers_1.Put)('/:id'),
     __metadata("design:type", Function),

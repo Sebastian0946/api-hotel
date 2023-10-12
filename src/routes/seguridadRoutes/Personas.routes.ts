@@ -5,9 +5,7 @@ import { PersonaRepository } from '../../repository/seguridadRepository/PersonaR
 const router = Router()
 
 const controller = new PersonaController(
-    
     new PersonaRepository()
-
 );
 
 router.post('/seguridad/persona', controller.create.bind(controller));
@@ -20,5 +18,6 @@ router.put('/seguridad/persona/:id', controller.update.bind(controller));
 
 router.delete('/seguridad/persona/:id', controller.remove.bind(controller));
 
+router.get('/seguridad/persona/:documento', controller.findDocument.bind(controller))
 
 export default router;

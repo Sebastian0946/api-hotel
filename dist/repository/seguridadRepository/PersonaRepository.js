@@ -56,6 +56,21 @@ class PersonaRepository {
             }
         });
     }
+    findByDocumento(documento, query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const documentoNumber = parseInt(documento, 10);
+                if (isNaN(documentoNumber)) {
+                    return null;
+                }
+                const result = yield this.repository.findOneBy({ Documento: documentoNumber });
+                return result || null;
+            }
+            catch (error) {
+                throw new Error('Failed to retrieve persona by documento');
+            }
+        });
+    }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

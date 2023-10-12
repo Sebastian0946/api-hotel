@@ -14,9 +14,9 @@ export class PersonaRepository implements PersonaService<Personas> {
             await this.repository.save(result);
 
             return result;
-            
+
         } catch (error) {
-            throw new Error('Error al crea la persona, observa los campos' +  error);
+            throw new Error('Error al crea la persona, observa los campos' + error);
         }
     }
 
@@ -30,7 +30,7 @@ export class PersonaRepository implements PersonaService<Personas> {
 
     async get(id: id, query?: Query): Promise<Personas> {
         try {
-            const result = await this.repository.findOneBy({id: id as any});
+            const result = await this.repository.findOneBy({ id: id as any });
 
             if (!result) {
                 throw new NotFound('Persona not found');
@@ -42,6 +42,26 @@ export class PersonaRepository implements PersonaService<Personas> {
             throw new Error('Failed to retrieve persona');
         }
     }
+
+    async findByDocumento(documento: string, query?: Query): Promise<Personas | null> {
+        try {
+
+            const documentoNumber = parseInt(documento, 10);
+            if (isNaN(documentoNumber)) {
+                return null;
+            }
+
+            const result = await this.repository.findOneBy({ Documento: documentoNumber });
+
+            return result || null;
+
+        } catch (error) {
+
+            throw new Error('Failed to retrieve persona by documento');
+            
+        }
+    }
+
 
     async update(id: id, data: Personas, query?: Query): Promise<Personas> {
         try {
