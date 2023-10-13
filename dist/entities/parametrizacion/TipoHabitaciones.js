@@ -20,6 +20,10 @@ __decorate([
     __metadata("design:type", String)
 ], TipoHabitaciones.prototype, "Codigo", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'titulo', length: 25, nullable: false, unique: true }),
+    __metadata("design:type", String)
+], TipoHabitaciones.prototype, "Titulo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ name: 'descripcion', length: 25, nullable: false }),
     __metadata("design:type", String)
 ], TipoHabitaciones.prototype, "Descripcion", void 0);
