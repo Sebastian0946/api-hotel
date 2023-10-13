@@ -3,7 +3,7 @@ import dataBase from "../../db";
 import { CategoriaService, Query, id } from "../../service/inventarioService/CategoriaService";
 import { Categorias } from "../../entities/inventario/Categorias";
 import { Estado } from "../../entities/ModelEntity";
-import { SelectQueryBuilder } from "typeorm";
+import { Brackets, SelectQueryBuilder } from "typeorm";
 
 export class CategoriaRepository implements CategoriaService<Categorias> {
 
@@ -23,26 +23,35 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
         try {
             const queryBuilder: SelectQueryBuilder<Categorias> = this.repository.createQueryBuilder('Categorias');
 
-            queryBuilder.where('estado = :estadoActivo OR estado = :estadoInactivo OR estado = :estadoDesactivado', {
+            queryBuilder.where('estado = :estadoActivo OR estado = :estadoInactivo', {
                 estadoActivo: 'Activo',
                 estadoInactivo: 'Inactivo',
+            });
+
+            queryBuilder.orWhere('estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
                 estadoDesactivado: 'Desactivado',
             });
 
             const categorias = await queryBuilder.getMany();
 
             return categorias;
-            
         } catch (error) {
-            throw new Error('Failed to retrieve categorias');
+            throw new Error('Failed to retrieve categorías');
         }
     }
-
 
     async get(id: id, query?: Query): Promise<Categorias> {
         try {
             const categoria = await this.repository.createQueryBuilder("Categorias")
                 .where("Categorias.id = :id", { id })
+                .andWhere(new Brackets(qb => {
+                    qb.where('estado = :estadoActivo', { estadoActivo: 'Activo' })
+                        .orWhere('estado = :estadoInactivo', { estadoInactivo: 'Inactivo' })
+                        .orWhere(new Brackets(qb => {
+                            qb.where('estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
+                                .andWhere('fecha_eliminacion IS NOT NULL');
+                        }));
+                }))
                 .getOne();
 
             if (!categoria) {

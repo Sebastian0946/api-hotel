@@ -17,6 +17,7 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Categorias_1 = require("../../entities/inventario/Categorias");
 const ModelEntity_1 = require("../../entities/ModelEntity");
+const typeorm_1 = require("typeorm");
 class CategoriaRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Categorias_1.Categorias);
@@ -37,16 +38,18 @@ class CategoriaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder('Categorias');
-                queryBuilder.where('estado = :estadoActivo OR estado = :estadoInactivo OR estado = :estadoDesactivado', {
+                queryBuilder.where('estado = :estadoActivo OR estado = :estadoInactivo', {
                     estadoActivo: 'Activo',
                     estadoInactivo: 'Inactivo',
+                });
+                queryBuilder.orWhere('estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
                     estadoDesactivado: 'Desactivado',
                 });
                 const categorias = yield queryBuilder.getMany();
                 return categorias;
             }
             catch (error) {
-                throw new Error('Failed to retrieve categorias');
+                throw new Error('Failed to retrieve categorías');
             }
         });
     }
@@ -55,6 +58,14 @@ class CategoriaRepository {
             try {
                 const categoria = yield this.repository.createQueryBuilder("Categorias")
                     .where("Categorias.id = :id", { id })
+                    .andWhere(new typeorm_1.Brackets(qb => {
+                    qb.where('estado = :estadoActivo', { estadoActivo: 'Activo' })
+                        .orWhere('estado = :estadoInactivo', { estadoInactivo: 'Inactivo' })
+                        .orWhere(new typeorm_1.Brackets(qb => {
+                        qb.where('estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
+                            .andWhere('fecha_eliminacion IS NOT NULL');
+                    }));
+                }))
                     .getOne();
                 if (!categoria) {
                     throw new http_errors_1.NotFound("Categoria not found");
