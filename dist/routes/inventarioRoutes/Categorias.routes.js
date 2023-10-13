@@ -9,5 +9,5 @@ router.post('/inventario/categoria', controller.create.bind(controller));
 router.get('/inventario/categoria', controller.list.bind(controller));
 router.get('/inventario/categoria/:id', controller.get.bind(controller));
 router.put('/inventario/categoria/:id', controller.update.bind(controller));
-router.delete('/inventario/categoria/:id', controller.remove.bind(controller));
+router.put('/inventario/categoria/eliminar/:id', controller.remove.bind(controller));
 exports.default = router;

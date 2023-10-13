@@ -16,6 +16,6 @@ router.get('/inventario/categoria/:id', controller.get.bind(controller));
 
 router.put('/inventario/categoria/:id', controller.update.bind(controller));
 
-router.delete('/inventario/categoria/:id', controller.remove.bind(controller));
+router.put('/inventario/categoria/eliminar/:id', controller.remove.bind(controller));
 
 export default router;
