@@ -9,17 +9,18 @@ export class TipoHabitacionesController {
 
     @Post()
     async create(req: Request, res: Response, next: NextFunction) {
-
         try {
             const body = req.body;
 
-            console.log("Cuerpo tipo habitacion: ",  body);
+            console.log('Valores en req.body:', body); 
 
             if (!body.Codigo || !body.Descripcion || !body.Cantidad) {
                 throw createHttpError(400, 'Los campos Codigo, Descripcion y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
             const result = await this.repository.create(body, undefined, req.file);
+
+            console.log('Valores en result:', result); // Agregar esta línea
 
             res.status(201).json({
                 message: 'Tipo habitación creado exitosamente',
@@ -35,7 +36,6 @@ export class TipoHabitacionesController {
             }
         }
     }
-
 
     @Get()
     async list(req: Request, res: Response, next: NextFunction) {
