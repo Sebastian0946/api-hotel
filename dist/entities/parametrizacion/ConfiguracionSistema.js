@@ -33,5 +33,5 @@ __decorate([
     __metadata("design:type", String)
 ], ConfiguracionSistema.prototype, "Descripcion", void 0);
 exports.ConfiguracionSistema = ConfiguracionSistema = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], ConfiguracionSistema);

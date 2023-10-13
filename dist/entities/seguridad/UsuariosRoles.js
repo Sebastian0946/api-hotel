@@ -27,5 +27,5 @@ __decorate([
     __metadata("design:type", Usuarios_1.Usuarios)
 ], UsuariosRoles.prototype, "UsuariosId", void 0);
 exports.UsuariosRoles = UsuariosRoles = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], UsuariosRoles);

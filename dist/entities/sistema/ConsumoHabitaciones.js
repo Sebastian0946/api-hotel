@@ -41,5 +41,5 @@ __decorate([
     __metadata("design:type", String)
 ], ConsumoHabitaciones.prototype, "Cantidad", void 0);
 exports.ConsumoHabitaciones = ConsumoHabitaciones = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], ConsumoHabitaciones);

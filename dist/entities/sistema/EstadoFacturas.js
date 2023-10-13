@@ -28,5 +28,5 @@ __decorate([
     __metadata("design:type", ReservaHabitaciones_1.ReservaHabitaciones)
 ], EstadoFacturas.prototype, "ReservaHabitacionId", void 0);
 exports.EstadoFacturas = EstadoFacturas = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], EstadoFacturas);

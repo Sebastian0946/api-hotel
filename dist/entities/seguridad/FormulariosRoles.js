@@ -27,5 +27,5 @@ __decorate([
     __metadata("design:type", Formularios_1.Formularios)
 ], FormulariosRoles.prototype, "FormulariosId", void 0);
 exports.FormulariosRoles = FormulariosRoles = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], FormulariosRoles);

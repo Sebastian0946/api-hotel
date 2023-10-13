@@ -38,9 +38,6 @@ class CategoriaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder('Categorias');
-                queryBuilder.where('Estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
-                    estadoDesactivado: 'Desactivado',
-                });
                 const categorias = yield queryBuilder.getMany();
                 return categorias;
             }

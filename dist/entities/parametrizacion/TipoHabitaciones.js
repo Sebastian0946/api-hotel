@@ -32,5 +32,5 @@ __decorate([
     __metadata("design:type", Habitaciones_1.Habitaciones)
 ], TipoHabitaciones.prototype, "HabitacionesId", void 0);
 exports.TipoHabitaciones = TipoHabitaciones = __decorate([
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)({ schema: '' })
 ], TipoHabitaciones);

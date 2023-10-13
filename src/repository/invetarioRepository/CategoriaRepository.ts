@@ -23,10 +23,6 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
         try {
             const queryBuilder: SelectQueryBuilder<Categorias> = this.repository.createQueryBuilder('Categorias');
 
-            queryBuilder.where('Estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
-                estadoDesactivado: 'Desactivado',
-            });
-
             const categorias = await queryBuilder.getMany();
 
             return categorias;
