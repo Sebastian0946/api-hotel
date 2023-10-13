@@ -20,6 +20,6 @@ export abstract class ModelEntity extends BaseEntity{
   @UpdateDateColumn()
   fecha_modificacion: Date;
 
-  @DeleteDateColumn()
+  @UpdateDateColumn()
   fecha_eliminacion: Date;
 }
