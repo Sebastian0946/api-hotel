@@ -38,11 +38,11 @@ class CategoriaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder('Categorias');
-                queryBuilder.where('estado = :estadoActivo OR estado = :estadoInactivo', {
+                queryBuilder.where('Estado = :estadoActivo OR Estado = :estadoInactivo', {
                     estadoActivo: 'Activo',
                     estadoInactivo: 'Inactivo',
                 });
-                queryBuilder.orWhere('estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
+                queryBuilder.orWhere('Estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
                     estadoDesactivado: 'Desactivado',
                 });
                 const categorias = yield queryBuilder.getMany();
@@ -59,10 +59,10 @@ class CategoriaRepository {
                 const categoria = yield this.repository.createQueryBuilder("Categorias")
                     .where("Categorias.id = :id", { id })
                     .andWhere(new typeorm_1.Brackets(qb => {
-                    qb.where('estado = :estadoActivo', { estadoActivo: 'Activo' })
-                        .orWhere('estado = :estadoInactivo', { estadoInactivo: 'Inactivo' })
+                    qb.where('Estado = :estadoActivo', { estadoActivo: 'Activo' })
+                        .orWhere('Estado = :estadoInactivo', { estadoInactivo: 'Inactivo' })
                         .orWhere(new typeorm_1.Brackets(qb => {
-                        qb.where('estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
+                        qb.where('Estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
                             .andWhere('fecha_eliminacion IS NOT NULL');
                     }));
                 }))

@@ -23,12 +23,12 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
         try {
             const queryBuilder: SelectQueryBuilder<Categorias> = this.repository.createQueryBuilder('Categorias');
 
-            queryBuilder.where('estado = :estadoActivo OR estado = :estadoInactivo', {
+            queryBuilder.where('Estado = :estadoActivo OR Estado = :estadoInactivo', {
                 estadoActivo: 'Activo',
                 estadoInactivo: 'Inactivo',
             });
 
-            queryBuilder.orWhere('estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
+            queryBuilder.orWhere('Estado = :estadoDesactivado AND fecha_eliminacion IS NOT NULL', {
                 estadoDesactivado: 'Desactivado',
             });
 
@@ -45,10 +45,10 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
             const categoria = await this.repository.createQueryBuilder("Categorias")
                 .where("Categorias.id = :id", { id })
                 .andWhere(new Brackets(qb => {
-                    qb.where('estado = :estadoActivo', { estadoActivo: 'Activo' })
-                        .orWhere('estado = :estadoInactivo', { estadoInactivo: 'Inactivo' })
+                    qb.where('Estado = :estadoActivo', { estadoActivo: 'Activo' })
+                        .orWhere('Estado = :estadoInactivo', { estadoInactivo: 'Inactivo' })
                         .orWhere(new Brackets(qb => {
-                            qb.where('estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
+                            qb.where('Estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
                                 .andWhere('fecha_eliminacion IS NOT NULL');
                         }));
                 }))
