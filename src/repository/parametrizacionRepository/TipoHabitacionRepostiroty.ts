@@ -8,6 +8,7 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
     private repository = dataBase.getRepository(TipoHabitaciones);
 
     async create(data: Partial<TipoHabitaciones>, query?: Query, file?: Express.Request['file']): Promise<TipoHabitaciones> {
+
         try {
             if (file) {
                 data.Imagen = file.buffer;
@@ -20,6 +21,7 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
         } catch (error) {
             throw new Error('Failed to create tipo habitacion');
         }
+        
     }
 
     async list(query?: Query): Promise<TipoHabitaciones[]> {
