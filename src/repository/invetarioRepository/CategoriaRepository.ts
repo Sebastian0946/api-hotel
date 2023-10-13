@@ -3,6 +3,7 @@ import dataBase from "../../db";
 import { CategoriaService, Query, id } from "../../service/inventarioService/CategoriaService";
 import { Categorias } from "../../entities/inventario/Categorias";
 import { Estado } from "../../entities/ModelEntity";
+import { SelectQueryBuilder } from "typeorm";
 
 export class CategoriaRepository implements CategoriaService<Categorias> {
 
@@ -20,11 +21,18 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
 
     async list(query?: Query): Promise<Categorias[]> {
         try {
-            const categorias = await this.repository.createQueryBuilder("Categorias")
-                .where("Estado IN (:...estado)", { Estado: ["Activo", "Inactivo", "Desactivado"] })
-                .getMany();
+            const queryBuilder: SelectQueryBuilder<Categorias> = this.repository.createQueryBuilder('Categorias');
+
+            queryBuilder.where('estado = :estadoActivo OR estado = :estadoInactivo OR estado = :estadoDesactivado', {
+                estadoActivo: 'Activo',
+                estadoInactivo: 'Inactivo',
+                estadoDesactivado: 'Desactivado',
+            });
+
+            const categorias = await queryBuilder.getMany();
 
             return categorias;
+            
         } catch (error) {
             throw new Error('Failed to retrieve categorias');
         }
