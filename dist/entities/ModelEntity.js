@@ -37,6 +37,6 @@ __decorate([
     __metadata("design:type", Date)
 ], ModelEntity.prototype, "fecha_modificacion", void 0);
 __decorate([
-    (0, typeorm_1.UpdateDateColumn)(),
+    (0, typeorm_1.DeleteDateColumn)(),
     __metadata("design:type", Date)
 ], ModelEntity.prototype, "fecha_eliminacion", void 0);
