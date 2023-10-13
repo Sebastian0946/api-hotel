@@ -5,9 +5,7 @@ import { CategoriaRepository } from '../../repository/invetarioRepository/Catego
 const router = Router()
 
 const controller = new CategoriaController(
-    
     new CategoriaRepository()
-
 );
 
 router.post('/inventario/categoria', controller.create.bind(controller));

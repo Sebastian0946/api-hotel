@@ -81,9 +81,7 @@ export class PersonaController {
     async findDocument(req: Request, res: Response, next: NextFunction) {
         try {
             const { documento } = req.params;
-    
-            console.log('Documento recibido:', documento);
-    
+
             const result = await this.repository.findByDocumento(documento);
     
             if (result) {

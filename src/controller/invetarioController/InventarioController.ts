@@ -3,6 +3,8 @@ import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-con
 
 import { InventarioRepository } from "../../repository/invetarioRepository/InventarioRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator/types/validation/ValidationError";
+
 @JsonController('/inventario')
 export class InventarioController {
 
@@ -24,12 +26,16 @@ export class InventarioController {
                 data: result
             });
         } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear el inventario:', error.message);
-                throw createHttpError(500, 'No se pudo crear el inventario. Por favor, intenta nuevamente más tarde.');
+            console.error('Error al crear el producto:', error);
+
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: error.toString()
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado.'
+                });
             }
         }
     }

@@ -3,6 +3,7 @@ import { PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Bas
 export enum Estado {
   Activo = 'Activo',
   Inactivo = 'Inactivo',
+  Desactivado = 'Desactivado'
 }
 
 export abstract class ModelEntity extends BaseEntity{

@@ -16,6 +16,7 @@ exports.CategoriaRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Categorias_1 = require("../../entities/inventario/Categorias");
+const typeorm_1 = require("typeorm");
 class CategoriaRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Categorias_1.Categorias);
@@ -71,21 +72,41 @@ class CategoriaRepository {
                 return result.raw[0];
             }
             catch (error) {
-                // Manejar la excepción adecuadamente
                 throw error;
             }
         });
     }
-    remove(id, query) {
+    remove(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.get(id, query);
-                yield this.repository.remove(result);
-                return result;
+                const entityManager = (0, typeorm_1.getManager)();
+                const updateQuery = `
+                UPDATE categorias
+                SET estado = 'Desactivado'
+                WHERE id = $1
+                RETURNING *;
+            `;
+                const result = yield entityManager.query(updateQuery, [id]);
+                if (result.length === 0) {
+                    throw new http_errors_1.NotFound("Categoría no encontrada");
+                }
+                return result[0];
             }
             catch (error) {
-                throw new Error('Failed to remove categoria');
+                throw error;
             }
+        });
+    }
+    isCategoryInUse(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const entityManager = (0, typeorm_1.getManager)();
+            const usageQuery = `
+        SELECT 1
+        FROM productos
+        WHERE categoria_id = $1
+    `;
+            const usageResult = yield entityManager.query(usageQuery, [id]);
+            return usageResult.length > 0;
         });
     }
 }

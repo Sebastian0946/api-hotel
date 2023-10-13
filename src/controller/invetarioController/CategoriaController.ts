@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 
 import { CategoriaRepository } from "../../repository/invetarioRepository/CategoriaRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/categoria')
 export class CategoriaController {
@@ -25,13 +26,21 @@ export class CategoriaController {
                 message: 'Categoria creada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear la categoria:', error.message);
-                throw createHttpError(500, 'No se pudo crear la categoria. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                // Error de validación (por ejemplo, datos faltantes o inválidos)
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -45,13 +54,20 @@ export class CategoriaController {
                 message: 'Categorias obtenidos exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al obtener las categorias:', error.message);
-                throw createHttpError(500, 'No se pudo listar las categorias. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -67,13 +83,20 @@ export class CategoriaController {
                 message: 'Categoria encontrado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al encontrar la categoria:', error.message);
-                throw createHttpError(500, 'No se pudo encontrar la categoria. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -84,7 +107,6 @@ export class CategoriaController {
             const { id } = req.params;
             const body = req.body;
 
-            // Validar que los campos Codigo y Descripcion no sean nulos o vacíos
             if (!body.Codigo || !body.Descripcion) {
                 throw createHttpError(400, 'Los campos Codigo y Descripcion son obligatorios. Por favor, asegúrese de completar ambos campos.');
             }
@@ -95,36 +117,57 @@ export class CategoriaController {
                 message: 'Categoria actualizada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar la categoria:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar la categoria. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
-
 
     @Delete('/:id')
     async remove(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
 
+            const isCategoryInUse = await this.repository.isCategoryInUse(id);
+
+            if (isCategoryInUse) {
+                return res.status(409).json({
+                    message: 'Categoria en uso'
+                });
+            }
+
             const result = await this.repository.remove(id);
 
-            res.status(200).json({
-                message: 'Categoria eliminada exitosamente',
+            return res.status(200).json({
+                message: 'Categoría eliminada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar la categoria:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar la categoria. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

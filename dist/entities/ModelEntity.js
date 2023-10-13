@@ -15,6 +15,7 @@ var Estado;
 (function (Estado) {
     Estado["Activo"] = "Activo";
     Estado["Inactivo"] = "Inactivo";
+    Estado["Desactivado"] = "Desactivado";
 })(Estado || (exports.Estado = Estado = {}));
 class ModelEntity extends typeorm_1.BaseEntity {
 }

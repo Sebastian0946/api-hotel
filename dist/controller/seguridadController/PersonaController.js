@@ -101,7 +101,6 @@ let PersonaController = exports.PersonaController = class PersonaController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { documento } = req.params;
-                console.log('Documento recibido:', documento);
                 const result = yield this.repository.findByDocumento(documento);
                 if (result) {
                     return res.status(200).json({

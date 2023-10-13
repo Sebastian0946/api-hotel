@@ -2,6 +2,8 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { CategoriaService, Query, id } from "../../service/inventarioService/CategoriaService";
 import { Categorias } from "../../entities/inventario/Categorias";
+import { getManager } from 'typeorm';
+import { HttpError } from "routing-controllers";
 
 export class CategoriaRepository implements CategoriaService<Categorias> {
 
@@ -57,18 +59,45 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
             return result.raw[0];
 
         } catch (error) {
-            // Manejar la excepción adecuadamente
             throw error;
         }
     }
 
-    async remove(id: id, query?: Query): Promise<Categorias> {
+    async remove(id: id): Promise<Categorias> {
         try {
-            const result = await this.get(id, query);
-            await this.repository.remove(result);
-            return result;
+            const entityManager = getManager();
+
+            const updateQuery = `
+                UPDATE categorias
+                SET estado = 'Desactivado'
+                WHERE id = $1
+                RETURNING *;
+            `;
+
+            const result = await entityManager.query(updateQuery, [id]);
+
+            if (result.length === 0) {
+                throw new NotFound("Categoría no encontrada");
+            }
+
+            return result[0];
         } catch (error) {
-            throw new Error('Failed to remove categoria');
+            throw error;
         }
     }
+
+    async isCategoryInUse(id: id): Promise<boolean> {
+        const entityManager = getManager();
+
+        const usageQuery = `
+        SELECT 1
+        FROM productos
+        WHERE categoria_id = $1
+    `;
+
+        const usageResult = await entityManager.query(usageQuery, [id]);
+
+        return usageResult.length > 0;
+    }
+
 }
