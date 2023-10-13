@@ -16,7 +16,7 @@ exports.CategoriaRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Categorias_1 = require("../../entities/inventario/Categorias");
-const typeorm_1 = require("typeorm");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 class CategoriaRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Categorias_1.Categorias);
@@ -79,18 +79,14 @@ class CategoriaRepository {
     remove(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const entityManager = (0, typeorm_1.getManager)();
-                const updateQuery = `
-                UPDATE categorias
-                SET estado = 'Desactivado'
-                WHERE id = $1
-                RETURNING *;
-            `;
-                const result = yield entityManager.query(updateQuery, [id]);
-                if (result.length === 0) {
+                const queryBuilder = this.repository.createQueryBuilder("Categorias")
+                    .where("Categorias.id = :id", { id });
+                const result = yield queryBuilder.update().set({ Estado: ModelEntity_1.Estado.Desactivado }).returning("*").execute();
+                if (result.affected === 0) {
                     throw new http_errors_1.NotFound("Categoría no encontrada");
                 }
-                return result[0];
+                // Devuelve la categoría actualizada
+                return result.raw[0];
             }
             catch (error) {
                 throw error;
