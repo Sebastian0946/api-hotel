@@ -86,18 +86,4 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
         }
     }
 
-    async isCategoryInUse(id: id): Promise<boolean> {
-        const entityManager = getManager();
-
-        const usageQuery = `
-        SELECT 1
-        FROM productos
-        WHERE categoria_id = $1
-    `;
-
-        const usageResult = await entityManager.query(usageQuery, [id]);
-
-        return usageResult.length > 0;
-    }
-
 }

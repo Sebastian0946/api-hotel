@@ -149,12 +149,6 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { id } = req.params;
-                const isCategoryInUse = yield this.repository.isCategoryInUse(id);
-                if (isCategoryInUse) {
-                    return res.status(409).json({
-                        message: 'Categoría en uso'
-                    });
-                }
                 const result = yield this.repository.remove(id);
                 return res.status(200).json({
                     message: 'Categoría eliminada exitosamente',

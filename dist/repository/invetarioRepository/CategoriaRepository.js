@@ -97,17 +97,5 @@ class CategoriaRepository {
             }
         });
     }
-    isCategoryInUse(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const entityManager = (0, typeorm_1.getManager)();
-            const usageQuery = `
-        SELECT 1
-        FROM productos
-        WHERE categoria_id = $1
-    `;
-            const usageResult = yield entityManager.query(usageQuery, [id]);
-            return usageResult.length > 0;
-        });
-    }
 }
 exports.CategoriaRepository = CategoriaRepository;

@@ -139,15 +139,7 @@ export class CategoriaController {
     async remove(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
-
-            const isCategoryInUse = await this.repository.isCategoryInUse(id);
-
-            if (isCategoryInUse) {
-                return res.status(409).json({
-                    message: 'Categoría en uso'
-                });
-            }
-
+            
             const result = await this.repository.remove(id);
 
             return res.status(200).json({
