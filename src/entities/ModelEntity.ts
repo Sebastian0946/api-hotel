@@ -6,20 +6,20 @@ export enum Estado {
   Desactivado = 'Desactivado'
 }
 
-export abstract class ModelEntity extends BaseEntity{
-  
+export abstract class ModelEntity extends BaseEntity {
+
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({name: 'estado',type: 'enum', enum: Estado, default: Estado.Activo})
+  @Column({ name: 'estado', type: 'enum', enum: Estado, default: Estado.Activo })
   Estado: Estado;
-  
+
   @CreateDateColumn()
   fecha_creacion: Date;
 
   @UpdateDateColumn()
   fecha_modificacion: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: true })
   fecha_eliminacion: Date;
 }
