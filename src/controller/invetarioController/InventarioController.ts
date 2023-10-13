@@ -3,7 +3,7 @@ import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-con
 
 import { InventarioRepository } from "../../repository/invetarioRepository/InventarioRepository";
 import createHttpError from "http-errors";
-import { ValidationError } from "class-validator/types/validation/ValidationError";
+import { ValidationError } from "class-validator";
 
 @JsonController('/inventario')
 export class InventarioController {

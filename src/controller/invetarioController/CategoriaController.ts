@@ -144,7 +144,7 @@ export class CategoriaController {
 
             if (isCategoryInUse) {
                 return res.status(409).json({
-                    message: 'Categoria en uso'
+                    message: 'Categoría en uso'
                 });
             }
 

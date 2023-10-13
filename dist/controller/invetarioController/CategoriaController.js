@@ -152,7 +152,7 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
                 const isCategoryInUse = yield this.repository.isCategoryInUse(id);
                 if (isCategoryInUse) {
                     return res.status(409).json({
-                        message: 'Categoria en uso'
+                        message: 'Categoría en uso'
                     });
                 }
                 const result = yield this.repository.remove(id);

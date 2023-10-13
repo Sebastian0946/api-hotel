@@ -25,7 +25,7 @@ exports.InventarioController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const InventarioRepository_1 = require("../../repository/invetarioRepository/InventarioRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
-const ValidationError_1 = require("class-validator/types/validation/ValidationError");
+const class_validator_1 = require("class-validator");
 let InventarioController = exports.InventarioController = class InventarioController {
     constructor(repository) {
         this.repository = repository;
@@ -45,7 +45,7 @@ let InventarioController = exports.InventarioController = class InventarioContro
             }
             catch (error) {
                 console.error('Error al crear el producto:', error);
-                if (error instanceof ValidationError_1.ValidationError) {
+                if (error instanceof class_validator_1.ValidationError) {
                     res.status(400).json({
                         message: error.toString()
                     });
