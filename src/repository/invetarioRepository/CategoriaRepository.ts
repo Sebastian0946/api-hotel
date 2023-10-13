@@ -20,21 +20,28 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
 
     async list(query?: Query): Promise<Categorias[]> {
         try {
-            return this.repository.find();
+            const categorias = await this.repository.createQueryBuilder("Categorias")
+                .where("Estado IN (:...estados)", { estados: ["Activo", "Inactivo", "Desactivado"] })
+                .getMany();
+
+            return categorias;
         } catch (error) {
             throw new Error('Failed to retrieve categorias');
         }
     }
 
+
     async get(id: id, query?: Query): Promise<Categorias> {
         try {
-            const result = await this.repository.findOneBy({ id: id as any });
+            const categoria = await this.repository.createQueryBuilder("Categorias")
+                .where("Categorias.id = :id", { id })
+                .getOne();
 
-            if (!result) {
+            if (!categoria) {
                 throw new NotFound("Categoria not found");
             }
 
-            return result;
+            return categoria;
         } catch (error) {
             throw new Error('Failed to retrieve categoria');
         }

@@ -36,7 +36,10 @@ class CategoriaRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return this.repository.find();
+                const categorias = yield this.repository.createQueryBuilder("Categorias")
+                    .where("Estado IN (:...estados)", { estados: ["Activo", "Inactivo", "Desactivado"] })
+                    .getMany();
+                return categorias;
             }
             catch (error) {
                 throw new Error('Failed to retrieve categorias');
@@ -46,11 +49,13 @@ class CategoriaRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.repository.findOneBy({ id: id });
-                if (!result) {
+                const categoria = yield this.repository.createQueryBuilder("Categorias")
+                    .where("Categorias.id = :id", { id })
+                    .getOne();
+                if (!categoria) {
                     throw new http_errors_1.NotFound("Categoria not found");
                 }
-                return result;
+                return categoria;
             }
             catch (error) {
                 throw new Error('Failed to retrieve categoria');
