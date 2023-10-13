@@ -37,7 +37,7 @@ class CategoriaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const categorias = yield this.repository.createQueryBuilder("Categorias")
-                    .where("Estado IN (:...estados)", { estados: ["Activo", "Inactivo", "Desactivado"] })
+                    .where("Estado IN (:...estado)", { Estado: ["Activo", "Inactivo", "Desactivado"] })
                     .getMany();
                 return categorias;
             }

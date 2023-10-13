@@ -21,7 +21,7 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
     async list(query?: Query): Promise<Categorias[]> {
         try {
             const categorias = await this.repository.createQueryBuilder("Categorias")
-                .where("Estado IN (:...estados)", { estados: ["Activo", "Inactivo", "Desactivado"] })
+                .where("Estado IN (:...estado)", { Estado: ["Activo", "Inactivo", "Desactivado"] })
                 .getMany();
 
             return categorias;
