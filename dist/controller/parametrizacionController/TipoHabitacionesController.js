@@ -37,7 +37,7 @@ class TipoHabitacionesController {
                     throw (0, http_errors_1.default)(400, 'Los campos Codigo, Descripcion y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
                 }
                 const result = yield this.repository.create(body, undefined, req.file);
-                console.log('Valores en result:', result); // Agregar esta línea
+                console.log('Valores en result:', result);
                 res.status(201).json({
                     message: 'Tipo habitación creado exitosamente',
                     data: result

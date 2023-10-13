@@ -8,20 +8,24 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
     private repository = dataBase.getRepository(TipoHabitaciones);
 
     async create(data: Partial<TipoHabitaciones>, query?: Query, file?: Express.Request['file']): Promise<TipoHabitaciones> {
-
         try {
             if (file) {
                 data.Imagen = file.buffer;
             }
-    
+
+            console.log('Data que llega a la función create:', data);
+
             const result = this.repository.create(data);
+
+            console.log('Valores en result:', result);
+
             await this.repository.save(result);
-    
+
             return result;
         } catch (error) {
+            console.error('Error al crear tipo habitación:', error);
             throw new Error('Failed to create tipo habitacion');
         }
-        
     }
 
     async list(query?: Query): Promise<TipoHabitaciones[]> {

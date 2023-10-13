@@ -26,11 +26,14 @@ class TipoHabitacionRepository {
                 if (file) {
                     data.Imagen = file.buffer;
                 }
+                console.log('Data que llega a la función create:', data);
                 const result = this.repository.create(data);
+                console.log('Valores en result:', result);
                 yield this.repository.save(result);
                 return result;
             }
             catch (error) {
+                console.error('Error al crear tipo habitación:', error);
                 throw new Error('Failed to create tipo habitacion');
             }
         });

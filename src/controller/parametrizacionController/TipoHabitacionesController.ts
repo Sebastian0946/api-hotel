@@ -20,7 +20,7 @@ export class TipoHabitacionesController {
 
             const result = await this.repository.create(body, undefined, req.file);
 
-            console.log('Valores en result:', result); // Agregar esta línea
+            console.log('Valores en result:', result);
 
             res.status(201).json({
                 message: 'Tipo habitación creado exitosamente',
