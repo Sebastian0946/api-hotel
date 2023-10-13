@@ -10,12 +10,8 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
     async create(data: Partial<TipoHabitaciones>, query?: Query): Promise<TipoHabitaciones> {
         try {
 
-            console.log('Data que llega a la función create:', data);
-
             const result = this.repository.create(data);
-
-            console.log('Valores en result:', result);
-
+            
             await this.repository.save(result);
 
             return result;

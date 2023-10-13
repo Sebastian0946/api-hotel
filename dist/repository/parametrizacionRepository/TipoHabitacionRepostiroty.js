@@ -20,15 +20,10 @@ class TipoHabitacionRepository {
     constructor() {
         this.repository = db_1.default.getRepository(TipoHabitaciones_1.TipoHabitaciones);
     }
-    create(data, query, file) {
+    create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                if (file) {
-                    data.Imagen = file.buffer;
-                }
-                console.log('Data que llega a la función create:', data);
                 const result = this.repository.create(data);
-                console.log('Valores en result:', result);
                 yield this.repository.save(result);
                 return result;
             }
