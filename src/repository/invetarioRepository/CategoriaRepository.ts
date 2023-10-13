@@ -3,8 +3,6 @@ import dataBase from "../../db";
 import { CategoriaService, Query, id } from "../../service/inventarioService/CategoriaService";
 import { Categorias } from "../../entities/inventario/Categorias";
 import { Estado } from "../../entities/ModelEntity";
-import { Delete } from "routing-controllers";
-import { getManager } from "typeorm";
 
 export class CategoriaRepository implements CategoriaService<Categorias> {
 
@@ -64,21 +62,17 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
         }
     }
 
-    @Delete('/:id')
     async remove(id: id): Promise<Categorias> {
         try {
-            const entityManager = getManager();
+            const queryBuilder = this.repository.createQueryBuilder("Categorias")
+                .where("Categorias.id = :id", { id });
 
-            const updateQuery = `
-                UPDATE categorias
-                SET estado = 'Desactivado', fecha_eliminacion = NOW()
-                WHERE id = $1
-                RETURNING *;
-            `;
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            const result = await entityManager.query(updateQuery, [id]);
-
-            if (result.length === 0) {
+            if (result.affected === 0) {
                 throw new NotFound("Categoría no encontrada");
             }
 
@@ -87,5 +81,4 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
             throw error;
         }
     }
-
 }
