@@ -4,12 +4,18 @@ import { TipoHabitacionService, Query, id } from "../../service/parametrizacionS
 import { TipoHabitaciones } from "../../entities/parametrizacion/TipoHabitaciones";
 
 export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabitaciones> {
+
     private repository = dataBase.getRepository(TipoHabitaciones);
 
-    async create(data: Partial<TipoHabitaciones>, query?: Query): Promise<TipoHabitaciones> {
+    async create(data: Partial<TipoHabitaciones>, query?: Query, file?: Express.Request['file']): Promise<TipoHabitaciones> {
         try {
+            if (file) {
+                data.Imagen = file.buffer;
+            }
+    
             const result = this.repository.create(data);
             await this.repository.save(result);
+    
             return result;
         } catch (error) {
             throw new Error('Failed to create tipo habitacion');
@@ -27,7 +33,7 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
 
     async get(id: id, query?: Query): Promise<TipoHabitaciones> {
         try {
-            const result = await this.repository.findOneBy({id: id as any});
+            const result = await this.repository.findOneBy({ id: id as any });
 
             if (!result) {
                 throw new NotFound("TipoHabitaciones not found");

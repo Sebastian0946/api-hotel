@@ -28,6 +28,10 @@ __decorate([
     __metadata("design:type", String)
 ], TipoHabitaciones.prototype, "Cantidad", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'imagen', nullable: true }),
+    __metadata("design:type", String)
+], TipoHabitaciones.prototype, "Imagen", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => Habitaciones_1.Habitaciones, (habitaciones) => habitaciones.TipoHabitacionesId),
     __metadata("design:type", Habitaciones_1.Habitaciones)
 ], TipoHabitaciones.prototype, "HabitacionesId", void 0);

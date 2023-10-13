@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express"
-
 import { TipoHabitacionRepository } from "../../repository/parametrizacionRepository/TipoHabitacionRepostiroty";
 import createHttpError from "http-errors";
 import { Delete, Get, Post, Put } from "routing-controllers";
@@ -7,7 +6,6 @@ import { Delete, Get, Post, Put } from "routing-controllers";
 export class TipoHabitacionesController {
 
     constructor(private repository: TipoHabitacionRepository) { }
-
 
     @Post()
     async create(req: Request, res: Response, next: NextFunction) {
@@ -19,7 +17,7 @@ export class TipoHabitacionesController {
                 throw createHttpError(400, 'Los campos Codigo, Descripcion y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
-            const result = await this.repository.create(body);
+            const result = await this.repository.create(body, undefined, req.file);
 
             res.status(201).json({
                 message: 'Tipo habitación creado exitosamente',
