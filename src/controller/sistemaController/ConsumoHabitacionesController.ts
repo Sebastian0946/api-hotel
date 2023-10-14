@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 
 import { ConsumoHabitacionRepository } from "../../repository/sistemaRepository/ConsumoHabitacionRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/consumoHabitacion')
 export class ConsumoHabitacionesController {
@@ -24,13 +25,20 @@ export class ConsumoHabitacionesController {
                 message: 'Consumo de la habitacion creado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear el Consumo de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo crear el Consumo de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -44,13 +52,20 @@ export class ConsumoHabitacionesController {
                 message: 'Consumos de las habitaciones listadas exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al listar consumos de las habitaciones:', error.message);
-                throw createHttpError(500, 'No se pudo listar consumos de las habitaciones. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -66,13 +81,20 @@ export class ConsumoHabitacionesController {
                 message: 'Consumo de la habitacion encontrada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al encontrar consumo de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo encontrar consumo de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -94,13 +116,20 @@ export class ConsumoHabitacionesController {
                 message: 'Consumo de la habitacion actualizada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar consumo de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar consumo de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -116,13 +145,20 @@ export class ConsumoHabitacionesController {
                 message: 'Consumo de la habitacion eliminada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar este consumo de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar el consumo de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

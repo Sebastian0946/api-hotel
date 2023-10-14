@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-con
 
 import { HuespedRepository } from "../../repository/sistemaRepository/HuespedRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/huesped')
 export class HuespedController {
@@ -24,13 +25,20 @@ export class HuespedController {
                 message: 'Huesped creado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear el huesped:', error.message);
-                throw createHttpError(500, 'No se pudo crear el huesped. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -44,13 +52,20 @@ export class HuespedController {
                 message: 'Huespedes listados exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al listar los huespedes:', error.message);
-                throw createHttpError(500, 'No se pudo listar los huespedes. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -66,13 +81,20 @@ export class HuespedController {
                 message: 'Huesped obtenido exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al obtener el huesped:', error.message);
-                throw createHttpError(500, 'No se pudo obtener el huesped. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -94,13 +116,20 @@ export class HuespedController {
                 message: 'Huesped actualizado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar el huesped:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar el huesped. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -116,13 +145,20 @@ export class HuespedController {
                 message: 'Huesped eliminado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar el huesped:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar el huesped. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

@@ -25,6 +25,7 @@ exports.HabitacionController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const HabitacionRepository_1 = require("../../repository/sistemaRepository/HabitacionRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
+const class_validator_1 = require("class-validator");
 let HabitacionController = exports.HabitacionController = class HabitacionController {
     constructor(repository) {
         this.repository = repository;
@@ -44,13 +45,18 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al crear la habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo crear la habitación. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -65,13 +71,18 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al listar las habitaciónes:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo listar las habitaciónes. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -87,13 +98,18 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al obtener la habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo obtener la habitación. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -113,13 +129,18 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al actualizar la habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar la habitación. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -135,13 +156,18 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al eliminar la habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar la habitación. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });

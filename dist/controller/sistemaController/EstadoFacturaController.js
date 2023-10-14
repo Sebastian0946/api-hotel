@@ -25,6 +25,7 @@ exports.EstadoFacturaController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const EstadoFacturaRepository_1 = require("../../repository/sistemaRepository/EstadoFacturaRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
+const class_validator_1 = require("class-validator");
 let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFacturaController {
     constructor(repository) {
         this.repository = repository;
@@ -43,13 +44,18 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al crear el estado de la factura:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo crear el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -64,13 +70,18 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al listar los estados de las facturas:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo listar los estados de las facturas. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -86,13 +97,18 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al obtener el estado de la factura:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo obtener el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -112,13 +128,18 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al actualizar el estado de la factura:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -134,13 +155,18 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al eliminar el estado de la factura:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar el estado de la factura. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });

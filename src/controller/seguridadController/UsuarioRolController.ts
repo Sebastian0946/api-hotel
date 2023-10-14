@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-con
 
 import { UsuarioRolRepository } from "../../repository/seguridadRepository/UsuarioRolRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/usuarioRol')
 export class UsuarioRolController {
@@ -14,7 +15,7 @@ export class UsuarioRolController {
         try {
             const body = req.body;
 
-            if (!body.RolesId || !body.UsuariosId ) {
+            if (!body.RolesId || !body.UsuariosId) {
                 throw createHttpError(400, 'Los campos RolesId y UsuariosId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
@@ -24,13 +25,20 @@ export class UsuarioRolController {
                 message: 'Usuario con rol creado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear el rol del usuario:', error.message);
-                throw createHttpError(500, 'No se pudo crear el rol del usuario. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -44,13 +52,20 @@ export class UsuarioRolController {
                 message: 'Usuarios con roles listados exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al listar los usuarios con roles:', error.message);
-                throw createHttpError(500, 'No se pudo listar los usuarios con roles. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -66,13 +81,20 @@ export class UsuarioRolController {
                 message: 'Usuario con rol encontrado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al encontrar el usuario con el rol:', error.message);
-                throw createHttpError(500, 'No se pudo encontrar el usuario con el rol. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -84,7 +106,7 @@ export class UsuarioRolController {
 
             const body = req.body;
 
-            if (!body.RolesId || !body.UsuariosId ) {
+            if (!body.RolesId || !body.UsuariosId) {
                 throw createHttpError(400, 'Los campos RolesId y UsuariosId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
@@ -94,13 +116,20 @@ export class UsuarioRolController {
                 message: 'Usuario con rol actualizado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar el usuario con el rol:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar el usuario con el rol. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -116,13 +145,20 @@ export class UsuarioRolController {
                 message: 'Usuario con rol eliminado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar el usuario con el rol:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar el usuario con el rol. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

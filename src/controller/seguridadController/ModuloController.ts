@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-con
 
 import { ModuloRepository } from "../../repository/seguridadRepository/ModuloRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/modulo')
 export class ModuloController {
@@ -24,13 +25,20 @@ export class ModuloController {
                 message: 'Módulo creado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear el módulo:', error.message);
-                throw createHttpError(500, 'No se pudo crear el módulo. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -44,13 +52,20 @@ export class ModuloController {
                 message: 'Módulos listados exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al listar los módulos:', error.message);
-                throw createHttpError(500, 'No se pudo listar los módulos. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -66,13 +81,20 @@ export class ModuloController {
                 message: 'Módulo encontrado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al encontar el módulo:', error.message);
-                throw createHttpError(500, 'No se pudo encontrar el módulo. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -94,13 +116,20 @@ export class ModuloController {
                 message: 'Módulo actualizado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar el módulo:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar el módulo. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -112,18 +141,25 @@ export class ModuloController {
 
             const result = await this.repository.remove(id);
 
-        
+
             res.status(200).json({
                 message: 'Módulo eliminado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar el módulo:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar el módulo. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

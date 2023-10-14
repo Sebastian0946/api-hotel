@@ -24,6 +24,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TipoHabitacionesController = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const routing_controllers_1 = require("routing-controllers");
+const class_validator_1 = require("class-validator");
 class TipoHabitacionesController {
     constructor(repository) {
         this.repository = repository;
@@ -42,13 +43,18 @@ class TipoHabitacionesController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al crear la Tipo habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo crear la Tipo habitación. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -63,13 +69,18 @@ class TipoHabitacionesController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al listar las Tipo de habitaciónes:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo listar las Tipo de habitaciónes. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -85,13 +96,18 @@ class TipoHabitacionesController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al encontrar la Tipo de habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar la Tipo de habitación. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -111,13 +127,18 @@ class TipoHabitacionesController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al actualizar la Tipo de habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar las Tipo de habitaciónes. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -133,13 +154,18 @@ class TipoHabitacionesController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al eliminar la Tipo de habitación:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar las Tipo de habitaciónes. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });

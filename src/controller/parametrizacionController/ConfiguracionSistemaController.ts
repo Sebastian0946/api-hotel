@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-con
 
 import { ConfiguracionSistemaRepository } from "../../repository/parametrizacionRepository/ConfiguracionSistemaRepostiroty";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/configuracionSistema')
 export class ConfiguracionSistemaController {
@@ -14,7 +15,7 @@ export class ConfiguracionSistemaController {
         try {
             const body = req.body;
 
-            if (!body.UsuarioId || !body.Codigo || !body.Nombre || !body.Descripcion ) {
+            if (!body.UsuarioId || !body.Codigo || !body.Nombre || !body.Descripcion) {
                 throw createHttpError(400, 'Los campos UsuarioId, Codigo, Nombre y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
@@ -24,13 +25,20 @@ export class ConfiguracionSistemaController {
                 message: 'Configuracion habitacion creado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear la Configuracion de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo crear la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -44,13 +52,20 @@ export class ConfiguracionSistemaController {
                 message: 'Configuracion habitacion listado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al listar la Configuracion de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo listar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -66,13 +81,20 @@ export class ConfiguracionSistemaController {
                 message: 'Configuracion habitacion encontrada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al encontrar la Configuracion de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo encontrar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -83,7 +105,7 @@ export class ConfiguracionSistemaController {
             const { id } = req.params;
             const body = req.body;
 
-            if (!body.UsuarioId || !body.Codigo || !body.Nombre || !body.Descripcion ) {
+            if (!body.UsuarioId || !body.Codigo || !body.Nombre || !body.Descripcion) {
                 throw createHttpError(400, 'Los campos UsuarioId, Codigo, Nombre y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
@@ -93,13 +115,20 @@ export class ConfiguracionSistemaController {
                 message: 'Configuracion habitacion actualizada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar la Configuracion de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -115,13 +144,20 @@ export class ConfiguracionSistemaController {
                 message: 'Configuracion habitacion eliminada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar la Configuracion de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar la Configuracion de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

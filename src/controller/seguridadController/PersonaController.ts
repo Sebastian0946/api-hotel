@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete, Param, Res } from 'routing-cont
 
 import { PersonaRepository } from "../../repository/seguridadRepository/PersonaRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/persona')
 export class PersonaController {
@@ -24,13 +25,20 @@ export class PersonaController {
                 message: 'Persona creada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear la persona:', error.message);
-                throw createHttpError(500, 'No se pudo crear la persona. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -44,13 +52,20 @@ export class PersonaController {
                 message: 'Personas listadas exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al listar las personas:', error.message);
-                throw createHttpError(500, 'No se pudo listar las personas. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -66,13 +81,20 @@ export class PersonaController {
                 message: 'Persona encontrada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al encontrar la persona:', error.message);
-                throw createHttpError(500, 'No se pudo encontrar la persona. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -83,23 +105,35 @@ export class PersonaController {
             const { documento } = req.params;
 
             const result = await this.repository.findByDocumento(documento);
-    
+
             if (result) {
                 return res.status(200).json({
                     message: 'Persona encontrada exitosamente',
                     data: result
                 });
             } else {
-                return res.status(404).json({ 
-                    message: 'Persona no encontrada' 
+                return res.status(404).json({
+                    message: 'Persona no encontrada'
                 });
             }
-        } catch (error) {
-            console.error('Error al encontrar la persona:', error);
-            return res.status(500).json({ message: 'Ocurrió un error al buscar la persona. Por favor, intenta nuevamente más tarde.' });
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
+            } else {
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
+            }
         }
     }
-    
+
 
     @Put('/:id')
     async update(req: Request, res: Response, next: NextFunction) {
@@ -118,13 +152,20 @@ export class PersonaController {
                 message: 'Persona actualizada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar la persona:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar la persona. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -140,13 +181,20 @@ export class PersonaController {
                 message: 'Persona eliminada exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar la persona:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar la persona. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

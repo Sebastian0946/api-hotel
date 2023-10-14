@@ -25,6 +25,7 @@ exports.DescuentosController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const DescuentosRepository_1 = require("../../repository/sistemaRepository/DescuentosRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
+const class_validator_1 = require("class-validator");
 let DescuentosController = exports.DescuentosController = class DescuentosController {
     constructor(repository) {
         this.repository = repository;
@@ -43,13 +44,18 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al crear el descuento:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo crear el descuento. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -64,13 +70,18 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al listar los descuentos:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo listar los descuentos. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -86,13 +97,18 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al encontrar el descuento:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar el descuento. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -112,13 +128,18 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al actualizar el descuento:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el descuento. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -134,13 +155,18 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al eliminar el descuento:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar el descuento. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });

@@ -44,15 +44,18 @@ let InventarioController = exports.InventarioController = class InventarioContro
                 });
             }
             catch (error) {
-                console.error('Error al crear el producto:', error);
                 if (error instanceof class_validator_1.ValidationError) {
+                    // Error de validación (por ejemplo, datos faltantes o inválidos)
                     res.status(400).json({
-                        message: error.toString()
+                        message: 'Error de validación',
+                        details: error.toString(),
                     });
                 }
                 else {
+                    const internalError = error;
                     res.status(500).json({
-                        message: 'Ocurrió un error inesperado.'
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
                     });
                 }
             }
@@ -68,13 +71,18 @@ let InventarioController = exports.InventarioController = class InventarioContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al listar el inventario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo listar el inventario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -90,13 +98,18 @@ let InventarioController = exports.InventarioController = class InventarioContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al encontrar el inventario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar el inventario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -116,13 +129,18 @@ let InventarioController = exports.InventarioController = class InventarioContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al actualizar el inventario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el inventario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -138,13 +156,18 @@ let InventarioController = exports.InventarioController = class InventarioContro
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al eliminar el inventario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo elimiar el inventario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });

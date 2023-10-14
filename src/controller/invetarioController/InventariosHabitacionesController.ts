@@ -3,6 +3,7 @@ import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 
 import { InventarioHabitacionRepository } from "../../repository/invetarioRepository/InventarioHabitacionRepository";
 import createHttpError from "http-errors";
+import { ValidationError } from "class-validator";
 
 @JsonController('/inventarioHabitacion')
 export class InventariosHabitacionesController {
@@ -13,8 +14,8 @@ export class InventariosHabitacionesController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const body = req.body;
-            
-            if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad ) {
+
+            if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad) {
                 throw createHttpError(400, 'Los campos InventarioId, AdministracionHabitacionId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
@@ -24,13 +25,21 @@ export class InventariosHabitacionesController {
                 message: 'Inventario habitacion creado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al crear el inventario de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo crear el inventario de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                // Error de validación (por ejemplo, datos faltantes o inválidos)
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -44,13 +53,20 @@ export class InventariosHabitacionesController {
                 message: 'Inventario habitacion listado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al listar el inventario de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo listar el inventario de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -66,13 +82,20 @@ export class InventariosHabitacionesController {
                 message: 'Inventario habitacion encontrado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al encontrar el inventario de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo encontrar el inventario de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -83,7 +106,7 @@ export class InventariosHabitacionesController {
             const { id } = req.params;
             const body = req.body;
 
-            if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad ) {
+            if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad) {
                 throw createHttpError(400, 'Los campos InventarioId, AdministracionHabitacionId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
@@ -93,13 +116,20 @@ export class InventariosHabitacionesController {
                 message: 'Inventario habitacion actualizado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al actualizar el inventario de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo actualizar el inventario de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }
@@ -115,13 +145,20 @@ export class InventariosHabitacionesController {
                 message: 'Inventario habitacion elimnado exitosamente',
                 data: result
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                console.error('Error al eliminar el inventario de la habitacion:', error.message);
-                throw createHttpError(500, 'No se pudo eliminar el inventario de la habitacion. Por favor, intenta nuevamente más tarde.');
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
             } else {
-                console.error('Error desconocido:', error);
-                throw createHttpError(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
             }
         }
     }

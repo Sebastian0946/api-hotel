@@ -25,6 +25,7 @@ exports.ProductoController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const ProductoRepository_1 = require("../../repository/invetarioRepository/ProductoRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
+const class_validator_1 = require("class-validator");
 let ProductoController = exports.ProductoController = class ProductoController {
     constructor(repository) {
         this.repository = repository;
@@ -43,13 +44,19 @@ let ProductoController = exports.ProductoController = class ProductoController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al crear el producto:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo crear el producto. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    // Error de validación (por ejemplo, datos faltantes o inválidos)
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -64,13 +71,18 @@ let ProductoController = exports.ProductoController = class ProductoController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al obtener los producto:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo obtener los producto. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -86,13 +98,18 @@ let ProductoController = exports.ProductoController = class ProductoController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al encontrar el producto:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar el producto. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -112,13 +129,18 @@ let ProductoController = exports.ProductoController = class ProductoController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al actualizar el producto:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el producto. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -134,13 +156,18 @@ let ProductoController = exports.ProductoController = class ProductoController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al eliminar el producto:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar el producto. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });

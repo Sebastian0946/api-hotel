@@ -25,6 +25,7 @@ exports.UsuarioController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const UsuarioRepository_1 = require("../../repository/seguridadRepository/UsuarioRepository");
 const http_errors_1 = __importDefault(require("http-errors"));
+const class_validator_1 = require("class-validator");
 let UsuarioController = exports.UsuarioController = class UsuarioController {
     constructor(repository) {
         this.repository = repository;
@@ -43,13 +44,18 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al crear el usuario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo crear el usuario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -64,13 +70,18 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al listar los usuarios:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo listar los usuarios. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -87,13 +98,18 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al encontrar el usuario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo encontrar el usuario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -115,13 +131,18 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al actualizar el usuario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo actualizar el usuario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -138,13 +159,18 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 });
             }
             catch (error) {
-                if (error instanceof Error) {
-                    console.error('Error al eliminar el usuario:', error.message);
-                    throw (0, http_errors_1.default)(500, 'No se pudo eliminar el usuario. Por favor, intenta nuevamente más tarde.');
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
                 }
                 else {
-                    console.error('Error desconocido:', error);
-                    throw (0, http_errors_1.default)(500, 'Ocurrió un error inesperado. Por favor, contacta al administrador.');
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
                 }
             }
         });
@@ -158,7 +184,19 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 res.status(200).json(permisos);
             }
             catch (error) {
-                next(error);
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
+                }
+                else {
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
+                }
             }
         });
     }
@@ -171,7 +209,19 @@ let UsuarioController = exports.UsuarioController = class UsuarioController {
                 res.status(200).json(login);
             }
             catch (error) {
-                next(error);
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
+                }
+                else {
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
+                }
             }
         });
     }
