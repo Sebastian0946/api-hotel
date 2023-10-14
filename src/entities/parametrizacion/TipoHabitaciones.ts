@@ -11,7 +11,7 @@ export class TipoHabitaciones extends ModelEntity {
     @Column({ name: 'titulo', length: 25, nullable: false, unique: true })
     Titulo: string;
 
-    @Column({ name: 'descripcion', length: 25, nullable: false })
+    @Column({ name: 'descripcion', length: 100, nullable: false })
     Descripcion: string;
 
     @Column({ name: 'cantidad', length: 25, nullable: false })
