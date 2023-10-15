@@ -16,7 +16,11 @@ exports.HuespedRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Huespedes_1 = require("../../entities/sistema/Huespedes");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 class HuespedRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(Huespedes_1.Huespedes);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -89,13 +93,19 @@ class HuespedRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
-                const result = yield this.get(id, query);
-                yield repository.remove(result);
-                return result;
+                const queryBuilder = this.repository.createQueryBuilder("Huespedes")
+                    .where("Huespedes.id = :id", { id });
+                const result = yield queryBuilder.update()
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .returning("*")
+                    .execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Producto no encontrada");
+                }
+                return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to remove huesped');
+                throw error;
             }
         });
     }

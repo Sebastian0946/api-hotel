@@ -2,6 +2,8 @@ import dataBase from "../../db";
 import { ProductoService, Query, id } from "../../service/inventarioService/ProductoService";
 import { Productos } from "../../entities/inventario/Productos";
 import createHttpError from "http-errors";
+import { NotFound } from "http-errors";
+import { Estado } from "../../entities/ModelEntity";
 import { NotFoundError } from "routing-controllers";
 
 export class ProductoRepository implements ProductoService<Productos> {
@@ -23,7 +25,7 @@ export class ProductoRepository implements ProductoService<Productos> {
 
     async list(query?: Query): Promise<Productos[]> {
         try {
-            
+
             const queryBuilder = this.repository.createQueryBuilder("Productos")
                 .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
 
@@ -75,14 +77,21 @@ export class ProductoRepository implements ProductoService<Productos> {
 
     async remove(id: id, query?: Query): Promise<Productos> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("Productos")
+                .where("Productos.id = :id", { id });
 
-            await this.repository.remove(result);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
 
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove producto');
+            throw error;
         }
     }
 }

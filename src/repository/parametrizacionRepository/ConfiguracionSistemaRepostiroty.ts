@@ -2,6 +2,7 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { ConfiguracionSistemaService, Query, id } from "../../service/parametrizacionService/ConfiguracionSistemaService";
 import { ConfiguracionSistema } from "../../entities/parametrizacion/ConfiguracionSistema";
+import { Estado } from "../../entities/ModelEntity";
 
 export class ConfiguracionSistemaRepository implements ConfiguracionSistemaService<ConfiguracionSistema> {
 
@@ -71,11 +72,21 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
 
     async remove(id: id, query?: Query): Promise<ConfiguracionSistema> {
         try {
-            const result = await this.get(id, query);
-            await this.repository.remove(result);
-            return result;
+            const queryBuilder = this.repository.createQueryBuilder("configuracion_sistema")
+                .where("configuracion_sistema.id = :id", { id });
+
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
+
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove configuracion sistema');
+            throw error;
         }
     }
 }

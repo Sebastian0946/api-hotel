@@ -3,6 +3,7 @@ import dataBase from "../../db";
 import { RolService, Query, id } from "../../service/seguridadService/RolService";
 import { Roles } from "../../entities/seguridad/Roles";
 import { error } from "console";
+import { Estado } from "../../entities/ModelEntity";
 
 export class RolRepository implements RolService<Roles> {
 
@@ -31,14 +32,14 @@ export class RolRepository implements RolService<Roles> {
 
     async get(id: id, query?: Query): Promise<Roles> {
         try {
-            const result = await this.repository.findOneBy({id: id as any});
+            const result = await this.repository.findOneBy({ id: id as any });
 
             if (!result) {
-                throw new NotFound('Role not found'+ error);
+                throw new NotFound('Role not found' + error);
             }
 
             return result;
-            
+
         } catch (error) {
             throw new Error('Failed to retrieve role: ' + error);
         }
@@ -62,20 +63,27 @@ export class RolRepository implements RolService<Roles> {
             return result.raw[0];
 
         } catch (error) {
-            throw new Error('Failed to update role: ' + error );
+            throw new Error('Failed to update role: ' + error);
         }
     }
 
     async remove(id: id, query?: Query): Promise<Roles> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("Roles")
+                .where("Roles.id = :id", { id });
 
-            await this.repository.delete(id);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
 
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove role: ' + error);
+            throw error;
         }
     }
 }

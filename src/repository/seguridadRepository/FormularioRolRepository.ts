@@ -2,6 +2,7 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { FormularioRolService, Query, id } from "../../service/seguridadService/FormularioRolService";
 import { FormulariosRoles } from "../../entities/seguridad/FormulariosRoles";
+import { Estado } from "../../entities/ModelEntity";
 
 export class FormularioRolRepository implements FormularioRolService<FormulariosRoles> {
 
@@ -17,7 +18,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
+            throw new Error('No se pudo recuperar el rol de formulario: ' + error);
         }
     }
 
@@ -33,7 +34,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
+            throw new Error('No se pudo recuperar el rol de formulario: ' + error);
         }
     }
 
@@ -54,7 +55,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
+            throw new Error('No se pudo recuperar el rol de formulario: ' + error);
         }
     }
 
@@ -68,7 +69,7 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
             }
 
             const result = await queryBuilder.update().set(data).returning("*").execute();
-            
+
             if (result.affected === 0) {
                 throw new NotFound("FormularioRol not found");
             }
@@ -77,21 +78,27 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
+            throw new Error('No se pudo recuperar el rol de formulario: ' + error);
         }
     }
 
     async remove(id: id, query?: Query): Promise<FormulariosRoles> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("formularios_roles")
+                .where("formularios_roles.id = :id", { id });
 
-            await this.repository.delete(id);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
-            
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el rol de formulario: ' +  error);
+            throw error;
         }
     }
 }

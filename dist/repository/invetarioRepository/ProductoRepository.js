@@ -16,6 +16,8 @@ exports.ProductoRepository = void 0;
 const db_1 = __importDefault(require("../../db"));
 const Productos_1 = require("../../entities/inventario/Productos");
 const http_errors_1 = __importDefault(require("http-errors"));
+const http_errors_2 = require("http-errors");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 const routing_controllers_1 = require("routing-controllers");
 class ProductoRepository {
     constructor() {
@@ -84,12 +86,19 @@ class ProductoRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.get(id, query);
-                yield this.repository.remove(result);
-                return result;
+                const queryBuilder = this.repository.createQueryBuilder("Productos")
+                    .where("Productos.id = :id", { id });
+                const result = yield queryBuilder.update()
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .returning("*")
+                    .execute();
+                if (result.affected === 0) {
+                    throw new http_errors_2.NotFound("Producto no encontrada");
+                }
+                return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to remove producto');
+                throw error;
             }
         });
     }

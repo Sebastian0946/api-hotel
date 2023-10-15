@@ -2,6 +2,7 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { InventarioService, Query, id } from "../../service/inventarioService/InventarioService";
 import { Inventarios } from "../../entities/inventario/Inventarios";
+import { Estado } from "../../entities/ModelEntity";
 
 export class InventarioRepository implements InventarioService<Inventarios> {
 
@@ -71,14 +72,21 @@ export class InventarioRepository implements InventarioService<Inventarios> {
 
     async remove(id: id, query?: Query): Promise<Inventarios> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("Inventarios")
+                .where("Inventarios.id = :id", { id });
 
-            await this.repository.remove(result);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
-            
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove inventario');
+            throw error;
         }
     }
 }

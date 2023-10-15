@@ -16,7 +16,11 @@ exports.EstadoFacturaRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const EstadoFacturas_1 = require("../../entities/sistema/EstadoFacturas");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 class EstadoFacturaRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(EstadoFacturas_1.EstadoFacturas);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -82,13 +86,19 @@ class EstadoFacturaRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const repository = db_1.default.getRepository(EstadoFacturas_1.EstadoFacturas);
-                const result = yield this.get(id, query);
-                yield repository.remove(result);
-                return result;
+                const queryBuilder = this.repository.createQueryBuilder("estado_facturas")
+                    .where("estado_facturas.id = :id", { id });
+                const result = yield queryBuilder.update()
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .returning("*")
+                    .execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Producto no encontrada");
+                }
+                return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to remove estado factura');
+                throw error;
             }
         });
     }

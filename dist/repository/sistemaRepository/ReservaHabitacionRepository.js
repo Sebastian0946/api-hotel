@@ -16,7 +16,11 @@ exports.ReservaHabitacionRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const ReservaHabitaciones_1 = require("../../entities/sistema/ReservaHabitaciones");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 class ReservaHabitacionRepository {
+    constructor() {
+        this.repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
+    }
     create(data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -97,13 +101,19 @@ class ReservaHabitacionRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
-                const result = yield this.get(id, query);
-                yield repository.delete(id);
-                return result;
+                const queryBuilder = this.repository.createQueryBuilder("reserva_habitaciones")
+                    .where("reserva_habitaciones.id = :id", { id });
+                const result = yield queryBuilder.update()
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .returning("*")
+                    .execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Producto no encontrada");
+                }
+                return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to remove ReservaHabitaciones');
+                throw error;
             }
         });
     }

@@ -2,9 +2,10 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { FormularioService, Query, id } from "../../service/seguridadService/FormularioService";
 import { Formularios } from "../../entities/seguridad/Formularios";
+import { Estado } from "../../entities/ModelEntity";
 
 export class FormularioRepository implements FormularioService<Formularios> {
-    
+
     private repository = dataBase.getRepository(Formularios);
 
     async create(data: Partial<Formularios>, query?: Query): Promise<Formularios> {
@@ -17,7 +18,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('Error al crea el formulario, observa los campos' +  error);
+            throw new Error('Error al crea el formulario, observa los campos' + error);
         }
     }
 
@@ -32,7 +33,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el formulario: ' +  error);
+            throw new Error('No se pudo recuperar el formulario: ' + error);
         }
     }
 
@@ -52,7 +53,7 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el formulario: ' +  error);
+            throw new Error('No se pudo recuperar el formulario: ' + error);
         }
     }
 
@@ -75,21 +76,27 @@ export class FormularioRepository implements FormularioService<Formularios> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el formulario: ' +  error);
+            throw new Error('No se pudo recuperar el formulario: ' + error);
         }
     }
 
     async remove(id: id, query?: Query): Promise<Formularios> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("Formularios")
+                .where("Formularios.id = :id", { id });
 
-            await this.repository.delete(id);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
 
+            return result.raw[0];
         } catch (error) {
-            // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el formulario: ' +  error);
+            throw error;
         }
     }
 }

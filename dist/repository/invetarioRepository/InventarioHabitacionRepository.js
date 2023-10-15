@@ -16,6 +16,7 @@ exports.InventarioHabitacionRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const InventariosHabitaciones_1 = require("../../entities/inventario/InventariosHabitaciones");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 class InventarioHabitacionRepository {
     constructor() {
         this.repository = db_1.default.getRepository(InventariosHabitaciones_1.InventariosHabitaciones);
@@ -88,12 +89,19 @@ class InventarioHabitacionRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.get(id, query);
-                yield this.repository.remove(result);
-                return result;
+                const queryBuilder = this.repository.createQueryBuilder("inventarios_habitaciones")
+                    .where("inventarios_habitaciones.id = :id", { id });
+                const result = yield queryBuilder.update()
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .returning("*")
+                    .execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Producto no encontrada");
+                }
+                return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to remove inventario habitacion');
+                throw error;
             }
         });
     }

@@ -2,8 +2,11 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { ReservaHabitacionService, Query, id } from "../../service/sistemaSerivce/ReservaHabitacionService";
 import { ReservaHabitaciones } from "../../entities/sistema/ReservaHabitaciones";
+import { Estado } from "../../entities/ModelEntity";
 
 export class ReservaHabitacionRepository implements ReservaHabitacionService<ReservaHabitaciones> {
+
+    private repository = dataBase.getRepository(ReservaHabitaciones);
 
     async create(data: Partial<ReservaHabitaciones>, query?: Query): Promise<ReservaHabitaciones> {
         try {
@@ -85,12 +88,21 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
 
     async remove(id: id, query?: Query | undefined): Promise<ReservaHabitaciones> {
         try {
-            const repository = dataBase.getRepository(ReservaHabitaciones);
-            const result = await this.get(id, query);
-            await repository.delete(id);
-            return result;
+            const queryBuilder = this.repository.createQueryBuilder("reserva_habitaciones")
+                .where("reserva_habitaciones.id = :id", { id });
+
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
+
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove ReservaHabitaciones');
+            throw error;
         }
     }
 }

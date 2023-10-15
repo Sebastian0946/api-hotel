@@ -2,9 +2,10 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { ConsumoHabitacionService, Query, id } from "../../service/sistemaSerivce/ConsumoHabitacionService";
 import { ConsumoHabitaciones } from "../../entities/sistema/ConsumoHabitaciones";
+import { Estado } from "../../entities/ModelEntity";
 
 export class ConsumoHabitacionRepository implements ConsumoHabitacionService<ConsumoHabitaciones> {
-    
+
     private repository = dataBase.getRepository(ConsumoHabitaciones);
 
     async create(data: Partial<ConsumoHabitaciones>, query?: Query): Promise<ConsumoHabitaciones> {
@@ -83,14 +84,20 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
     async remove(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
+                .where("consumo_habitaciones.id = :id", { id });
 
-            await this.repository.delete(id);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
-            
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            // Manejar la excepción adecuadamente
             throw error;
         }
     }

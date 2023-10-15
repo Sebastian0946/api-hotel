@@ -2,6 +2,7 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { PersonaService, Query, id } from "../../service/seguridadService/PersonaService";
 import { Personas } from "../../entities/seguridad/Personas";
+import { Estado } from "../../entities/ModelEntity";
 
 export class PersonaRepository implements PersonaService<Personas> {
 
@@ -58,7 +59,7 @@ export class PersonaRepository implements PersonaService<Personas> {
         } catch (error) {
 
             throw new Error('Failed to retrieve persona by documento');
-            
+
         }
     }
 
@@ -86,14 +87,21 @@ export class PersonaRepository implements PersonaService<Personas> {
 
     async remove(id: id, query?: Query): Promise<Personas> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("Personas")
+                .where("Personas.id = :id", { id });
 
-            await this.repository.delete(id);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
 
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove persona');
+            throw error;
         }
     }
 }

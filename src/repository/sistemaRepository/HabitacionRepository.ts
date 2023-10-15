@@ -2,8 +2,11 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { HabitacionService, Query, id } from "../../service/sistemaSerivce/HabitacionService";
 import { Habitaciones } from "../../entities/sistema/Habitaciones";
+import { Estado } from "../../entities/ModelEntity";
 
 export class HabitacionRepository implements HabitacionService<Habitaciones> {
+
+    private repository = dataBase.getRepository(Habitaciones);
 
     async create(data: Partial<Habitaciones>, query?: Query): Promise<Habitaciones> {
         try {
@@ -23,12 +26,12 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
                 .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                 .leftJoinAndSelect('huespedes.PersonaId', 'personas');
-        
+
             const result = await queryBuilder.getMany();
             return result;
         } catch (error) {
             throw new Error('Failed to retrieve habitaciones');
-        }        
+        }
     }
 
     async get(id: id, query?: Query): Promise<Habitaciones> {
@@ -81,12 +84,21 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
 
     async remove(id: id, query?: Query): Promise<Habitaciones> {
         try {
-            const repository = dataBase.getRepository(Habitaciones);
-            const result = await this.get(id, query);
-            await repository.remove(result);
-            return result;
+            const queryBuilder = this.repository.createQueryBuilder("Habitaciones")
+                .where("Habitaciones.id = :id", { id });
+
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
+
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove habitacion');
+            throw error;
         }
     }
 }

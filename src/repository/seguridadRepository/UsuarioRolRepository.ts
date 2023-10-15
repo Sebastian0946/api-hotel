@@ -2,6 +2,7 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { UsuarioRolService, Query, id } from "../../service/seguridadService/UsuarioRolService";
 import { UsuariosRoles } from "../../entities/seguridad/UsuariosRoles";
+import { Estado } from "../../entities/ModelEntity";
 
 export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
@@ -25,7 +26,7 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
             return queryBuilder.getMany();
         } catch (error) {
-            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
+            throw new Error('No se pudo recuperar el rol de usuario: ' + error);
         }
     }
 
@@ -44,7 +45,7 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
             return result;
         } catch (error) {
-            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
+            throw new Error('No se pudo recuperar el rol de usuario: ' + error);
         }
     }
 
@@ -65,20 +66,27 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
 
             return result.raw[0];
         } catch (error) {
-            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
+            throw new Error('No se pudo recuperar el rol de usuario: ' + error);
         }
     }
 
     async remove(id: id, query?: Query): Promise<UsuariosRoles> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("usuarios_roles")
+                .where("Usuarios.id = :id", { id });
 
-            await this.repository.delete(id);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
 
+            return result.raw[0];
         } catch (error) {
-            throw new Error('No se pudo recuperar el rol de usuario: ' +  error);
+            throw error;
         }
     }
 }

@@ -16,6 +16,7 @@ exports.FormularioRolRepository = void 0;
 const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const FormulariosRoles_1 = require("../../entities/seguridad/FormulariosRoles");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 class FormularioRolRepository {
     constructor() {
         this.repository = db_1.default.getRepository(FormulariosRoles_1.FormulariosRoles);
@@ -90,13 +91,19 @@ class FormularioRolRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.get(id, query);
-                yield this.repository.delete(id);
-                return result;
+                const queryBuilder = this.repository.createQueryBuilder("formularios_roles")
+                    .where("formularios_roles.id = :id", { id });
+                const result = yield queryBuilder.update()
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .returning("*")
+                    .execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Producto no encontrada");
+                }
+                return result.raw[0];
             }
             catch (error) {
-                // Manejar la excepción adecuadamente
-                throw new Error('No se pudo recuperar el rol de formulario: ' + error);
+                throw error;
             }
         });
     }

@@ -7,6 +7,7 @@ import { PermissionDto } from "../../Dto/seguridadDto/PermissionDto";
 import { UsuarioService, Query, id } from "../../service/seguridadService/UsuarioService";
 import { Usuarios } from "../../entities/seguridad/Usuarios";
 import { error } from "console";
+import { Estado } from "../../entities/ModelEntity";
 
 export class UsuarioRepository implements UsuarioService<Usuarios> {
 
@@ -76,14 +77,21 @@ export class UsuarioRepository implements UsuarioService<Usuarios> {
 
   async remove(id: id, query?: Query): Promise<Usuarios> {
     try {
-      const result = await this.get(id, query);
+      const queryBuilder = this.repository.createQueryBuilder("Usuarios")
+        .where("Usuarios.id = :id", { id });
 
-      await this.repository.delete(id);
+      const result = await queryBuilder.update()
+        .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+        .returning("*")
+        .execute();
 
-      return result;
+      if (result.affected === 0) {
+        throw new NotFound("Producto no encontrada");
+      }
 
+      return result.raw[0];
     } catch (error) {
-      throw new Error('Failed to remove usuario' + error);
+      throw error;
     }
   }
 

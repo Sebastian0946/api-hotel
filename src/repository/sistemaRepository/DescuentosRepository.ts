@@ -2,8 +2,11 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { DescuentoService, Query, id } from "../../service/sistemaSerivce/DescuentoService";
 import { Descuentos } from "../../entities/sistema/Descuentos";
+import { Estado } from "../../entities/ModelEntity";
 
 export class DescuentosRepository implements DescuentoService<Descuentos> {
+
+    private repository = dataBase.getRepository(Descuentos);
 
     async create(data: Partial<Descuentos>, query?: Query): Promise<Descuentos> {
         try {
@@ -29,7 +32,7 @@ export class DescuentosRepository implements DescuentoService<Descuentos> {
     async get(id: id, query?: Query): Promise<Descuentos> {
         try {
             const repository = dataBase.getRepository(Descuentos);
-            const result = await repository.findOneBy({id: id as any});
+            const result = await repository.findOneBy({ id: id as any });
 
             if (!result) {
                 throw new NotFound("Descuento not found");
@@ -70,12 +73,21 @@ export class DescuentosRepository implements DescuentoService<Descuentos> {
 
     async remove(id: id, query?: Query): Promise<Descuentos> {
         try {
-            const repository = dataBase.getRepository(Descuentos);
-            const result = await this.get(id, query);
-            await repository.remove(result);
-            return result;
+            const queryBuilder = this.repository.createQueryBuilder("Descuentos")
+                .where("Descuentos.id = :id", { id });
+
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
+
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            throw new Error('Failed to remove descuento');
+            throw error;
         }
     }
 }

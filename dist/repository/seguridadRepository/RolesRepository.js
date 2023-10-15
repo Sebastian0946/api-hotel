@@ -17,6 +17,7 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Roles_1 = require("../../entities/seguridad/Roles");
 const console_1 = require("console");
+const ModelEntity_1 = require("../../entities/ModelEntity");
 class RolRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Roles_1.Roles);
@@ -79,12 +80,19 @@ class RolRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.get(id, query);
-                yield this.repository.delete(id);
-                return result;
+                const queryBuilder = this.repository.createQueryBuilder("Roles")
+                    .where("Roles.id = :id", { id });
+                const result = yield queryBuilder.update()
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .returning("*")
+                    .execute();
+                if (result.affected === 0) {
+                    throw new http_errors_1.NotFound("Producto no encontrada");
+                }
+                return result.raw[0];
             }
             catch (error) {
-                throw new Error('Failed to remove role: ' + error);
+                throw error;
             }
         });
     }

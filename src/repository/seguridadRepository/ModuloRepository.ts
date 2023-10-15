@@ -2,6 +2,7 @@ import { NotFound } from "http-errors";
 import dataBase from "../../db";
 import { ModulosService, Query, id } from "../../service/seguridadService/ModuloService";
 import { Modulos } from "../../entities/seguridad/Modulos";
+import { Estado } from "../../entities/ModelEntity";
 
 export class ModuloRepository implements ModulosService<Modulos> {
     private repository = dataBase.getRepository(Modulos);
@@ -16,7 +17,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el modulo: ' +  error);
+            throw new Error('No se pudo recuperar el modulo: ' + error);
         }
     }
 
@@ -25,16 +26,16 @@ export class ModuloRepository implements ModulosService<Modulos> {
             const result = await this.repository.find();
 
             return result;
-            
+
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el modulo: ' +  error);
+            throw new Error('No se pudo recuperar el modulo: ' + error);
         }
     }
 
     async get(id: id, query?: Query): Promise<Modulos> {
         try {
-            const result = await this.repository.findOneBy({id: id as any});
+            const result = await this.repository.findOneBy({ id: id as any });
 
             if (!result) {
                 throw new NotFound("Modulo not found");
@@ -44,7 +45,7 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el modulo: ' +  error);
+            throw new Error('No se pudo recuperar el modulo: ' + error);
         }
     }
 
@@ -67,21 +68,27 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
         } catch (error) {
             // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el modulo: ' +  error);
+            throw new Error('No se pudo recuperar el modulo: ' + error);
         }
     }
 
     async remove(id: id, query?: Query): Promise<Modulos> {
         try {
-            const result = await this.get(id, query);
+            const queryBuilder = this.repository.createQueryBuilder("Modulos")
+                .where("Modulos.id = :id", { id });
 
-            await this.repository.delete(id);
+            const result = await queryBuilder.update()
+                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .returning("*")
+                .execute();
 
-            return result;
-            
+            if (result.affected === 0) {
+                throw new NotFound("Producto no encontrada");
+            }
+
+            return result.raw[0];
         } catch (error) {
-            // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el modulo: ' +  error);
+            throw error;
         }
     }
 }
