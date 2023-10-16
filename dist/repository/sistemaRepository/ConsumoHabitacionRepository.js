@@ -38,8 +38,10 @@ class ConsumoHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                    .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
                     .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                    .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                    .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                    .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                     .orderBy("ConsumoHabitaciones.id", "ASC");
                 const result = yield queryBuilder.getMany();
                 return result;
@@ -54,8 +56,10 @@ class ConsumoHabitacionRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                    .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
                     .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                    .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                    .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                    .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                     .where("ConsumoHabitaciones.id = :id", { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {

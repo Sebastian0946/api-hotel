@@ -25,8 +25,10 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
     async list(query?: Query): Promise<ConsumoHabitaciones[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
                 .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                 .orderBy("ConsumoHabitaciones.id", "ASC");
 
             const result = await queryBuilder.getMany();
@@ -42,8 +44,10 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
     async get(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
-                .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
                 .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                 .where("ConsumoHabitaciones.id = :id", { id });
 
             const result = await queryBuilder.getOne();
