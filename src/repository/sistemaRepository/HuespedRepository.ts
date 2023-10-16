@@ -27,10 +27,9 @@ export class HuespedRepository implements HuespedService<Huespedes> {
     async list(query?: Query): Promise<Huespedes[]> {
         try {
             const repository = dataBase.getRepository(Huespedes);
-            const queryBuilder = repository.createQueryBuilder('huespedes')
-                .leftJoinAndSelect('huespedes.PersonaId', 'Personas')
-                .leftJoinAndSelect('huespedes.DescuentoId', 'Descuento')
-                .orderBy('huespedes.id', 'ASC'); 
+            const queryBuilder = repository.createQueryBuilder('Huespedes')
+                .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
+                .orderBy('Huespedes.id', 'ASC'); 
 
             const result = await queryBuilder.getMany();
             return result;
