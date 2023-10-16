@@ -18,6 +18,6 @@ router.get('/sistema/huesped/:id', controller.get.bind(controller));
 
 router.put('/sistema/huesped/:id', controller.update.bind(controller));
 
-router.delete('/sistema/huesped/:id', controller.remove.bind(controller));
+router.put('/sistema/huesped/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

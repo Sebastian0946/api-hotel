@@ -18,6 +18,6 @@ router.get('/sistema/habitacion/:id', controller.get.bind(controller));
 
 router.put('/sistema/habitacion/:id', controller.update.bind(controller));
 
-router.delete('/sistema/habitacion/:id', controller.remove.bind(controller));
+router.put('/sistema/habitacion/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

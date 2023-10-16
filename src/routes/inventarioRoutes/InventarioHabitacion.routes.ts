@@ -18,6 +18,6 @@ router.get('/inventario/inventarioHabitacion/:id', controller.get.bind(controlle
 
 router.put('/inventario/inventarioHabitacion/:id', controller.update.bind(controller));
 
-router.delete('/inventario/inventarioHabitacion/:id', controller.remove.bind(controller));
+router.put('/inventario/inventarioHabitacion/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

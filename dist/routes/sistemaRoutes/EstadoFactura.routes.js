@@ -9,5 +9,5 @@ router.post('/sistema/estadoFactura', controller.create.bind(controller));
 router.get('/sistema/estadoFactura', controller.list.bind(controller));
 router.get('/sistema/estadoFactura/:id', controller.get.bind(controller));
 router.put('/sistema/estadoFactura/:id', controller.update.bind(controller));
-router.delete('/sistema/estadoFactura/:id', controller.remove.bind(controller));
+router.put('/sistema/estadoFactura/eliminar/:id', controller.remove.bind(controller));
 exports.default = router;

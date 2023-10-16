@@ -9,5 +9,5 @@ router.post('/parametrizacion/configuracionSistema', controller.create.bind(cont
 router.get('/parametrizacion/configuracionSistema', controller.list.bind(controller));
 router.get('/parametrizacion/configuracionSistema/:id', controller.get.bind(controller));
 router.put('/parametrizacion/configuracionSistema/:id', controller.update.bind(controller));
-router.delete('/parametrizacion/configuracionSistema/:id', controller.remove.bind(controller));
+router.put('/parametrizacion/configuracionSistema/eliminar/:id', controller.remove.bind(controller));
 exports.default = router;

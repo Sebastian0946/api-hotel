@@ -22,6 +22,6 @@ router.get('/seguridad/usuario/login/:usuario/:contrasena', controller.getLogin.
 
 router.put('/seguridad/usuario/:id',  controller.update.bind(controller));
 
-router.delete('/seguridad/usuario/:id',  controller.remove.bind(controller));
+router.put('/seguridad/usuario/eliminar/:id',  controller.remove.bind(controller));
 
 export default router;

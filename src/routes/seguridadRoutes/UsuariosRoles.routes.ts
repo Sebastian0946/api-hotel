@@ -18,6 +18,6 @@ router.get('/seguridad/usuarioRol/:id', controller.get.bind(controller));
 
 router.put('/seguridad/usuarioRol/:id', controller.update.bind(controller));
 
-router.delete('/seguridad/usuarioRol/:id', controller.remove.bind(controller));
+router.put('/seguridad/usuarioRol/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

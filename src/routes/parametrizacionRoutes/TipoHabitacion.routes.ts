@@ -18,6 +18,6 @@ router.get('/parametrizacion/tipoHabitacion/:id', controller.get.bind(controller
 
 router.put('/parametrizacion/tipoHabitacion/:id', controller.update.bind(controller));
 
-router.delete('/parametrizacion/tipoHabitacion/:id', controller.remove.bind(controller));
+router.put('/parametrizacion/tipoHabitacion/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

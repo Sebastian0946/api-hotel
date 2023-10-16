@@ -18,7 +18,7 @@ router.get('/seguridad/formulario/:id', controller.get.bind(controller));
 
 router.put('/seguridad/formulario/:id', controller.update.bind(controller));
 
-router.delete('/seguridad/formulario/:id', controller.remove.bind(controller));
+router.put('/seguridad/formulario/eliminar/:id', controller.remove.bind(controller));
 
 
 export default router;

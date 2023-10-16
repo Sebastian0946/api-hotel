@@ -9,5 +9,5 @@ router.post('/seguridad/modulo', controller.create.bind(controller));
 router.get('/seguridad/modulo', controller.list.bind(controller));
 router.get('/seguridad/modulo/:id', controller.get.bind(controller));
 router.put('/seguridad/modulo/:id', controller.update.bind(controller));
-router.delete('/seguridad/modulo/:id', controller.remove.bind(controller));
+router.put('/seguridad/modulo/eliminar/:id', controller.remove.bind(controller));
 exports.default = router;

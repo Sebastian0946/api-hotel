@@ -16,7 +16,7 @@ router.get('/seguridad/persona/:id', controller.get.bind(controller));
 
 router.put('/seguridad/persona/:id', controller.update.bind(controller));
 
-router.delete('/seguridad/persona/:id', controller.remove.bind(controller));
+router.put('/seguridad/persona/eliminar/:id', controller.remove.bind(controller));
 
 router.get('/seguridad/persona/documento/:documento', controller.findDocument.bind(controller))
 

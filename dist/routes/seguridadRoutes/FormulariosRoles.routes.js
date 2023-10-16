@@ -9,5 +9,5 @@ router.post('/seguridad/formularioRol', controller.create.bind(controller));
 router.get('/seguridad/formularioRol', controller.list.bind(controller));
 router.get('/seguridad/formularioRol/:id', controller.get.bind(controller));
 router.put('/seguridad/formularioRol/:id', controller.update.bind(controller));
-router.delete('/seguridad/formularioRol/:id', controller.remove.bind(controller));
+router.put('/seguridad/formularioRol/eliminar/:id', controller.remove.bind(controller));
 exports.default = router;

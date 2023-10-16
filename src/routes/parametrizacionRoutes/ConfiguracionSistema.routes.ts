@@ -18,6 +18,6 @@ router.get('/parametrizacion/configuracionSistema/:id', controller.get.bind(cont
 
 router.put('/parametrizacion/configuracionSistema/:id', controller.update.bind(controller));
 
-router.delete('/parametrizacion/configuracionSistema/:id', controller.remove.bind(controller));
+router.put('/parametrizacion/configuracionSistema/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

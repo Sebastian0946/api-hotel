@@ -18,6 +18,6 @@ router.get('/sistema/descuento/:id', controller.get.bind(controller));
 
 router.put('/sistema/descuento/:id', controller.update.bind(controller));
 
-router.delete('/sistema/descuento/:id', controller.remove.bind(controller));
+router.put('/sistema/descuento/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

@@ -18,6 +18,6 @@ router.get('/sistema/reservaHabitacion/:id', controller.get.bind(controller));
 
 router.put('/sistema/reservaHabitacion/:id', controller.update.bind(controller));
 
-router.delete('/sistema/reservaHabitacion/:id', controller.remove.bind(controller));
+router.put('/sistema/reservaHabitacion/eliminar/:id', controller.remove.bind(controller));
 
 export default router;

@@ -9,5 +9,5 @@ router.post('/parametrizacion/tipoHabitacion', controller.create.bind(controller
 router.get('/parametrizacion/tipoHabitacion', controller.list.bind(controller));
 router.get('/parametrizacion/tipoHabitacion/:id', controller.get.bind(controller));
 router.put('/parametrizacion/tipoHabitacion/:id', controller.update.bind(controller));
-router.delete('/parametrizacion/tipoHabitacion/:id', controller.remove.bind(controller));
+router.put('/parametrizacion/tipoHabitacion/eliminar/:id', controller.remove.bind(controller));
 exports.default = router;
