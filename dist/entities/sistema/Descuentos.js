@@ -20,10 +20,6 @@ __decorate([
     __metadata("design:type", String)
 ], Descuentos.prototype, "Codigo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'valorNeto', type: 'double precision', nullable: false }),
-    __metadata("design:type", Number)
-], Descuentos.prototype, "ValorNeto", void 0);
-__decorate([
     (0, typeorm_1.Column)({ name: 'porcentajeDescuento', type: 'double precision', nullable: false }),
     __metadata("design:type", Number)
 ], Descuentos.prototype, "PorcentajeDescuento", void 0);
