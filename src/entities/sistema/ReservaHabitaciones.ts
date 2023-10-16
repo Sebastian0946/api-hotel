@@ -22,7 +22,7 @@ export class ReservaHabitaciones extends ModelEntity {
     FechaEntrada: Date;
 
     @Column({ name: 'fechaSalida', type: 'timestamp', nullable: false })
-    FechaSalida: Date;  
+    FechaSalida: Date;
 
     @OneToMany(() => ConsumoHabitaciones, (consumoHabitacion) => consumoHabitacion.ReservaHabitacionesId)
     ConsumoHabitacionesId: ConsumoHabitaciones;
