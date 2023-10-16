@@ -18,17 +18,18 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             throw new Error('Failed to create ReservaHabitaciones');
         }
     }
+    
     async list(query?: Query): Promise<ReservaHabitaciones[]> {
         try {
             const repository = dataBase.getRepository(ReservaHabitaciones);
-            const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
-                .leftJoinAndSelect('ReservaHabitaciones.EstadoFacturaId', 'EstadoFacturas')
-                .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+            const queryBuilder = repository.createQueryBuilder('reserva_habitaciones')
+                .leftJoinAndSelect('reserva_habitaciones.EstadoFacturaId', 'EstadoFacturas')
+                .leftJoinAndSelect('reserva_habitaciones.HabitacionId', 'Habitaciones')
                 .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                 .leftJoinAndSelect('huespedes.PersonaId', 'personas')
-                .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
-                .orderBy('ReservaHabitaciones.id', 'ASC'); 
+                .leftJoinAndSelect('reserva_habitaciones.DescuentoId', 'Descuentos')
+                .orderBy('reserva_habitaciones.id', 'ASC');
 
             const result = await queryBuilder.getMany();
             return result;

@@ -43,7 +43,6 @@ export class HuespedRepository implements HuespedService<Huespedes> {
             const repository = dataBase.getRepository(Huespedes);
             const queryBuilder = repository.createQueryBuilder('Huespedes')
                 .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
-                .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
                 .where('Huespedes.id = :id', { id });
 
             const result = await queryBuilder.getOne();

@@ -55,7 +55,6 @@ class HuespedRepository {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
                 const queryBuilder = repository.createQueryBuilder('Huespedes')
                     .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
-                    .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
                     .where('Huespedes.id = :id', { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
