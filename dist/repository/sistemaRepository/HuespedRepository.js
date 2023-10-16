@@ -38,10 +38,10 @@ class HuespedRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
-                const queryBuilder = repository.createQueryBuilder('Huespedes')
-                    .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
-                    .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
-                    .orderBy('Huespedes.id', 'ASC');
+                const queryBuilder = repository.createQueryBuilder('huespedes')
+                    .leftJoinAndSelect('huespedes.PersonaId', 'Personas')
+                    .leftJoinAndSelect('huespedes.DescuentoId', 'Descuento')
+                    .orderBy('huespedes.id', 'ASC');
                 const result = yield queryBuilder.getMany();
                 return result;
             }
