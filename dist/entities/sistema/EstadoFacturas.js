@@ -12,8 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EstadoFacturas = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
+const ConsumoHabitaciones_1 = require("./ConsumoHabitaciones");
 let EstadoFacturas = exports.EstadoFacturas = class EstadoFacturas extends ModelEntity_1.ModelEntity {
 };
+__decorate([
+    (0, typeorm_1.OneToOne)(() => ConsumoHabitaciones_1.ConsumoHabitaciones, (consumoHabitaciones) => consumoHabitaciones.EstadoFacturaId),
+    (0, typeorm_1.JoinColumn)({ name: 'consumoHabitacion_id' }),
+    __metadata("design:type", ConsumoHabitaciones_1.ConsumoHabitaciones)
+], EstadoFacturas.prototype, "ConsumoHabitacionesId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'codigo', unique: true, length: 25 }),
     __metadata("design:type", String)

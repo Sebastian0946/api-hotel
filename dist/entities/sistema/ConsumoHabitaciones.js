@@ -12,15 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConsumoHabitaciones = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
-const Productos_1 = require("../inventario/Productos");
 const ReservaHabitaciones_1 = require("./ReservaHabitaciones");
+const EstadoFacturas_1 = require("./EstadoFacturas");
 let ConsumoHabitaciones = exports.ConsumoHabitaciones = class ConsumoHabitaciones extends ModelEntity_1.ModelEntity {
 };
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => Productos_1.Productos, (producto) => producto.ConsumoHabitacionesId),
-    (0, typeorm_1.JoinColumn)({ name: 'producto_id' }),
-    __metadata("design:type", Productos_1.Productos)
-], ConsumoHabitaciones.prototype, "ProductoId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => ReservaHabitaciones_1.ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.ConsumoHabitacionesId),
     (0, typeorm_1.JoinColumn)({ name: 'reservaHabitacion_id' }),
@@ -34,6 +29,10 @@ __decorate([
     (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
     __metadata("design:type", String)
 ], ConsumoHabitaciones.prototype, "Cantidad", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => EstadoFacturas_1.EstadoFacturas, (estadoFactura) => estadoFactura.ConsumoHabitacionesId),
+    __metadata("design:type", EstadoFacturas_1.EstadoFacturas)
+], ConsumoHabitaciones.prototype, "EstadoFacturaId", void 0);
 exports.ConsumoHabitaciones = ConsumoHabitaciones = __decorate([
     (0, typeorm_1.Entity)({ schema: '' })
 ], ConsumoHabitaciones);

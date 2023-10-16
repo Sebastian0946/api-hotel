@@ -2,8 +2,7 @@ import { Entity, Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
 import { Categorias } from './Categorias'
 import { Inventarios } from './Inventarios';
-import { ConsumoHabitaciones } from '../sistema/ConsumoHabitaciones';
-@Entity({schema: ''})
+@Entity({ schema: '' })
 export class Productos extends ModelEntity {
 
     @ManyToOne(() => Categorias, (categoria) => categoria.ProductosId)
@@ -17,14 +16,10 @@ export class Productos extends ModelEntity {
     Nombre: string;
 
     @Column({ name: 'imagen', nullable: true })
-    Imagen: string; // Cambiar el tipo de datos a string
-
+    Imagen: string;
 
     // Relacion con Inventario
     @OneToMany(() => Inventarios, (inventario) => inventario.ProductoId)
     InventarioId: Inventarios
 
-    // Relacion con consumo_habitaciones
-    @OneToMany(() => ConsumoHabitaciones, (consumoHabitaciones) => consumoHabitaciones.ProductoId)
-    ConsumoHabitacionesId: ConsumoHabitaciones
 }

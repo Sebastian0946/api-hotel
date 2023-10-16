@@ -1,22 +1,21 @@
-import { Column, ManyToOne, JoinColumn, Entity} from 'typeorm';
+import { Column, ManyToOne, JoinColumn, Entity, OneToOne } from 'typeorm';
 import { ModelEntity } from '../ModelEntity';
-import { Productos } from '../inventario/Productos';
 import { ReservaHabitaciones } from './ReservaHabitaciones';
+import { EstadoFacturas } from './EstadoFacturas';
 
-@Entity({schema: ''})
+@Entity({ schema: '' })
 export class ConsumoHabitaciones extends ModelEntity {
-    
-    @ManyToOne(() => Productos, (producto) => producto.ConsumoHabitacionesId)
-    @JoinColumn({name: 'producto_id'})
-    ProductoId: Productos;
 
     @ManyToOne(() => ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.ConsumoHabitacionesId)
-    @JoinColumn({name: 'reservaHabitacion_id'})
+    @JoinColumn({ name: 'reservaHabitacion_id' })
     ReservaHabitacionesId: ReservaHabitaciones;
 
-    @Column({name: 'codigo',unique: true, length: 25, nullable: false})
+    @Column({ name: 'codigo', unique: true, length: 25, nullable: false })
     Codigo: String;
 
-    @Column({name: 'cantidad', nullable: false})
+    @Column({ name: 'cantidad', nullable: false })
     Cantidad: String;
+
+    @OneToOne(() => EstadoFacturas, (estadoFactura) => estadoFactura.ConsumoHabitacionesId)
+    EstadoFacturaId: EstadoFacturas;
 }
