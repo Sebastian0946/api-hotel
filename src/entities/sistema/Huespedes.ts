@@ -16,10 +16,6 @@ export class Huespedes extends ModelEntity {
     @JoinColumn({name: 'persona_id'})
     PersonaId: Personas;
 
-    @ManyToOne(() => Descuentos, (descuento) => descuento.HuespedId)
-    @JoinColumn({name: 'descuentosId'})
-    DescuentoId: Descuentos
-
     @OneToMany(() => ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.HabitacionId)
     ReservaHabitacionId: ReservaHabitaciones
 
