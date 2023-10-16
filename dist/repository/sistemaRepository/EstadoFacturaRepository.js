@@ -37,12 +37,13 @@ class EstadoFacturaRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const repository = db_1.default.getRepository(EstadoFacturas_1.EstadoFacturas);
-                const result = yield repository.find();
+                const queryBuilder = this.repository.createQueryBuilder("EstadoFacturas")
+                    .orderBy("EstadoFacturas.id", "ASC");
+                const result = yield queryBuilder.getMany();
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve estado facturas');
+                throw error;
             }
         });
     }

@@ -26,17 +26,18 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
         try {
             const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
                 .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
-                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
+                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                .orderBy("ConsumoHabitaciones.id", "ASC");
 
             const result = await queryBuilder.getMany();
 
             return result;
-
         } catch (error) {
             // Manejar la excepción adecuadamente
             throw error;
         }
     }
+
 
     async get(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {

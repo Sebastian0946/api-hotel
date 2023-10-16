@@ -24,11 +24,18 @@ export class RolRepository implements RolService<Roles> {
 
     async list(query?: Query): Promise<Roles[]> {
         try {
-            return await this.repository.find();
+            const queryBuilder = this.repository.createQueryBuilder("Roles")
+                .orderBy("Roles.id", "ASC"); // Ordena por el ID de Roles en orden ascendente
+
+            const result = await queryBuilder.getMany();
+
+            return result;
         } catch (error) {
-            throw new Error('Failed to retrieve roles: ' + error);
+            // Manejar la excepción adecuadamente
+            throw new Error('No se pudo recuperar la lista de roles: ' + error);
         }
     }
+
 
     async get(id: id, query?: Query): Promise<Roles> {
         try {

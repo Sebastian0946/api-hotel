@@ -23,13 +23,14 @@ export class ModuloRepository implements ModulosService<Modulos> {
 
     async list(query?: Query): Promise<Modulos[]> {
         try {
-            const result = await this.repository.find();
+            const queryBuilder = this.repository.createQueryBuilder("Modulos")
+                .orderBy("Modulos.id", "ASC"); 
+
+            const result = await queryBuilder.getMany();
 
             return result;
-
         } catch (error) {
-            // Manejar la excepción adecuadamente
-            throw new Error('No se pudo recuperar el modulo: ' + error);
+            throw new Error('No se pudo recuperar el módulo: ' + error);
         }
     }
 

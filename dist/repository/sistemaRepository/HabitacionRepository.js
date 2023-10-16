@@ -37,11 +37,11 @@ class HabitacionRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const repository = db_1.default.getRepository(Habitaciones_1.Habitaciones);
-                const queryBuilder = repository.createQueryBuilder('Habitaciones')
+                const queryBuilder = this.repository.createQueryBuilder('Habitaciones')
                     .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                     .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
-                    .leftJoinAndSelect('huespedes.PersonaId', 'personas');
+                    .leftJoinAndSelect('huespedes.PersonaId', 'personas')
+                    .orderBy('Habitaciones.id', 'ASC');
                 const result = yield queryBuilder.getMany();
                 return result;
             }

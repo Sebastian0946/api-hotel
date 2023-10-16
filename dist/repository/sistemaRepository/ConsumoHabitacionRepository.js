@@ -39,7 +39,8 @@ class ConsumoHabitacionRepository {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("ConsumoHabitaciones")
                     .leftJoinAndSelect("ConsumoHabitaciones.ProductoId", "Productos")
-                    .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones");
+                    .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                    .orderBy("ConsumoHabitaciones.id", "ASC");
                 const result = yield queryBuilder.getMany();
                 return result;
             }

@@ -21,11 +21,11 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
 
     async list(query?: Query): Promise<Habitaciones[]> {
         try {
-            const repository = dataBase.getRepository(Habitaciones);
-            const queryBuilder = repository.createQueryBuilder('Habitaciones')
+            const queryBuilder = this.repository.createQueryBuilder('Habitaciones')
                 .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
-                .leftJoinAndSelect('huespedes.PersonaId', 'personas');
+                .leftJoinAndSelect('huespedes.PersonaId', 'personas')
+                .orderBy('Habitaciones.id', 'ASC'); 
 
             const result = await queryBuilder.getMany();
             return result;
@@ -33,6 +33,7 @@ export class HabitacionRepository implements HabitacionService<Habitaciones> {
             throw new Error('Failed to retrieve habitaciones');
         }
     }
+
 
     async get(id: id, query?: Query): Promise<Habitaciones> {
         try {

@@ -21,7 +21,8 @@ export class InventarioRepository implements InventarioService<Inventarios> {
     async list(query?: Query): Promise<Inventarios[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("Inventarios")
-                .leftJoinAndSelect("Inventarios.ProductoId", "Productos");
+                .leftJoinAndSelect("Inventarios.ProductoId", "Productos")
+                .orderBy("Inventarios.id", "ASC"); // Ordena por el ID de Inventarios en orden ascendente
 
             const result = await queryBuilder.getMany();
 

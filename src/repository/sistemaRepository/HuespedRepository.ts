@@ -29,7 +29,8 @@ export class HuespedRepository implements HuespedService<Huespedes> {
             const repository = dataBase.getRepository(Huespedes);
             const queryBuilder = repository.createQueryBuilder('Huespedes')
                 .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
-                .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
+                .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
+                .orderBy('Huespedes.id', 'ASC'); 
 
             const result = await queryBuilder.getMany();
             return result;
@@ -37,6 +38,7 @@ export class HuespedRepository implements HuespedService<Huespedes> {
             throw new Error('Failed to retrieve huespedes');
         }
     }
+
 
     async get(id: id, query?: Query): Promise<Huespedes> {
         try {

@@ -12,7 +12,7 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
         try {
 
             const result = this.repository.create(data);
-            
+
             await this.repository.save(result);
 
             return result;
@@ -24,12 +24,17 @@ export class TipoHabitacionRepository implements TipoHabitacionService<TipoHabit
 
     async list(query?: Query): Promise<TipoHabitaciones[]> {
         try {
-            const result = await this.repository.find();
+            const queryBuilder = this.repository.createQueryBuilder("tipo_habitaciones")
+                .orderBy("tipo_habitaciones.id", "ASC");
+
+            const result = await queryBuilder.getMany();
+
             return result;
         } catch (error) {
             throw new Error('Failed to retrieve tipo habitaciones');
         }
     }
+
 
     async get(id: id, query?: Query): Promise<TipoHabitaciones> {
         try {

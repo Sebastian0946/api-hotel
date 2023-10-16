@@ -25,12 +25,12 @@ export class FormularioRepository implements FormularioService<Formularios> {
     async list(query?: Query): Promise<Formularios[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("Formularios")
-                .leftJoinAndSelect("Formularios.ModuloId", "Modulos");
+                .leftJoinAndSelect("Formularios.ModuloId", "Modulos")
+                .orderBy("Formularios.id", "ASC"); // Ordena por el ID de Formularios en orden ascendente
 
             const result = await queryBuilder.getMany();
 
             return result;
-
         } catch (error) {
             // Manejar la excepción adecuadamente
             throw new Error('No se pudo recuperar el formulario: ' + error);

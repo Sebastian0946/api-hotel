@@ -37,7 +37,8 @@ class ConfiguracionSistemaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
-                    .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios");
+                    .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios")
+                    .orderBy("ConfiguracionSistema.id", "ASC");
                 const result = yield queryBuilder.getMany();
                 return result;
             }

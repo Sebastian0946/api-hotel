@@ -18,7 +18,6 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             throw new Error('Failed to create ReservaHabitaciones');
         }
     }
-
     async list(query?: Query): Promise<ReservaHabitaciones[]> {
         try {
             const repository = dataBase.getRepository(ReservaHabitaciones);
@@ -28,7 +27,8 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
                 .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                 .leftJoinAndSelect('huespedes.PersonaId', 'personas')
-                .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos');
+                .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
+                .orderBy('ReservaHabitaciones.id', 'ASC'); 
 
             const result = await queryBuilder.getMany();
             return result;
@@ -36,6 +36,7 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             throw new Error('Failed to retrieve ReservaHabitaciones');
         }
     }
+
 
     async get(id: id, query?: Query): Promise<ReservaHabitaciones> {
         try {

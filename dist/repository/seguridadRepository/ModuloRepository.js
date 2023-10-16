@@ -37,12 +37,13 @@ class ModuloRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.repository.find();
+                const queryBuilder = this.repository.createQueryBuilder("Modulos")
+                    .orderBy("Modulos.id", "ASC");
+                const result = yield queryBuilder.getMany();
                 return result;
             }
             catch (error) {
-                // Manejar la excepción adecuadamente
-                throw new Error('No se pudo recuperar el modulo: ' + error);
+                throw new Error('No se pudo recuperar el módulo: ' + error);
             }
         });
     }

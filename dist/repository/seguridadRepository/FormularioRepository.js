@@ -38,7 +38,8 @@ class FormularioRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("Formularios")
-                    .leftJoinAndSelect("Formularios.ModuloId", "Modulos");
+                    .leftJoinAndSelect("Formularios.ModuloId", "Modulos")
+                    .orderBy("Formularios.id", "ASC"); // Ordena por el ID de Formularios en orden ascendente
                 const result = yield queryBuilder.getMany();
                 return result;
             }

@@ -39,7 +39,8 @@ class FormularioRolRepository {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("FormulariosRoles")
                     .leftJoinAndSelect("FormulariosRoles.RolesId", "Roles")
-                    .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios");
+                    .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios")
+                    .orderBy("FormulariosRoles.id", "ASC");
                 const result = yield queryBuilder.getMany();
                 return result;
             }

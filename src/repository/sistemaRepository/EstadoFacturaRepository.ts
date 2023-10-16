@@ -21,11 +21,14 @@ export class EstadoFacturaRepository implements EstadoFacturaService<EstadoFactu
 
     async list(query?: Query): Promise<EstadoFacturas[]> {
         try {
-            const repository = dataBase.getRepository(EstadoFacturas);
-            const result = await repository.find();
+            const queryBuilder = this.repository.createQueryBuilder("EstadoFacturas")
+                .orderBy("EstadoFacturas.id", "ASC"); 
+
+            const result = await queryBuilder.getMany();
+
             return result;
         } catch (error) {
-            throw new Error('Failed to retrieve estado facturas');
+            throw error;
         }
     }
 

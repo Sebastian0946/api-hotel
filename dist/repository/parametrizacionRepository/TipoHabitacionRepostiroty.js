@@ -37,7 +37,9 @@ class TipoHabitacionRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const result = yield this.repository.find();
+                const queryBuilder = this.repository.createQueryBuilder("tipo_habitaciones")
+                    .orderBy("tipo_habitaciones.id", "ASC");
+                const result = yield queryBuilder.getMany();
                 return result;
             }
             catch (error) {

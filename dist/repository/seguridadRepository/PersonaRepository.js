@@ -36,10 +36,13 @@ class PersonaRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield this.repository.find();
+                const queryBuilder = this.repository.createQueryBuilder("Personas")
+                    .orderBy("Personas.id", "ASC");
+                const result = yield queryBuilder.getMany();
+                return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve personas');
+                throw new Error('No se pudo recuperar la lista de personas: ' + error);
             }
         });
     }

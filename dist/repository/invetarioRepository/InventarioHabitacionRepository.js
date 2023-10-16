@@ -39,7 +39,8 @@ class InventarioHabitacionRepository {
                 const queryBuilder = this.repository.createQueryBuilder("InventariosHabitaciones")
                     .leftJoinAndSelect("InventariosHabitaciones.InventarioId", "Inventarios")
                     .leftJoinAndSelect("Inventarios.ProductoId", "Productos")
-                    .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones");
+                    .leftJoinAndSelect("InventariosHabitaciones.AdministracionHabitacionId", "Habitaciones")
+                    .orderBy("InventariosHabitaciones.id", "ASC");
                 const result = yield queryBuilder.getMany();
                 return result;
             }

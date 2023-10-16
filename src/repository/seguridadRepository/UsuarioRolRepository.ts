@@ -22,13 +22,15 @@ export class UsuarioRolRepository implements UsuarioRolService<UsuariosRoles> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("UsuariosRoles")
                 .leftJoinAndSelect("UsuariosRoles.RolesId", "Roles")
-                .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios");
+                .leftJoinAndSelect("UsuariosRoles.UsuariosId", "Usuarios")
+                .orderBy("UsuariosRoles.RolesId", "ASC");
 
             return queryBuilder.getMany();
         } catch (error) {
-            throw new Error('No se pudo recuperar el rol de usuario: ' + error);
+            throw new Error('No se pudo recuperar la lista de usuarios roles: ' + error);
         }
     }
+
 
     async get(id: id, query?: Query): Promise<UsuariosRoles> {
         try {

@@ -38,8 +38,9 @@ class CategoriaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder('Categorias');
-                const categorias = yield queryBuilder.getMany();
-                return categorias;
+                queryBuilder.orderBy('Categorias.id', 'ASC');
+                const categorías = yield queryBuilder.getMany();
+                return categorías;
             }
             catch (error) {
                 throw new Error('Failed to retrieve categorías');

@@ -37,10 +37,14 @@ class RolRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield this.repository.find();
+                const queryBuilder = this.repository.createQueryBuilder("Roles")
+                    .orderBy("Roles.id", "ASC"); // Ordena por el ID de Roles en orden ascendente
+                const result = yield queryBuilder.getMany();
+                return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve roles: ' + error);
+                // Manejar la excepción adecuadamente
+                throw new Error('No se pudo recuperar la lista de roles: ' + error);
             }
         });
     }

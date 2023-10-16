@@ -37,7 +37,8 @@ class InventarioRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("Inventarios")
-                    .leftJoinAndSelect("Inventarios.ProductoId", "Productos");
+                    .leftJoinAndSelect("Inventarios.ProductoId", "Productos")
+                    .orderBy("Inventarios.id", "ASC"); // Ordena por el ID de Inventarios en orden ascendente
                 const result = yield queryBuilder.getMany();
                 return result;
             }

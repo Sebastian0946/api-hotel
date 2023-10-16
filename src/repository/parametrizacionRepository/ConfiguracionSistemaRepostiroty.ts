@@ -21,7 +21,8 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
     async list(query?: Query): Promise<ConfiguracionSistema[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("ConfiguracionSistema")
-                .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios");
+                .leftJoinAndSelect("ConfiguracionSistema.UsuarioId", "Usuarios")
+                .orderBy("ConfiguracionSistema.id", "ASC"); 
 
             const result = await queryBuilder.getMany();
 
@@ -30,6 +31,7 @@ export class ConfiguracionSistemaRepository implements ConfiguracionSistemaServi
             throw new Error('Failed to retrieve configuraciones sistema');
         }
     }
+
 
     async get(id: id, query?: Query): Promise<ConfiguracionSistema> {
         try {

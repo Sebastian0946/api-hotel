@@ -23,9 +23,11 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
         try {
             const queryBuilder: SelectQueryBuilder<Categorias> = this.repository.createQueryBuilder('Categorias');
 
-            const categorias = await queryBuilder.getMany();
+            queryBuilder.orderBy('Categorias.id', 'ASC');
 
-            return categorias;
+            const categorías = await queryBuilder.getMany();
+
+            return categorías;
         } catch (error) {
             throw new Error('Failed to retrieve categorías');
         }

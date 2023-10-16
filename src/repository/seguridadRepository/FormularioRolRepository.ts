@@ -26,12 +26,12 @@ export class FormularioRolRepository implements FormularioRolService<Formularios
         try {
             const queryBuilder = this.repository.createQueryBuilder("FormulariosRoles")
                 .leftJoinAndSelect("FormulariosRoles.RolesId", "Roles")
-                .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios");
+                .leftJoinAndSelect("FormulariosRoles.FormulariosId", "Formularios")
+                .orderBy("FormulariosRoles.id", "ASC"); 
 
             const result = await queryBuilder.getMany();
 
             return result;
-
         } catch (error) {
             // Manejar la excepción adecuadamente
             throw new Error('No se pudo recuperar el rol de formulario: ' + error);

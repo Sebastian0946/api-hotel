@@ -40,7 +40,8 @@ class HuespedRepository {
                 const repository = db_1.default.getRepository(Huespedes_1.Huespedes);
                 const queryBuilder = repository.createQueryBuilder('Huespedes')
                     .leftJoinAndSelect('Huespedes.PersonaId', 'Personas')
-                    .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento');
+                    .leftJoinAndSelect('Huespedes.DescuentoId', 'Descuento')
+                    .orderBy('Huespedes.id', 'ASC');
                 const result = yield queryBuilder.getMany();
                 return result;
             }

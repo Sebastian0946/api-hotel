@@ -21,13 +21,18 @@ export class DescuentosRepository implements DescuentoService<Descuentos> {
 
     async list(query?: Query): Promise<Descuentos[]> {
         try {
-            const repository = dataBase.getRepository(Descuentos);
-            const result = await repository.find();
+            const queryBuilder = this.repository.createQueryBuilder("Descuentos")
+                .orderBy("Descuentos.id", "ASC"); 
+                
+            const result = await queryBuilder.getMany();
+
             return result;
         } catch (error) {
-            throw new Error('Failed to retrieve descuentos');
+            // Manejar la excepción adecuadamente
+            throw error;
         }
     }
+
 
     async get(id: id, query?: Query): Promise<Descuentos> {
         try {

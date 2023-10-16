@@ -38,11 +38,13 @@ class UsuarioRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("Usuarios")
-                    .leftJoinAndSelect("Usuarios.PersonaId", "persona");
-                return queryBuilder.getMany();
+                    .leftJoinAndSelect("Usuarios.PersonaId", "persona")
+                    .orderBy("Usuarios.id", "ASC");
+                const result = yield queryBuilder.getMany();
+                return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve usuarios' + error);
+                throw new Error('No se pudo recuperar la lista de usuarios: ' + error);
             }
         });
     }

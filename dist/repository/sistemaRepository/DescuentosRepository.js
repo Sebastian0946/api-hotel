@@ -37,12 +37,14 @@ class DescuentosRepository {
     list(query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const repository = db_1.default.getRepository(Descuentos_1.Descuentos);
-                const result = yield repository.find();
+                const queryBuilder = this.repository.createQueryBuilder("Descuentos")
+                    .orderBy("Descuentos.id", "ASC");
+                const result = yield queryBuilder.getMany();
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve descuentos');
+                // Manejar la excepción adecuadamente
+                throw error;
             }
         });
     }

@@ -39,8 +39,10 @@ class ProductoRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("Productos")
-                    .leftJoinAndSelect("Productos.CategoriaId", "Categorias");
-                return queryBuilder.getMany();
+                    .leftJoinAndSelect("Productos.CategoriaId", "Categorias")
+                    .orderBy("Productos.id", "ASC"); // Ordena por el ID de Productos en orden ascendente
+                const result = yield queryBuilder.getMany();
+                return result;
             }
             catch (error) {
                 throw new Error('Failed to retrieve productos');
