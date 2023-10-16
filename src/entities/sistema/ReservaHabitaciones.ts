@@ -1,16 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { ModelEntity } from "../ModelEntity";
-import { EstadoFacturas } from "./EstadoFacturas";
 import { Habitaciones } from "./Habitaciones";
 import { Descuentos } from "./Descuentos";
 import { ConsumoHabitaciones } from "./ConsumoHabitaciones";
 
 @Entity({ schema: '' })
 export class ReservaHabitaciones extends ModelEntity {
-
-    @ManyToOne(() => EstadoFacturas, (estadoFactura) => estadoFactura.ReservaHabitacionId)
-    @JoinColumn({ name: 'estadoFactura_id' })
-    EstadoFacturaId: EstadoFacturas;
 
     @ManyToOne(() => Habitaciones, (habitacion) => habitacion.ReservaHabitacionId)
     @JoinColumn({ name: 'habitacion_id' })

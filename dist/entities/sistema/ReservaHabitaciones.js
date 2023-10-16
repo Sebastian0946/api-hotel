@@ -12,17 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReservaHabitaciones = void 0;
 const typeorm_1 = require("typeorm");
 const ModelEntity_1 = require("../ModelEntity");
-const EstadoFacturas_1 = require("./EstadoFacturas");
 const Habitaciones_1 = require("./Habitaciones");
 const Descuentos_1 = require("./Descuentos");
 const ConsumoHabitaciones_1 = require("./ConsumoHabitaciones");
 let ReservaHabitaciones = exports.ReservaHabitaciones = class ReservaHabitaciones extends ModelEntity_1.ModelEntity {
 };
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => EstadoFacturas_1.EstadoFacturas, (estadoFactura) => estadoFactura.ReservaHabitacionId),
-    (0, typeorm_1.JoinColumn)({ name: 'estadoFactura_id' }),
-    __metadata("design:type", EstadoFacturas_1.EstadoFacturas)
-], ReservaHabitaciones.prototype, "EstadoFacturaId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Habitaciones_1.Habitaciones, (habitacion) => habitacion.ReservaHabitacionId),
     (0, typeorm_1.JoinColumn)({ name: 'habitacion_id' }),
