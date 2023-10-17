@@ -37,10 +37,12 @@ __decorate([
     __metadata("design:type", String)
 ], Habitaciones.prototype, "Descripcion", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ name: 'ocupacion', nullable: false }),
+    __metadata("design:type", Boolean)
+], Habitaciones.prototype, "Ocupado", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => InventariosHabitaciones_1.InventariosHabitaciones, (inventarioHabitaciones) => inventarioHabitaciones.AdministracionHabitacionId),
-    __metadata("design:type", InventariosHabitaciones_1.InventariosHabitaciones
-    // Relacion con Reserva Haitaciones
-    )
+    __metadata("design:type", InventariosHabitaciones_1.InventariosHabitaciones)
 ], Habitaciones.prototype, "InventarioHabitacionesId", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => ReservaHabitaciones_1.ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.HabitacionId),

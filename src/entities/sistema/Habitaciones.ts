@@ -22,11 +22,12 @@ export class Habitaciones extends ModelEntity {
     @Column({name: 'descripcion',length: 25, nullable: false})
     Descripcion: String;
 
-    // Relacion con Inventario Habitaciones
+    @Column({name: 'ocupacion', nullable: false})
+    Ocupado: Boolean;
+
     @OneToMany(() => InventariosHabitaciones, (inventarioHabitaciones) => inventarioHabitaciones.AdministracionHabitacionId)
     InventarioHabitacionesId: InventariosHabitaciones
 
-    // Relacion con Reserva Haitaciones
     @OneToMany(() => ReservaHabitaciones, (reservaHabitacion) => reservaHabitacion.HabitacionId)
     ReservaHabitacionId: ReservaHabitaciones
 }
