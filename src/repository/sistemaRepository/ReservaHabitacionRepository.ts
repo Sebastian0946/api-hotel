@@ -12,14 +12,22 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
     async create(data: Partial<ReservaHabitaciones>, query?: Query): Promise<ReservaHabitaciones> {
         try {
             const repository = dataBase.getRepository(ReservaHabitaciones);
+
+            if (data.FechaEntrada && data.FechaSalida && await this.reservasSeSuperponen(data.FechaEntrada, data.FechaSalida)) {
+                throw new Error('Las fechas de entrada y salida se superponen con reservas existentes.');
+            }
+
             const result = repository.create(data);
+
             await repository.save(result);
+
             return result;
+
         } catch (error) {
             if (error instanceof QueryFailedError) {
                 throw new Error('Error al ejecutar la consulta en la base de datos: ' + error.message);
             } else {
-                throw error; 
+                throw error;
             }
         }
     }
@@ -109,5 +117,27 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
         } catch (error) {
             throw error;
         }
+    }
+
+    async reservasSeSuperponen(fechaEntrada: Date, fechaSalida: Date): Promise<boolean> {
+
+        const repository = dataBase.getRepository(ReservaHabitaciones);
+
+        const diasAReservar = Math.ceil((fechaSalida.getTime() - fechaEntrada.getTime()) / (1000 * 60 * 60 * 24));
+
+        // Consulta si existen reservas que se superponen con las fechas propuestas
+        const reservasSuperpuestas = await repository
+            .createQueryBuilder('ReservaHabitaciones')
+            .where('(:fechaEntrada <= ReservaHabitaciones.FechaSalida) AND (:fechaSalida >= ReservaHabitaciones.FechaEntrada)', {
+                fechaEntrada,
+                fechaSalida,
+            })
+            .andWhere(`DATEDIFF('day', :fechaEntrada, :fechaSalida) < :diasAReservar`, {
+                fechaEntrada,
+                fechaSalida,
+                diasAReservar,
+            }).getCount();
+
+        return reservasSuperpuestas > 0;
     }
 }
