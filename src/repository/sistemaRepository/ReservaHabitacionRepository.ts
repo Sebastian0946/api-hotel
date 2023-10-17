@@ -17,11 +17,9 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             return result;
         } catch (error) {
             if (error instanceof QueryFailedError) {
-                // El error específico de TypeORM relacionado con la consulta (puedes personalizar este mensaje)
                 throw new Error('Error al ejecutar la consulta en la base de datos: ' + error.message);
             } else {
-                // Otros errores desconocidos
-                throw error; // Lanza el error original
+                throw error; 
             }
         }
     }

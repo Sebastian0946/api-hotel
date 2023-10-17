@@ -32,11 +32,11 @@ __decorate([
     __metadata("design:type", String)
 ], ReservaHabitaciones.prototype, "Codigo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'fechaEntrada', type: 'timestamp', precision: 0, nullable: false }),
+    (0, typeorm_1.Column)({ name: 'fechaEntrada', type: 'timestamp', nullable: false }),
     __metadata("design:type", Date)
 ], ReservaHabitaciones.prototype, "FechaEntrada", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'fechaSalida', type: 'timestamp', precision: 0, nullable: false }),
+    (0, typeorm_1.Column)({ name: 'fechaSalida', type: 'timestamp', nullable: false }),
     __metadata("design:type", Date)
 ], ReservaHabitaciones.prototype, "FechaSalida", void 0);
 __decorate([

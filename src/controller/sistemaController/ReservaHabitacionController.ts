@@ -7,6 +7,7 @@ import { ValidationError } from "class-validator";
 
 @JsonController('/reservaHabitacion')
 export class ReservaHabitacionController {
+    
     constructor(private repository: ReservaHabitacionRepository) { }
 
     @Post()
