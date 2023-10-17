@@ -106,10 +106,6 @@ export class UsuarioRolController {
 
             const body = req.body;
 
-            if (!body.RolesId || !body.UsuariosId) {
-                throw createHttpError(400, 'Los campos RolesId y UsuariosId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
             const result = await this.repository.update(id, body);
 
             res.status(201).json({

@@ -142,10 +142,6 @@ export class PersonaController {
 
             const body = req.body;
 
-            if (!body.TipoDocumento || !body.Documento || !body.Nombres || !body.Apellidos || !body.Email || !body.Direccion || !body.Telefono) {
-                throw createHttpError(400, 'Los campos TipoDocumento, Documento, Nombres, Apellidos, Email, Direccion y Telefono son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
             const result = await this.repository.update(id, body);
 
             res.status(200).json({

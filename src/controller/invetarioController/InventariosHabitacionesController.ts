@@ -104,11 +104,8 @@ export class InventariosHabitacionesController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+            
             const body = req.body;
-
-            if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad) {
-                throw createHttpError(400, 'Los campos InventarioId, AdministracionHabitacionId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
 
             const result = await this.repository.update(id, body);
 

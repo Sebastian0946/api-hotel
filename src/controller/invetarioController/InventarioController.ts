@@ -105,11 +105,8 @@ export class InventarioController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+            
             const body = req.body;
-
-            if (!body.Codigo || !body.Cantidad || !body.ProductoId || !body.PrecioProveedor || !body.PrecioVenta) {
-                throw createHttpError(400, 'Los campos Codigo, Cantidad, ProductoId, PrecioProveedor y PrecioVenta son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
 
             const result = await this.repository.update(id, body);
 

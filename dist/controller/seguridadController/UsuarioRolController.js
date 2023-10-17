@@ -118,9 +118,6 @@ let UsuarioRolController = exports.UsuarioRolController = class UsuarioRolContro
             try {
                 const { id } = req.params;
                 const body = req.body;
-                if (!body.RolesId || !body.UsuariosId) {
-                    throw (0, http_errors_1.default)(400, 'Los campos RolesId y UsuariosId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.update(id, body);
                 res.status(201).json({
                     message: 'Usuario con rol actualizado exitosamente',

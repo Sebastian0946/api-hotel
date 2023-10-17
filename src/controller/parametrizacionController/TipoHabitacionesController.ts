@@ -108,11 +108,8 @@ export class TipoHabitacionesController {
 
         try {
             const { id } = req.params;
+            
             const body = req.body;
-
-            if (!body.Codigo || !body.Descripcion || !body.Cantidad) {
-                throw createHttpError(400, 'Los campos Codigo, Descripcion y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
 
             const result = await this.repository.update(id, body);
 

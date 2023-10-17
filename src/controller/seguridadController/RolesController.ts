@@ -103,11 +103,8 @@ export class RolController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+            
             const body = req.body;
-
-            if (!body.Codigo || !body.Descripcion) {
-                throw createHttpError(400, 'Los campos Codigo y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
 
             const result = await this.repository.update(id, body);
 

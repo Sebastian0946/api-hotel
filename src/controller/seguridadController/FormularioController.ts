@@ -102,11 +102,8 @@ export class FormularioController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+            
             const body = req.body;
-
-            if (!body.ModuloId || !body.Codigo || !body.Icono || !body.Ruta || !body.Etiqueta) {
-                throw createHttpError(400, 'Los campos ModuloId, Codigo, Icono, Ruta y Etiqueta son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
 
             const result = await this.repository.update(id, body);
 

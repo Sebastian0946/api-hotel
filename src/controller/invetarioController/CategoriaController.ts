@@ -105,11 +105,8 @@ export class CategoriaController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+            
             const body = req.body;
-
-            if (!body.Codigo || !body.Descripcion) {
-                throw createHttpError(400, 'Los campos Codigo y Descripcion son obligatorios. Por favor, asegúrese de completar ambos campos.');
-            }
 
             const result = await this.repository.update(id, body);
 

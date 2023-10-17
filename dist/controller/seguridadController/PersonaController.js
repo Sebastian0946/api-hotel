@@ -152,9 +152,6 @@ let PersonaController = exports.PersonaController = class PersonaController {
             try {
                 const { id } = req.params;
                 const body = req.body;
-                if (!body.TipoDocumento || !body.Documento || !body.Nombres || !body.Apellidos || !body.Email || !body.Direccion || !body.Telefono) {
-                    throw (0, http_errors_1.default)(400, 'Los campos TipoDocumento, Documento, Nombres, Apellidos, Email, Direccion y Telefono son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Persona actualizada exitosamente',

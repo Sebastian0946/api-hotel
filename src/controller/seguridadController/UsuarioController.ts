@@ -102,13 +102,9 @@ export class UsuarioController {
     async update(req: Request, res: Response, next: NextFunction) {
         try {
             const { id } = req.params;
+            
             const body = req.body;
 
-            if (!body.PersonaId || !body.Usuario || !body.Contraseña) {
-                throw createHttpError(400, 'Los campos PersonaId, Usuario y Contraseña son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
-            // No se encripta la contraseña, se almacena en texto claro
             const result = await this.repository.update(id, body);
 
             res.status(200).json({
