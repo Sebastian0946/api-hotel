@@ -17,7 +17,6 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Categorias_1 = require("../../entities/inventario/Categorias");
 const ModelEntity_1 = require("../../entities/ModelEntity");
-const typeorm_1 = require("typeorm");
 class CategoriaRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Categorias_1.Categorias);
@@ -50,20 +49,16 @@ class CategoriaRepository {
     get(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const categoria = yield this.repository.createQueryBuilder("Categorias")
-                    .where("Categorias.id = :id", { id })
-                    .andWhere(new typeorm_1.Brackets(qb => {
-                    qb.where('Estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
-                        .andWhere('fecha_eliminacion IS NOT NULL');
-                }))
-                    .getOne();
-                if (!categoria) {
-                    throw new http_errors_1.NotFound("Categoria not found");
+                const queryBuilder = this.repository.createQueryBuilder("Categorias")
+                    .where("Categorias.id = :id", { id });
+                const result = yield queryBuilder.getOne();
+                if (!result) {
+                    throw new http_errors_1.NotFound("Categoria no encontrada");
                 }
-                return categoria;
+                return result;
             }
             catch (error) {
-                throw new Error('Failed to retrieve categoria');
+                throw new Error('Fallo al traer Categoria');
             }
         });
     }

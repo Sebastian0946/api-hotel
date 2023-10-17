@@ -35,21 +35,18 @@ export class CategoriaRepository implements CategoriaService<Categorias> {
 
     async get(id: id, query?: Query): Promise<Categorias> {
         try {
-            const categoria = await this.repository.createQueryBuilder("Categorias")
-                .where("Categorias.id = :id", { id })
-                .andWhere(new Brackets(qb => {
-                    qb.where('Estado = :estadoDesactivado', { estadoDesactivado: 'Desactivado' })
-                        .andWhere('fecha_eliminacion IS NOT NULL');
-                }))
-                .getOne();
+            const queryBuilder = this.repository.createQueryBuilder("Categorias")
+                .where("Categorias.id = :id", { id });
 
-            if (!categoria) {
-                throw new NotFound("Categoria not found");
+            const result = await queryBuilder.getOne();
+
+            if (!result) {
+                throw new NotFound("Categoria no encontrada");
             }
 
-            return categoria;
+            return result;
         } catch (error) {
-            throw new Error('Failed to retrieve categoria');
+            throw new Error('Fallo al traer Categoria');
         }
     }
 
