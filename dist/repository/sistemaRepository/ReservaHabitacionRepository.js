@@ -128,19 +128,21 @@ class ReservaHabitacionRepository {
     reservasSeSuperponen(fechaEntrada, fechaSalida) {
         return __awaiter(this, void 0, void 0, function* () {
             const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
-            const diasAReservar = Math.ceil((fechaSalida.getTime() - fechaEntrada.getTime()) / (1000 * 60 * 60 * 24));
-            // Consulta si existen reservas que se superponen con las fechas propuestas
+            if (!(fechaSalida instanceof Date) || !(fechaEntrada instanceof Date)) {
+                throw new Error('Las fechas de entrada y salida no son válidas.');
+            }
+            const unDia = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+            const diferenciaDias = (fechaSalida.getTime() - fechaEntrada.getTime()) / unDia;
             const reservasSuperpuestas = yield repository
                 .createQueryBuilder('ReservaHabitaciones')
                 .where('(:fechaEntrada <= ReservaHabitaciones.FechaSalida) AND (:fechaSalida >= ReservaHabitaciones.FechaEntrada)', {
                 fechaEntrada,
                 fechaSalida,
             })
-                .andWhere(`DATEDIFF('day', :fechaEntrada, :fechaSalida) < :diasAReservar`, {
-                fechaEntrada,
-                fechaSalida,
-                diasAReservar,
-            }).getCount();
+                .andWhere(`(:diferenciaDias > 0)`, {
+                diferenciaDias,
+            })
+                .getCount();
             return reservasSuperpuestas > 0;
         });
     }

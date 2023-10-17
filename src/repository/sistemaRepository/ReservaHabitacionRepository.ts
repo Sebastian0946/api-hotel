@@ -123,21 +123,23 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
 
         const repository = dataBase.getRepository(ReservaHabitaciones);
 
-        const diasAReservar = Math.ceil((fechaSalida.getTime() - fechaEntrada.getTime()) / (1000 * 60 * 60 * 24));
+        if (!(fechaSalida instanceof Date) || !(fechaEntrada instanceof Date)) {
+            throw new Error('Las fechas de entrada y salida no son válidas.');
+        }
 
-        // Consulta si existen reservas que se superponen con las fechas propuestas
+        const unDia = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+        const diferenciaDias = (fechaSalida.getTime() - fechaEntrada.getTime()) / unDia;
+
         const reservasSuperpuestas = await repository
             .createQueryBuilder('ReservaHabitaciones')
             .where('(:fechaEntrada <= ReservaHabitaciones.FechaSalida) AND (:fechaSalida >= ReservaHabitaciones.FechaEntrada)', {
                 fechaEntrada,
                 fechaSalida,
             })
-            .andWhere(`DATEDIFF('day', :fechaEntrada, :fechaSalida) < :diasAReservar`, {
-                fechaEntrada,
-                fechaSalida,
-                diasAReservar,
-            }).getCount();
-
+            .andWhere(`(:diferenciaDias > 0)`, {
+                diferenciaDias,
+            })
+            .getCount();
         return reservasSuperpuestas > 0;
     }
 }
