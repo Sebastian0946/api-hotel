@@ -41,6 +41,7 @@ class ConsumoHabitacionRepository {
                     .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
                     .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
                     .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                    .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                     .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                     .orderBy("ConsumoHabitaciones.id", "ASC");
                 const result = yield queryBuilder.getMany();
@@ -59,6 +60,7 @@ class ConsumoHabitacionRepository {
                     .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
                     .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
                     .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                    .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                     .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                     .where("ConsumoHabitaciones.id = :id", { id });
                 const result = yield queryBuilder.getOne();

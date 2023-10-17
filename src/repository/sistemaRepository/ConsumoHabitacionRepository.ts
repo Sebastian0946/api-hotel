@@ -28,6 +28,7 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
                 .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
                 .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
                 .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                 .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                 .orderBy("ConsumoHabitaciones.id", "ASC");
 
@@ -47,6 +48,7 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
                 .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
                 .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
                 .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                 .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
                 .where("ConsumoHabitaciones.id = :id", { id });
 
