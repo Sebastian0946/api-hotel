@@ -34,8 +34,8 @@ let ConsumoHabitacionesController = exports.ConsumoHabitacionesController = clas
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
-                if (!body.ProductoId || !body.ReservaHabitacionesId || !body.DescuentoId || !body.Codigo || !body.Cantidad) {
-                    throw (0, http_errors_1.default)(400, 'Los campos ProductoId, ReservaHabitacionesId, DescuentoId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+                if (!body.ReservaHabitacionesId || !body.Codigo) {
+                    throw (0, http_errors_1.default)(400, 'Los campos ReservaHabitacionesId y Codigo son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
                 }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
@@ -118,9 +118,6 @@ let ConsumoHabitacionesController = exports.ConsumoHabitacionesController = clas
             try {
                 const { id } = req.params;
                 const body = req.body;
-                if (!body.ProductoId || !body.ReservaHabitacionesId || !body.DescuentoId || !body.Codigo || !body.Cantidad) {
-                    throw (0, http_errors_1.default)(400, 'Los campos ProductoId, ReservaHabitacionesId, DescuentoId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.update(id, body);
                 res.status(200).json({
                     message: 'Consumo de la habitacion actualizada exitosamente',

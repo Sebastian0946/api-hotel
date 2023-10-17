@@ -15,8 +15,8 @@ export class ConsumoHabitacionesController {
         try {
             const body = req.body;
 
-            if (!body.ProductoId || !body.ReservaHabitacionesId || !body.DescuentoId || !body.Codigo || !body.Cantidad) {
-                throw createHttpError(400, 'Los campos ProductoId, ReservaHabitacionesId, DescuentoId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
+            if (!body.ReservaHabitacionesId || !body.Codigo) {
+                throw createHttpError(400, 'Los campos ReservaHabitacionesId y Codigo son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
 
             const result = await this.repository.create(body);
@@ -105,10 +105,6 @@ export class ConsumoHabitacionesController {
             const { id } = req.params;
 
             const body = req.body;
-
-            if (!body.ProductoId || !body.ReservaHabitacionesId || !body.DescuentoId || !body.Codigo || !body.Cantidad) {
-                throw createHttpError(400, 'Los campos ProductoId, ReservaHabitacionesId, DescuentoId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
 
             const result = await this.repository.update(id, body);
 
