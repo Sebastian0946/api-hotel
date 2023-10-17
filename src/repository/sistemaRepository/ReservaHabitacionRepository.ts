@@ -120,6 +120,8 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
     }
 
     async reservasSeSuperponen(fechaEntrada: Date, fechaSalida: Date): Promise<boolean> {
+        console.log('Fecha de entrada:', fechaEntrada);
+        console.log('Fecha de salida:', fechaSalida);
 
         const repository = dataBase.getRepository(ReservaHabitaciones);
 
@@ -129,6 +131,8 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
 
         const unDia = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
         const diferenciaDias = (fechaSalida.getTime() - fechaEntrada.getTime()) / unDia;
+
+        console.log('Diferencia en días:', diferenciaDias);
 
         const reservasSuperpuestas = await repository
             .createQueryBuilder('ReservaHabitaciones')
