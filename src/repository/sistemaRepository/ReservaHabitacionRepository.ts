@@ -3,6 +3,7 @@ import dataBase from "../../db";
 import { ReservaHabitacionService, Query, id } from "../../service/sistemaSerivce/ReservaHabitacionService";
 import { ReservaHabitaciones } from "../../entities/sistema/ReservaHabitaciones";
 import { Estado } from "../../entities/ModelEntity";
+import { QueryFailedError } from "typeorm";
 
 export class ReservaHabitacionRepository implements ReservaHabitacionService<ReservaHabitaciones> {
 
@@ -15,7 +16,13 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
             await repository.save(result);
             return result;
         } catch (error) {
-            throw new Error('Failed to create ReservaHabitaciones');
+            if (error instanceof QueryFailedError) {
+                // El error específico de TypeORM relacionado con la consulta (puedes personalizar este mensaje)
+                throw new Error('Error al ejecutar la consulta en la base de datos: ' + error.message);
+            } else {
+                // Otros errores desconocidos
+                throw error; // Lanza el error original
+            }
         }
     }
 

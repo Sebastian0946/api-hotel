@@ -17,6 +17,7 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const ReservaHabitaciones_1 = require("../../entities/sistema/ReservaHabitaciones");
 const ModelEntity_1 = require("../../entities/ModelEntity");
+const typeorm_1 = require("typeorm");
 class ReservaHabitacionRepository {
     constructor() {
         this.repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
@@ -30,7 +31,14 @@ class ReservaHabitacionRepository {
                 return result;
             }
             catch (error) {
-                throw new Error('Failed to create ReservaHabitaciones');
+                if (error instanceof typeorm_1.QueryFailedError) {
+                    // El error específico de TypeORM relacionado con la consulta (puedes personalizar este mensaje)
+                    throw new Error('Error al ejecutar la consulta en la base de datos: ' + error.message);
+                }
+                else {
+                    // Otros errores desconocidos
+                    throw error; // Lanza el error original
+                }
             }
         });
     }
