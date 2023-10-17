@@ -26,10 +26,6 @@ __decorate([
     __metadata("design:type", String)
 ], ConsumoHabitaciones.prototype, "Codigo", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'cantidad', nullable: false }),
-    __metadata("design:type", String)
-], ConsumoHabitaciones.prototype, "Cantidad", void 0);
-__decorate([
     (0, typeorm_1.OneToOne)(() => EstadoFacturas_1.EstadoFacturas, (estadoFactura) => estadoFactura.ConsumoHabitacionesId),
     __metadata("design:type", EstadoFacturas_1.EstadoFacturas)
 ], ConsumoHabitaciones.prototype, "EstadoFacturaId", void 0);
