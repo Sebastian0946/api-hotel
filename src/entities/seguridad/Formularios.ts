@@ -15,9 +15,9 @@ export class Formularios extends ModelEntity {
     @Column({name: 'icon', nullable: false})
     Icono: String
 
-    @Column({name: 'ruta',length: 30, nullable: false})
+    @Column({name: 'ruta',length: 25, nullable: false})
     Ruta: String;
 
-    @Column({name: 'etiqueta', length: 30, nullable: false, unique: true})
+    @Column({name: 'etiqueta', length: 25, nullable: false, unique: true})
     Etiqueta: String
 }

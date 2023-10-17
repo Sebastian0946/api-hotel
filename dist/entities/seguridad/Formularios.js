@@ -29,11 +29,11 @@ __decorate([
     __metadata("design:type", String)
 ], Formularios.prototype, "Icono", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'ruta', length: 30, nullable: false }),
+    (0, typeorm_1.Column)({ name: 'ruta', length: 25, nullable: false }),
     __metadata("design:type", String)
 ], Formularios.prototype, "Ruta", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ name: 'etiqueta', length: 30, nullable: false, unique: true }),
+    (0, typeorm_1.Column)({ name: 'etiqueta', length: 25, nullable: false, unique: true }),
     __metadata("design:type", String)
 ], Formularios.prototype, "Etiqueta", void 0);
 exports.Formularios = Formularios = __decorate([
