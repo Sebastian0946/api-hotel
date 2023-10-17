@@ -7,7 +7,7 @@ import { ValidationError } from "class-validator";
 
 @JsonController('/reservaHabitacion')
 export class ReservaHabitacionController {
-    
+
     constructor(private repository: ReservaHabitacionRepository) { }
 
     @Post()
@@ -18,6 +18,9 @@ export class ReservaHabitacionController {
             if (!body.HabitacionId || !body.Codigo || !body.FechaEntrada || !body.FechaSalida) {
                 throw createHttpError(400, 'Los campos HabitacionId, Codigo, FechaEntrada y FechaSalida son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
             }
+
+            // Imprimir el cuerpo de la solicitud en la consola
+            console.log('Cuerpo de la solicitud:', body);
 
             const result = await this.repository.create(body);
 
@@ -32,7 +35,6 @@ export class ReservaHabitacionController {
                     details: error.toString(),
                 });
             } else {
-
                 const internalError = error as Error;
 
                 res.status(500).json({
