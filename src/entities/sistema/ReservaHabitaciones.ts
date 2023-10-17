@@ -18,10 +18,10 @@ export class ReservaHabitaciones extends ModelEntity {
     @Column({ name: 'codigo', unique: true, length: 25, nullable: false })
     Codigo: String;
 
-    @Column({ name: 'fechaEntrada', type: 'timestamp', nullable: false })
+    @Column({ name: 'fecha_entrada', type: 'timestamp', nullable: false })
     FechaEntrada: Date;
     
-    @Column({ name: 'fechaSalida', type: 'timestamp', nullable: false })
+    @Column({ name: 'fecha_salida', type: 'timestamp', nullable: false })
     FechaSalida: Date;
 
     @OneToMany(() => ConsumoHabitaciones, (consumoHabitacion) => consumoHabitacion.ReservaHabitacionesId)
