@@ -5,9 +5,9 @@ import { Usuarios } from './Usuarios';
 
 enum TipoDocumento {
     CC = 'CC',
-    TI = 'TI'
+    TI = 'TI',
+    CE = 'CE'
 }
-
 enum Genero {
     M = 'Masculino',
     F = 'Femenino'

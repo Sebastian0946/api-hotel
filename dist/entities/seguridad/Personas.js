@@ -18,6 +18,7 @@ var TipoDocumento;
 (function (TipoDocumento) {
     TipoDocumento["CC"] = "CC";
     TipoDocumento["TI"] = "TI";
+    TipoDocumento["CE"] = "CE";
 })(TipoDocumento || (TipoDocumento = {}));
 var Genero;
 (function (Genero) {
