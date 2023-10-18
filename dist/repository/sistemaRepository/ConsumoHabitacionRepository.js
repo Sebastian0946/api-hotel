@@ -17,6 +17,7 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const ConsumoHabitaciones_1 = require("../../entities/sistema/ConsumoHabitaciones");
 const ModelEntity_1 = require("../../entities/ModelEntity");
+const InventariosHabitaciones_1 = require("../../entities/inventario/InventariosHabitaciones");
 class ConsumoHabitacionRepository {
     constructor() {
         this.repository = db_1.default.getRepository(ConsumoHabitaciones_1.ConsumoHabitaciones);
@@ -29,7 +30,6 @@ class ConsumoHabitacionRepository {
                 return result;
             }
             catch (error) {
-                // Manejar la excepción adecuadamente
                 throw error;
             }
         });
@@ -94,6 +94,43 @@ class ConsumoHabitacionRepository {
             catch (error) {
                 // Manejar la excepción adecuadamente
                 throw error;
+            }
+        });
+    }
+    checkOut(id, query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const consumoHabitacionRepository = db_1.default.getRepository(ConsumoHabitaciones_1.ConsumoHabitaciones);
+                const consumoHabitacion = yield consumoHabitacionRepository.createQueryBuilder('ConsumoHabitaciones')
+                    .leftJoinAndSelect('consumoHabitaciones.ReservaHabitacionesId', 'ReservaHabitaciones')
+                    .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+                    .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                    .leftJoinAndSelect('Habitaciones.HuespedId', 'Huespedes')
+                    .where('ConsumoHabitaciones.id = :id', { id })
+                    .getOne();
+                if (!consumoHabitacion) {
+                    throw new Error('Consumo de habitación no encontrado.');
+                }
+                if (consumoHabitacion) {
+                    const habitacionId = consumoHabitacion.ReservaHabitacionesId.HabitacionId.id;
+                    if (habitacionId) {
+                        const inventarioHabitacionRepository = db_1.default.getRepository(InventariosHabitaciones_1.InventariosHabitaciones);
+                        const inventariosDeHabitacion = yield inventarioHabitacionRepository
+                            .createQueryBuilder('InventariosHabitaciones')
+                            .where('InventariosHabitaciones.HabitacionId = :habitacionId', { habitacionId })
+                            .getMany();
+                        consumoHabitacion['inventariosHabitacion'] = inventariosDeHabitacion;
+                    }
+                }
+                return consumoHabitacion;
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    throw new Error('Error al realizar el checkout: ' + error.message);
+                }
+                else {
+                    throw new Error('Error al realizar el checkout.');
+                }
             }
         });
     }

@@ -20,4 +20,6 @@ router.put('/sistema/consumoHabitacion/:id', controller.update.bind(controller))
 
 router.put('/sistema/consumoHabitacion/eliminar/:id', controller.remove.bind(controller));
 
+router.get('/sistema/consumoHabitacion/checkOut/:id', controller.checkOut.bind(controller));
+
 export default router;

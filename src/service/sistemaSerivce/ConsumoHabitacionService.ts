@@ -27,6 +27,15 @@ export interface ConsumoHabitacionService<T> {
     get(id: id, query?: Query): Promise<T>;
 
     /**
+    * Obtiene un objeto de la base de datos por su identificador.
+    * @param id El identificador del objeto a obtener.
+    * @param query (opcional) Una consulta adicional para filtrar o modificar la obtención.
+    * @returns Una promesa que se resuelve con el objeto obtenido o null si no se encuentra.
+    */
+
+    checkOut(id: id, query?: Query): Promise<T>;
+
+    /**
      * Actualiza un objeto en la base de datos.
      * @param id El identificador del objeto a actualizar.
      * @param data Los nuevos datos del objeto.

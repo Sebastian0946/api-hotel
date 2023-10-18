@@ -3,10 +3,12 @@ import dataBase from "../../db";
 import { ConsumoHabitacionService, Query, id } from "../../service/sistemaSerivce/ConsumoHabitacionService";
 import { ConsumoHabitaciones } from "../../entities/sistema/ConsumoHabitaciones";
 import { Estado } from "../../entities/ModelEntity";
+import { InventariosHabitaciones } from "../../entities/inventario/InventariosHabitaciones";
 
 export class ConsumoHabitacionRepository implements ConsumoHabitacionService<ConsumoHabitaciones> {
 
     private repository = dataBase.getRepository(ConsumoHabitaciones);
+
 
     async create(data: Partial<ConsumoHabitaciones>, query?: Query): Promise<ConsumoHabitaciones> {
         try {
@@ -17,7 +19,6 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
             return result;
 
         } catch (error) {
-            // Manejar la excepción adecuadamente
             throw error;
         }
     }
@@ -91,6 +92,53 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
         }
     }
 
+    async checkOut(id: id, query?: Query): Promise<ConsumoHabitaciones> {
+        try {
+
+            interface ConsumoHabitacionConInventarios extends ConsumoHabitaciones {
+                inventariosHabitacion?: InventariosHabitaciones[];
+            }
+
+            const consumoHabitacionRepository = dataBase.getRepository(ConsumoHabitaciones);
+            const consumoHabitacion: ConsumoHabitacionConInventarios | null = await consumoHabitacionRepository.createQueryBuilder('ConsumoHabitaciones')
+                .leftJoinAndSelect('consumoHabitaciones.ReservaHabitacionesId', 'ReservaHabitaciones')
+                .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+                .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                .leftJoinAndSelect('Habitaciones.HuespedId', 'Huespedes')
+                .where('ConsumoHabitaciones.id = :id', { id })
+                .getOne();
+
+            if (!consumoHabitacion) {
+                throw new Error('Consumo de habitación no encontrado.');
+            }
+
+            if (consumoHabitacion) {
+
+                const habitacionId = consumoHabitacion.ReservaHabitacionesId.HabitacionId.id;
+
+                if (habitacionId) {
+                    const inventarioHabitacionRepository = dataBase.getRepository(InventariosHabitaciones);
+                    const inventariosDeHabitacion = await inventarioHabitacionRepository
+                        .createQueryBuilder('InventariosHabitaciones')
+                        .where('InventariosHabitaciones.HabitacionId = :habitacionId', { habitacionId })
+                        .getMany();
+
+                    consumoHabitacion['inventariosHabitacion'] = inventariosDeHabitacion;
+                }
+            }
+
+            return consumoHabitacion;
+
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                throw new Error('Error al realizar el checkout: ' + error.message);
+            } else {
+                throw new Error('Error al realizar el checkout.');
+            }
+        }
+
+    }
+
     async remove(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
@@ -110,4 +158,5 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
             throw error;
         }
     }
+
 }

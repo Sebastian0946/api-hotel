@@ -99,6 +99,35 @@ export class ConsumoHabitacionesController {
         }
     }
 
+    @Get('/:id')
+    async checkOut(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+
+            const result = await this.repository.checkOut(id)
+
+            res.status(200).json({
+                message: 'Consumo de la habitacion encontrada exitosamente',
+                data: result
+            });
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
+            } else {
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
+            }
+        }
+    }
+
     @Put('/:id')
     async update(req: Request, res: Response, next: NextFunction) {
         try {

@@ -10,4 +10,5 @@ router.get('/sistema/consumoHabitacion', controller.list.bind(controller));
 router.get('/sistema/consumoHabitacion/:id', controller.get.bind(controller));
 router.put('/sistema/consumoHabitacion/:id', controller.update.bind(controller));
 router.put('/sistema/consumoHabitacion/eliminar/:id', controller.remove.bind(controller));
+router.get('/sistema/consumoHabitacion/checkOut/:id', controller.checkOut.bind(controller));
 exports.default = router;
