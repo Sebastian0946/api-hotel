@@ -95,7 +95,7 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
     async checkOut(id: id, query?: Query): Promise<ConsumoHabitaciones> {
         try {
             interface ConsumoHabitacionConInventarios extends ConsumoHabitaciones {
-                inventariosHabitacion?: InventariosHabitaciones[];
+                inventariosHabitacionId?: InventariosHabitaciones[];
             }
 
             const consumoHabitacion: ConsumoHabitacionConInventarios | null = await this.repository.createQueryBuilder('consumo_habitaciones')
@@ -117,11 +117,11 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
                 if (habitacionId) {
                     const inventarioHabitacionRepository = dataBase.getRepository(InventariosHabitaciones);
                     const inventariosDeHabitacion = await inventarioHabitacionRepository
-                        .createQueryBuilder('InventariosHabitaciones')
-                        .where('InventariosHabitaciones.HabitacionId = :habitacionId', { habitacionId })
+                        .createQueryBuilder('inventarios_habitaciones')
+                        .where('inventarios_habitaciones.HabitacionId = :habitacionId', { habitacionId })
                         .getMany();
 
-                    consumoHabitacion['inventariosHabitacion'] = inventariosDeHabitacion;
+                    consumoHabitacion['inventariosHabitacionId'] = inventariosDeHabitacion;
                 }
             }
 
