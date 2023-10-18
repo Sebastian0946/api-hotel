@@ -117,11 +117,14 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
 
                 if (habitacionId) {
                     const inventarioHabitacionRepository = dataBase.getRepository(InventariosHabitaciones);
+
                     const inventariosDeHabitacion = await inventarioHabitacionRepository
                         .createQueryBuilder('inventarios_habitaciones')
+                        .leftJoinAndSelect('inventarios_habitaciones.InventarioId', 'inventarios')
+                        .leftJoinAndSelect('inventario.ProductoId', 'productos')
                         .where('inventarios_habitaciones.administracionHabitacion_id = :habitacionId', { habitacionId })
                         .getMany();
-
+                    
                     consumoHabitacion['inventariosHabitacionId'] = inventariosDeHabitacion;
                 }
             }
