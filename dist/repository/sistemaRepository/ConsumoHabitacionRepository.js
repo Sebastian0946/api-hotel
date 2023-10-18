@@ -115,10 +115,10 @@ class ConsumoHabitacionRepository {
                     if (habitacionId) {
                         const inventarioHabitacionRepository = db_1.default.getRepository(InventariosHabitaciones_1.InventariosHabitaciones);
                         const inventariosDeHabitacion = yield inventarioHabitacionRepository
-                            .createQueryBuilder('InventariosHabitaciones')
-                            .where('InventariosHabitaciones.HabitacionId = :habitacionId', { habitacionId })
+                            .createQueryBuilder('inventarios_habitaciones')
+                            .where('inventarios_habitaciones.HabitacionId = :habitacionId', { habitacionId })
                             .getMany();
-                        consumoHabitacion['inventariosHabitacion'] = inventariosDeHabitacion;
+                        consumoHabitacion['inventariosHabitacionId'] = inventariosDeHabitacion;
                     }
                 }
                 return consumoHabitacion;
