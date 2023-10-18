@@ -105,6 +105,7 @@ class ConsumoHabitacionRepository {
                     .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
                     .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                     .leftJoinAndSelect('Habitaciones.HuespedId', 'Huespedes')
+                    .leftJoinAndSelect('Huespedes.PersonaId', 'personas')
                     .where('consumo_habitaciones.id = :id', { id })
                     .getOne();
                 if (!consumoHabitacion) {
