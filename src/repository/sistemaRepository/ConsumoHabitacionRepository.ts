@@ -121,7 +121,7 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
                     const inventariosDeHabitacion = await inventarioHabitacionRepository
                         .createQueryBuilder('inventarios_habitaciones')
                         .leftJoinAndSelect('inventarios_habitaciones.InventarioId', 'inventarios')
-                        .leftJoinAndSelect('inventario.ProductoId', 'productos')
+                        .leftJoinAndSelect('inventarios.ProductoId', 'productos')
                         .where('inventarios_habitaciones.administracionHabitacion_id = :habitacionId', { habitacionId })
                         .getMany();
                     
