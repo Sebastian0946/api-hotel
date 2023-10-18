@@ -100,13 +100,12 @@ class ConsumoHabitacionRepository {
     checkOut(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const consumoHabitacionRepository = db_1.default.getRepository(ConsumoHabitaciones_1.ConsumoHabitaciones);
-                const consumoHabitacion = yield consumoHabitacionRepository.createQueryBuilder('ConsumoHabitaciones')
-                    .leftJoinAndSelect('consumoHabitaciones.ReservaHabitacionesId', 'ReservaHabitaciones')
+                const consumoHabitacion = yield this.repository.createQueryBuilder('consumo_habitaciones')
+                    .leftJoinAndSelect('consumo_habitaciones.ReservaHabitacionesId', 'ReservaHabitaciones')
                     .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
                     .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
                     .leftJoinAndSelect('Habitaciones.HuespedId', 'Huespedes')
-                    .where('ConsumoHabitaciones.id = :id', { id })
+                    .where('consumo_habitaciones.id = :id', { id })
                     .getOne();
                 if (!consumoHabitacion) {
                     throw new Error('Consumo de habitación no encontrado.');
