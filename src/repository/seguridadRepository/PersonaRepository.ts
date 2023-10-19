@@ -3,9 +3,6 @@ import dataBase from "../../db";
 import { PersonaService, Query, id } from "../../service/seguridadService/PersonaService";
 import { Personas } from "../../entities/seguridad/Personas";
 import { Estado } from "../../entities/ModelEntity";
-import { EntityManager, getManager } from "typeorm";
-import { Usuarios } from "../../entities/seguridad/Usuarios";
-import { Huespedes } from "../../entities/sistema/Huespedes";
 
 export class PersonaRepository implements PersonaService<Personas> {
 
@@ -27,7 +24,7 @@ export class PersonaRepository implements PersonaService<Personas> {
     async list(query?: Query): Promise<Personas[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("Personas")
-                .orderBy("Personas.id", "ASC");
+                .orderBy("Personas.id", "ASC"); 
 
             const result = await queryBuilder.getMany();
 
@@ -95,27 +92,6 @@ export class PersonaRepository implements PersonaService<Personas> {
 
     async remove(id: id, query?: Query): Promise<Personas> {
         try {
-            const entityManager: EntityManager = getManager();
-
-            // Verificar si existe una relación con Usuarios
-            const relacionConUsuarios = await entityManager
-                .createQueryBuilder(Usuarios, 'usuario')
-                .innerJoinAndSelect('usuario.PersonaId', 'persona')
-                .where('persona.id = :id', { id })
-                .getCount() > 0;
-
-            // Verificar si existe una relación con Huespedes
-            const relacionConHuespedes = await entityManager
-                .createQueryBuilder(Huespedes, 'huesped')
-                .innerJoinAndSelect('huesped.PersonaId', 'persona')
-                .where('persona.id = :id', { id })
-                .getCount() > 0;
-
-            if (relacionConUsuarios || relacionConHuespedes) {
-                throw new Error("No se puede desactivar esta persona, está relacionada con un usuario o un huésped.");
-            }
-
-            // Continuar con la actualización del estado
             const queryBuilder = this.repository.createQueryBuilder("Personas")
                 .where("Personas.id = :id", { id });
 
@@ -125,7 +101,7 @@ export class PersonaRepository implements PersonaService<Personas> {
                 .execute();
 
             if (result.affected === 0) {
-                throw new NotFound("Persona no encontrada");
+                throw new NotFound("Producto no encontrada");
             }
 
             return result.raw[0];
@@ -133,5 +109,4 @@ export class PersonaRepository implements PersonaService<Personas> {
             throw error;
         }
     }
-
 }
