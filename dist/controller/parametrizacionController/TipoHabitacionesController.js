@@ -17,12 +17,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TipoHabitacionesController = void 0;
-const http_errors_1 = __importDefault(require("http-errors"));
 const routing_controllers_1 = require("routing-controllers");
 const class_validator_1 = require("class-validator");
 class TipoHabitacionesController {
@@ -33,9 +29,6 @@ class TipoHabitacionesController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
-                if (!body.Codigo || !body.Descripcion || !body.Cantidad) {
-                    throw (0, http_errors_1.default)(400, 'Los campos Codigo, Descripcion y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Tipo habitación creado exitosamente',

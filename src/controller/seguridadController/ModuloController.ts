@@ -15,10 +15,6 @@ export class ModuloController {
         try {
             const body = req.body;
 
-            if (!body.Codigo || !body.Ruta || !body.Etiqueta) {
-                throw createHttpError(400, 'Los campos Codigo, Ruta y Etiqueta son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
             const result = await this.repository.create(body);
 
             res.status(201).json({

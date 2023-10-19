@@ -17,14 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InventariosHabitacionesController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const InventarioHabitacionRepository_1 = require("../../repository/invetarioRepository/InventarioHabitacionRepository");
-const http_errors_1 = __importDefault(require("http-errors"));
 const class_validator_1 = require("class-validator");
 let InventariosHabitacionesController = exports.InventariosHabitacionesController = class InventariosHabitacionesController {
     constructor(repository) {
@@ -34,9 +30,6 @@ let InventariosHabitacionesController = exports.InventariosHabitacionesControlle
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
-                if (!body.InventarioId || !body.AdministracionHabitacionId || !body.Codigo || !body.Cantidad) {
-                    throw (0, http_errors_1.default)(400, 'Los campos InventarioId, AdministracionHabitacionId, Codigo y Cantidad son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Inventario habitacion creado exitosamente',

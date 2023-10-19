@@ -15,10 +15,6 @@ export class ConsumoHabitacionesController {
         try {
             const body = req.body;
 
-            if (!body.ReservaHabitacionesId || !body.Codigo) {
-                throw createHttpError(400, 'Los campos ReservaHabitacionesId y Codigo son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
             const result = await this.repository.create(body);
 
             res.status(201).json({

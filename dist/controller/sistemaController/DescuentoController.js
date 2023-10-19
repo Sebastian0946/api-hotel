@@ -17,14 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DescuentosController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const DescuentosRepository_1 = require("../../repository/sistemaRepository/DescuentosRepository");
-const http_errors_1 = __importDefault(require("http-errors"));
 const class_validator_1 = require("class-validator");
 let DescuentosController = exports.DescuentosController = class DescuentosController {
     constructor(repository) {
@@ -34,9 +30,6 @@ let DescuentosController = exports.DescuentosController = class DescuentosContro
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
-                if (!body.Codigo || !body.ValorNeto || !body.PorcentajeDescuento) {
-                    throw (0, http_errors_1.default)(400, 'Los campos Codigo, ValorNeto y PorcentajeDescuento son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Descuento creado exitosamente',

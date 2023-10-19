@@ -15,10 +15,6 @@ export class ConfiguracionSistemaController {
         try {
             const body = req.body;
 
-            if (!body.UsuarioId || !body.Codigo || !body.Nombre || !body.Descripcion) {
-                throw createHttpError(400, 'Los campos UsuarioId, Codigo, Nombre y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
             const result = await this.repository.create(body);
 
             res.status(201).json({

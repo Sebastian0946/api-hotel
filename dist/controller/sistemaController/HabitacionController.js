@@ -17,14 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HabitacionController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const HabitacionRepository_1 = require("../../repository/sistemaRepository/HabitacionRepository");
-const http_errors_1 = __importDefault(require("http-errors"));
 const class_validator_1 = require("class-validator");
 let HabitacionController = exports.HabitacionController = class HabitacionController {
     constructor(repository) {
@@ -35,9 +31,6 @@ let HabitacionController = exports.HabitacionController = class HabitacionContro
             try {
                 const body = req.body;
                 console.log('Cuerpo de la solicitud:', body);
-                if (!body.TipoHabitacionesId || !body.Codigo || !body.Descripcion) {
-                    throw (0, http_errors_1.default)(400, 'Los campos TipoHabitacionesId, Codigo y Descripcion son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Habitación creada exitosamente',

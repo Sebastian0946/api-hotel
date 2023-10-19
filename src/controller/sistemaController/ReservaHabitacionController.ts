@@ -15,10 +15,6 @@ export class ReservaHabitacionController {
         try {
             const body = req.body;
 
-            if (!body.HabitacionId || !body.Codigo || !body.FechaEntrada || !body.FechaSalida) {
-                throw createHttpError(400, 'Los campos HabitacionId, Codigo, FechaEntrada y FechaSalida son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
             const result = await this.repository.create(body);
 
             res.status(201).json({

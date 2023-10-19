@@ -17,14 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReservaHabitacionController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const ReservaHabitacionRepository_1 = require("../../repository/sistemaRepository/ReservaHabitacionRepository");
-const http_errors_1 = __importDefault(require("http-errors"));
 const class_validator_1 = require("class-validator");
 let ReservaHabitacionController = exports.ReservaHabitacionController = class ReservaHabitacionController {
     constructor(repository) {
@@ -34,9 +30,6 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
-                if (!body.HabitacionId || !body.Codigo || !body.FechaEntrada || !body.FechaSalida) {
-                    throw (0, http_errors_1.default)(400, 'Los campos HabitacionId, Codigo, FechaEntrada y FechaSalida son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-                }
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Reserva habitación creada exitosamente',

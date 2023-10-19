@@ -17,14 +17,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoriaController = void 0;
 const routing_controllers_1 = require("routing-controllers");
 const CategoriaRepository_1 = require("../../repository/invetarioRepository/CategoriaRepository");
-const http_errors_1 = __importDefault(require("http-errors"));
 const class_validator_1 = require("class-validator");
 let CategoriaController = exports.CategoriaController = class CategoriaController {
     constructor(repository) {
@@ -33,11 +29,8 @@ let CategoriaController = exports.CategoriaController = class CategoriaControlle
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { Codigo, Descripcion } = req.body;
-                if (!Codigo || !Descripcion) {
-                    throw (0, http_errors_1.default)(400, 'Los campos Codigo y Descripcion son obligatorios.');
-                }
-                const result = yield this.repository.create(req.body);
+                const body = req.body;
+                const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Categoria creada exitosamente',
                     data: result

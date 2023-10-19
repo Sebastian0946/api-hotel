@@ -13,10 +13,6 @@ export class ProductoController {
         try {
             const body = req.body;
 
-            if (!body.Imagen || !body.Codigo || !body.Nombre || !body.CategoriaId) {
-                throw createHttpError(400, 'Los campos Imagen, Codigo, Nombre y CategoriaId son obligatorios. Por favor, asegúrese de proporcionar todos los campos requeridos.');
-            }
-
             const result = await this.repository.create(body);
 
             res.status(201).json({

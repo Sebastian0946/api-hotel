@@ -14,13 +14,9 @@ export class CategoriaController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
 
-            const { Codigo, Descripcion } = req.body;
+            const body = req.body;
 
-            if (!Codigo || !Descripcion) {
-                throw createHttpError(400, 'Los campos Codigo y Descripcion son obligatorios.');
-            }
-
-            const result = await this.repository.create(req.body);
+            const result = await this.repository.create(body);
 
             res.status(201).json({
                 message: 'Categoria creada exitosamente',
