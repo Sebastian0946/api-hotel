@@ -17,9 +17,9 @@ const http_errors_1 = require("http-errors");
 const db_1 = __importDefault(require("../../db"));
 const Personas_1 = require("../../entities/seguridad/Personas");
 const ModelEntity_1 = require("../../entities/ModelEntity");
+const typeorm_1 = require("typeorm");
 const Usuarios_1 = require("../../entities/seguridad/Usuarios");
 const Huespedes_1 = require("../../entities/sistema/Huespedes");
-const typeorm_1 = require("typeorm");
 class PersonaRepository {
     constructor() {
         this.repository = db_1.default.getRepository(Personas_1.Personas);
@@ -100,19 +100,23 @@ class PersonaRepository {
     remove(id, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const usuarioRepository = (0, typeorm_1.getRepository)(Usuarios_1.Usuarios);
-                const huespedRepository = (0, typeorm_1.getRepository)(Huespedes_1.Huespedes);
-                const usuarioCount = yield usuarioRepository
-                    .createQueryBuilder("usuario")
-                    .where("usuario.PersonaId = :id", { id })
-                    .getCount();
-                const huespedCount = yield huespedRepository
-                    .createQueryBuilder("huesped")
-                    .where("huesped.PersonaId = :id", { id })
-                    .getCount();
-                if (usuarioCount > 0 || huespedCount > 0) {
-                    throw new Error("No se puede desactivar esta persona, tiene una relación");
+                const entityManager = (0, typeorm_1.getManager)();
+                // Verificar si existe una relación con Usuarios
+                const relacionConUsuarios = (yield entityManager
+                    .createQueryBuilder(Usuarios_1.Usuarios, 'usuario')
+                    .innerJoinAndSelect('usuario.PersonaId', 'persona')
+                    .where('persona.id = :id', { id })
+                    .getCount()) > 0;
+                // Verificar si existe una relación con Huespedes
+                const relacionConHuespedes = (yield entityManager
+                    .createQueryBuilder(Huespedes_1.Huespedes, 'huesped')
+                    .innerJoinAndSelect('huesped.PersonaId', 'persona')
+                    .where('persona.id = :id', { id })
+                    .getCount()) > 0;
+                if (relacionConUsuarios || relacionConHuespedes) {
+                    throw new Error("No se puede desactivar esta persona, está relacionada con un usuario o un huésped.");
                 }
+                // Continuar con la actualización del estado
                 const queryBuilder = this.repository.createQueryBuilder("Personas")
                     .where("Personas.id = :id", { id });
                 const result = yield queryBuilder.update()
@@ -120,7 +124,7 @@ class PersonaRepository {
                     .returning("*")
                     .execute();
                 if (result.affected === 0) {
-                    throw new Error("Persona no encontrada");
+                    throw new http_errors_1.NotFound("Persona no encontrada");
                 }
                 return result.raw[0];
             }
