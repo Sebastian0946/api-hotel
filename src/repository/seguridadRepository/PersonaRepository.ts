@@ -3,6 +3,9 @@ import dataBase from "../../db";
 import { PersonaService, Query, id } from "../../service/seguridadService/PersonaService";
 import { Personas } from "../../entities/seguridad/Personas";
 import { Estado } from "../../entities/ModelEntity";
+import { Usuarios } from "../../entities/seguridad/Usuarios";
+import { Huespedes } from "../../entities/sistema/Huespedes";
+import { getRepository } from "typeorm";
 
 export class PersonaRepository implements PersonaService<Personas> {
 
@@ -24,7 +27,7 @@ export class PersonaRepository implements PersonaService<Personas> {
     async list(query?: Query): Promise<Personas[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("Personas")
-                .orderBy("Personas.id", "ASC"); 
+                .orderBy("Personas.id", "ASC");
 
             const result = await queryBuilder.getMany();
 
@@ -92,16 +95,33 @@ export class PersonaRepository implements PersonaService<Personas> {
 
     async remove(id: id, query?: Query): Promise<Personas> {
         try {
+
+            const usuarioRepository = getRepository(Usuarios);
+            const huespedRepository = getRepository(Huespedes);
+
+            const usuarioCount = await usuarioRepository
+                .createQueryBuilder("usuario")
+                .where("usuario.PersonaId = :id", { id })
+                .getCount();
+
+            const huespedCount = await huespedRepository
+                .createQueryBuilder("huesped")
+                .where("huesped.PersonaId = :id", { id })
+                .getCount();
+            if (usuarioCount > 0 || huespedCount > 0) {
+                throw new Error("No se puede desactivar esta persona, tiene una relación");
+            }
+
             const queryBuilder = this.repository.createQueryBuilder("Personas")
                 .where("Personas.id = :id", { id });
 
             const result = await queryBuilder.update()
-                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .set({ Estado: Estado.Desactivado })
                 .returning("*")
                 .execute();
 
             if (result.affected === 0) {
-                throw new NotFound("Producto no encontrada");
+                throw new Error("Persona no encontrada");
             }
 
             return result.raw[0];
