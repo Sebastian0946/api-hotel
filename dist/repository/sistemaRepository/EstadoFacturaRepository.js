@@ -38,6 +38,7 @@ class EstadoFacturaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("EstadoFacturas")
+                    .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
                     .orderBy("EstadoFacturas.id", "ASC");
                 const result = yield queryBuilder.getMany();
                 return result;
@@ -51,9 +52,12 @@ class EstadoFacturaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(EstadoFacturas_1.EstadoFacturas);
-                const result = yield repository.findOneBy({ id: id });
+                const queryBuilder = repository.createQueryBuilder('EstadoFacturas')
+                    .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
+                    .where('EstadoFacturas.id = :id', { id });
+                const result = yield queryBuilder.getOne();
                 if (!result) {
-                    throw new http_errors_1.NotFound("EstadoFactura not found");
+                    throw new http_errors_1.NotFound('EstadoFacturas not found');
                 }
                 return result;
             }

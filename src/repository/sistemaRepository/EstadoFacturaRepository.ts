@@ -22,7 +22,8 @@ export class EstadoFacturaRepository implements EstadoFacturaService<EstadoFactu
     async list(query?: Query): Promise<EstadoFacturas[]> {
         try {
             const queryBuilder = this.repository.createQueryBuilder("EstadoFacturas")
-                .orderBy("EstadoFacturas.id", "ASC"); 
+                .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
+                .orderBy("EstadoFacturas.id", "ASC");
 
             const result = await queryBuilder.getMany();
 
@@ -35,10 +36,14 @@ export class EstadoFacturaRepository implements EstadoFacturaService<EstadoFactu
     async get(id: id, query?: Query): Promise<EstadoFacturas> {
         try {
             const repository = dataBase.getRepository(EstadoFacturas);
-            const result = await repository.findOneBy({ id: id as any });
+            const queryBuilder = repository.createQueryBuilder('EstadoFacturas')
+                .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
+                .where('EstadoFacturas.id = :id', { id });
+
+            const result = await queryBuilder.getOne();
 
             if (!result) {
-                throw new NotFound("EstadoFactura not found");
+                throw new NotFound('EstadoFacturas not found');
             }
 
             return result;
