@@ -147,7 +147,7 @@ export class ConsumoHabitacionRepository implements ConsumoHabitacionService<Con
                 .where("consumo_habitaciones.id = :id", { id });
 
             const result = await queryBuilder.update()
-                .set({ Estado: Estado.Desactivado, fecha_eliminacion: new Date() })
+                .set({ Estado: Estado.Desactivado })
                 .returning("*")
                 .execute();
 

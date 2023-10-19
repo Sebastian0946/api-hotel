@@ -142,7 +142,7 @@ class ConsumoHabitacionRepository {
                 const queryBuilder = this.repository.createQueryBuilder("consumo_habitaciones")
                     .where("consumo_habitaciones.id = :id", { id });
                 const result = yield queryBuilder.update()
-                    .set({ Estado: ModelEntity_1.Estado.Desactivado, fecha_eliminacion: new Date() })
+                    .set({ Estado: ModelEntity_1.Estado.Desactivado })
                     .returning("*")
                     .execute();
                 if (result.affected === 0) {

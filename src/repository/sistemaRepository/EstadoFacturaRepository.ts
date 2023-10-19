@@ -23,6 +23,11 @@ export class EstadoFacturaRepository implements EstadoFacturaService<EstadoFactu
         try {
             const queryBuilder = this.repository.createQueryBuilder("EstadoFacturas")
                 .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
+                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
+                .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                 .orderBy("EstadoFacturas.id", "ASC");
 
             const result = await queryBuilder.getMany();
@@ -38,6 +43,11 @@ export class EstadoFacturaRepository implements EstadoFacturaService<EstadoFactu
             const repository = dataBase.getRepository(EstadoFacturas);
             const queryBuilder = repository.createQueryBuilder('EstadoFacturas')
                 .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
+                .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
+                .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                 .where('EstadoFacturas.id = :id', { id });
 
             const result = await queryBuilder.getOne();

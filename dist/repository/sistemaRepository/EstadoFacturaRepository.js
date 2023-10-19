@@ -39,6 +39,11 @@ class EstadoFacturaRepository {
             try {
                 const queryBuilder = this.repository.createQueryBuilder("EstadoFacturas")
                     .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
+                    .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                    .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                    .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
+                    .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                    .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                     .orderBy("EstadoFacturas.id", "ASC");
                 const result = yield queryBuilder.getMany();
                 return result;
@@ -54,6 +59,11 @@ class EstadoFacturaRepository {
                 const repository = db_1.default.getRepository(EstadoFacturas_1.EstadoFacturas);
                 const queryBuilder = repository.createQueryBuilder('EstadoFacturas')
                     .leftJoinAndSelect("EstadoFacturas.ConsumoHabitacionesId", "ConsumoHabitaciones")
+                    .leftJoinAndSelect("ConsumoHabitaciones.ReservaHabitacionesId", "ReservaHabitaciones")
+                    .leftJoinAndSelect("ReservaHabitaciones.HabitacionId", "Habitaciones")
+                    .leftJoinAndSelect("Habitaciones.TipoHabitacionesId", "TipoHabitaciones")
+                    .leftJoinAndSelect("Habitaciones.HuespedId", "Huespedes")
+                    .leftJoinAndSelect("Huespedes.PersonaId", "Personas")
                     .where('EstadoFacturas.id = :id', { id });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
