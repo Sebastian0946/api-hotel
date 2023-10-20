@@ -15,6 +15,8 @@ export class EstadoFacturaController {
         try {
             const body = req.body;
 
+            console.log('Contenido del cuerpo de la solicitud:', body);
+
             const result = await this.repository.create(body);
 
             res.status(201).json({

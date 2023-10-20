@@ -30,6 +30,7 @@ let EstadoFacturaController = exports.EstadoFacturaController = class EstadoFact
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
+                console.log('Contenido del cuerpo de la solicitud:', body);
                 const result = yield this.repository.create(body);
                 res.status(201).json({
                     message: 'Estado de la factura creada exitosamente',
