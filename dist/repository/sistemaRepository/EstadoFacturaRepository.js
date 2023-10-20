@@ -25,11 +25,14 @@ class EstadoFacturaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const repository = db_1.default.getRepository(EstadoFacturas_1.EstadoFacturas);
+                console.log("Data to create:", data);
                 const result = repository.create(data);
+                console.log("Entity created:", result);
                 yield repository.save(result);
                 return result;
             }
             catch (error) {
+                console.error("Error creating estado factura:", error);
                 throw new Error('Failed to create estado factura');
             }
         });

@@ -11,13 +11,23 @@ export class EstadoFacturaRepository implements EstadoFacturaService<EstadoFactu
     async create(data: Partial<EstadoFacturas>, query?: Query): Promise<EstadoFacturas> {
         try {
             const repository = dataBase.getRepository(EstadoFacturas);
+
+            console.log("Data to create:", data);
+
             const result = repository.create(data);
+
+            console.log("Entity created:", result);
+
             await repository.save(result);
+
             return result;
-        } catch (error) {
+        } catch (error: any) {
+            console.error("Error creating estado factura:", error);
             throw new Error('Failed to create estado factura');
         }
     }
+
+
 
     async list(query?: Query): Promise<EstadoFacturas[]> {
         try {

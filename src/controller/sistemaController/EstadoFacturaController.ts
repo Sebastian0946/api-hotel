@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { JsonController, Get, Post, Put, Delete, Param, Body } from 'routing-controllers';
+import { JsonController, Get, Post, Put, Delete } from 'routing-controllers';
 
 import { EstadoFacturaRepository } from "../../repository/sistemaRepository/EstadoFacturaRepository";
-import createHttpError from "http-errors";
 import { ValidationError } from "class-validator";
 
 @JsonController('/estadoFactura')
