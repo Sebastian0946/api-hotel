@@ -16,7 +16,7 @@ router.get('/sistema/reservaHabitacion', controller.list.bind(controller));
 
 router.get('/sistema/reservaHabitacion/:id', controller.get.bind(controller));
 
-router.get('/sistema/reservaHabitacion/:Codigo', controller.getCodigo.bind(controller));
+router.get('/sistema/reservaHabitacion/buscarCodigo/:Codigo', controller.getCodigo.bind(controller));
 
 router.put('/sistema/reservaHabitacion/:id', controller.update.bind(controller));
 
