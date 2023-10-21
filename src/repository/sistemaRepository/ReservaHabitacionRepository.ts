@@ -75,7 +75,11 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
     }
 
     async getCodigo(Codigo: string, query?: Query): Promise<ReservaHabitaciones> {
+
         try {
+
+            console.log(Codigo)
+
             const repository = dataBase.getRepository(ReservaHabitaciones);
             const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                 .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
@@ -83,7 +87,7 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
                 .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                 .leftJoinAndSelect('huespedes.PersonaId', 'personas')
                 .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
-                .where('ReservaHabitaciones.codigo = :Codigo', { Codigo });
+                .where('ReservaHabitaciones.codigo = :codigo', { Codigo });
 
             const result = await queryBuilder.getOne();
 
@@ -95,10 +99,12 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
         } catch (error) {
             throw new Error('Failed to retrieve ReservaHabitaciones');
         }
+
     }
 
     async update(id: id, data: ReservaHabitaciones, query?: Query): Promise<ReservaHabitaciones> {
         try {
+            
             const repository = dataBase.getRepository(ReservaHabitaciones);
 
             const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')

@@ -87,6 +87,7 @@ class ReservaHabitacionRepository {
     getCodigo(Codigo, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log(Codigo);
                 const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
                 const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                     .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
@@ -94,7 +95,7 @@ class ReservaHabitacionRepository {
                     .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
                     .leftJoinAndSelect('huespedes.PersonaId', 'personas')
                     .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
-                    .where('ReservaHabitaciones.codigo = :Codigo', { Codigo });
+                    .where('ReservaHabitaciones.codigo = :codigo', { Codigo });
                 const result = yield queryBuilder.getOne();
                 if (!result) {
                     throw new http_errors_1.NotFound('ReservaHabitaciones not found');
