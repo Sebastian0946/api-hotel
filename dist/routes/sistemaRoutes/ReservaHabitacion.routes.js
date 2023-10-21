@@ -8,6 +8,7 @@ const controller = new ReservaHabitacionController_1.ReservaHabitacionController
 router.post('/sistema/reservaHabitacion', controller.create.bind(controller));
 router.get('/sistema/reservaHabitacion', controller.list.bind(controller));
 router.get('/sistema/reservaHabitacion/:id', controller.get.bind(controller));
+router.get('/sistema/reservaHabitacion/:Codigo', controller.getCodigo.bind(controller));
 router.put('/sistema/reservaHabitacion/:id', controller.update.bind(controller));
 router.put('/sistema/reservaHabitacion/eliminar/:id', controller.remove.bind(controller));
 exports.default = router;

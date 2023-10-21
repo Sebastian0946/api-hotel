@@ -94,6 +94,35 @@ export class ReservaHabitacionController {
         }
     }
 
+    @Get('/:Codigo')
+    async getCodigo(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { Codigo } = req.params;
+
+            const result = await this.repository.getCodigo(Codigo)
+
+            res.status(200).json({
+                message: 'Reserva habitación obtenida exitosamente',
+                data: result
+            });
+        } catch (error: unknown) {
+            if (error instanceof ValidationError) {
+                res.status(400).json({
+                    message: 'Error de validación',
+                    details: error.toString(),
+                });
+            } else {
+
+                const internalError = error as Error;
+
+                res.status(500).json({
+                    message: 'Ocurrió un error inesperado',
+                    details: internalError.toString(),
+                });
+            }
+        }
+    }
+
     @Put('/:id')
     async update(req: Request, res: Response, next: NextFunction) {
         try {

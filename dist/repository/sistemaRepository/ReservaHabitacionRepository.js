@@ -84,6 +84,28 @@ class ReservaHabitacionRepository {
             }
         });
     }
+    getCodigo(Codigo, query) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
+                const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
+                    .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
+                    .leftJoinAndSelect('Habitaciones.TipoHabitacionesId', 'TipoHabitaciones')
+                    .leftJoinAndSelect('Habitaciones.HuespedId', 'huespedes')
+                    .leftJoinAndSelect('huespedes.PersonaId', 'personas')
+                    .leftJoinAndSelect('ReservaHabitaciones.DescuentoId', 'Descuentos')
+                    .where('ReservaHabitaciones.codigo = :Codigo', { Codigo });
+                const result = yield queryBuilder.getOne();
+                if (!result) {
+                    throw new http_errors_1.NotFound('ReservaHabitaciones not found');
+                }
+                return result;
+            }
+            catch (error) {
+                throw new Error('Failed to retrieve ReservaHabitaciones');
+            }
+        });
+    }
     update(id, data, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

@@ -106,6 +106,33 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
             }
         });
     }
+    getCodigo(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { Codigo } = req.params;
+                const result = yield this.repository.getCodigo(Codigo);
+                res.status(200).json({
+                    message: 'Reserva habitación obtenida exitosamente',
+                    data: result
+                });
+            }
+            catch (error) {
+                if (error instanceof class_validator_1.ValidationError) {
+                    res.status(400).json({
+                        message: 'Error de validación',
+                        details: error.toString(),
+                    });
+                }
+                else {
+                    const internalError = error;
+                    res.status(500).json({
+                        message: 'Ocurrió un error inesperado',
+                        details: internalError.toString(),
+                    });
+                }
+            }
+        });
+    }
     update(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -180,6 +207,12 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object, Function]),
     __metadata("design:returntype", Promise)
 ], ReservaHabitacionController.prototype, "get", null);
+__decorate([
+    (0, routing_controllers_1.Get)('/:Codigo'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Function]),
+    __metadata("design:returntype", Promise)
+], ReservaHabitacionController.prototype, "getCodigo", null);
 __decorate([
     (0, routing_controllers_1.Put)('/:id'),
     __metadata("design:type", Function),
