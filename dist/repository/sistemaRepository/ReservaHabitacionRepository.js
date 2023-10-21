@@ -87,7 +87,6 @@ class ReservaHabitacionRepository {
     getCodigo(Codigo, query) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(Codigo);
                 const repository = db_1.default.getRepository(ReservaHabitaciones_1.ReservaHabitaciones);
                 const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                     .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')

@@ -110,6 +110,7 @@ let ReservaHabitacionController = exports.ReservaHabitacionController = class Re
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { Codigo } = req.params;
+                console.log('Valor de Codigo:', Codigo);
                 const result = yield this.repository.getCodigo(Codigo);
                 res.status(200).json({
                     message: 'Reserva habitación obtenida exitosamente',

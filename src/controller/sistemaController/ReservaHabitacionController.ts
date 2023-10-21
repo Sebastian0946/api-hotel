@@ -98,8 +98,9 @@ export class ReservaHabitacionController {
     async getCodigo(req: Request, res: Response, next: NextFunction) {
         try {
             const { Codigo } = req.params;
+            console.log('Valor de Codigo:', Codigo);
 
-            const result = await this.repository.getCodigo(Codigo)
+            const result = await this.repository.getCodigo(Codigo);
 
             res.status(200).json({
                 message: 'Reserva habitación obtenida exitosamente',
@@ -129,7 +130,7 @@ export class ReservaHabitacionController {
             const { id } = req.params;
 
             const body = req.body;
-            
+
             const result = await this.repository.update(id, body);
 
             res.status(200).json({

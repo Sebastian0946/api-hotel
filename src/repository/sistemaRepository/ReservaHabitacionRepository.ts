@@ -78,8 +78,6 @@ export class ReservaHabitacionRepository implements ReservaHabitacionService<Res
 
         try {
 
-            console.log(Codigo)
-
             const repository = dataBase.getRepository(ReservaHabitaciones);
             const queryBuilder = repository.createQueryBuilder('ReservaHabitaciones')
                 .leftJoinAndSelect('ReservaHabitaciones.HabitacionId', 'Habitaciones')
